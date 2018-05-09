@@ -1,6 +1,8 @@
-public class EchoServer extends Thread {
+package Communication;
+
+public class UDPServer extends Thread {
  
-    private DatagramSocket socket;
+/*    private DatagramSocket socket;
     private boolean running;
     private byte[] buf = new byte[256];
  
@@ -29,5 +31,5 @@ public class EchoServer extends Thread {
             socket.send(packet);
         }
         socket.close();
-    }
+    }*/
 }

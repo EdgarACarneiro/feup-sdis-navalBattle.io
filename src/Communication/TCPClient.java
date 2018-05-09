@@ -1,4 +1,4 @@
-import java.io.*;
+/*import java.io.*;
 import java.net.*;
 
 class TCPClient {
@@ -16,3 +16,4 @@ class TCPClient {
   clientSocket.close();
  }
 }
+*/

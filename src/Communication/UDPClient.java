@@ -1,4 +1,4 @@
-public class EchoClient {
+/*public class EchoClient {
     private DatagramSocket socket;
     private InetAddress address;
  
@@ -25,3 +25,4 @@ public class EchoClient {
         socket.close();
     }
 }
+*/
