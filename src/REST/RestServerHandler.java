@@ -1,6 +1,8 @@
 package REST;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
 
@@ -25,8 +27,9 @@ public class RestServerHandler implements HttpHandler {
 
 		String path = t.getRequestURI().getPath();
 		String[] paths = path.split("/"); //path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
-		
-		HashMap<String,String> params=getParams(t.getRequestURI().getQuery());
+
+		String temp=this.readRequestBody(t);
+		HashMap<String,String> params=getParams(temp);
 		
 		switch (paths[2]) {
 		case "attack":
@@ -64,6 +67,21 @@ public class RestServerHandler implements HttpHandler {
 		} catch (IOException e) { 
 			System.out.println(e.getMessage());
 		}
+	}
+	
+	private String readRequestBody(HttpExchange t) throws IOException {
+		InputStreamReader isr =  new InputStreamReader(t.getRequestBody(),"utf-8");
+		BufferedReader br = new BufferedReader(isr);
+		
+		int b;
+		StringBuilder buf = new StringBuilder();
+		while ((b = br.read()) != -1) {
+		    buf.append((char) b);
+		}
+
+		br.close();
+		isr.close();
+		return buf.toString();
 	}
 
 }
