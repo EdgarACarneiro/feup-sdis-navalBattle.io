@@ -1,6 +1,5 @@
 import REST.RestServerHandler;
 import Server.RestServer;
-import UI.UI_API;
 
 public class Main {
 

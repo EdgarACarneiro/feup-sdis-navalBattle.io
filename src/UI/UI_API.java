@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-import java.awt.BorderLayout;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -23,6 +22,7 @@ import javax.swing.JButton;
 import java.awt.Toolkit;
 import javax.swing.JTextArea;
 import java.awt.Font;
+import javax.swing.UIManager;
 
 
 public class UI_API {
@@ -146,17 +146,33 @@ public class UI_API {
         loginPanel.setLayout(gl_loginPanel);
         
         JPanel aboutPanel = new JPanel();
-        frmBattleshipio.getContentPane().add(aboutPanel, "name_5666007561710");
-        aboutPanel.setLayout(new BorderLayout(0, 0));
+        frmBattleshipio.getContentPane().add(aboutPanel);
         
         JTextArea txtpnDasdas = new JTextArea();
+        txtpnDasdas.setWrapStyleWord(true);
+        txtpnDasdas.setBackground(UIManager.getColor("CheckBox.background"));
         txtpnDasdas.setLineWrap(true);
         txtpnDasdas.setFont(new Font("Garuda", Font.PLAIN, 15));
         txtpnDasdas.setTabSize(0);
         txtpnDasdas.setEditable(false);
         txtpnDasdas.setColumns(3);
         txtpnDasdas.setText("sda\ndasda\nda\nsd\nas\ndas\ndadas");
-        aboutPanel.add(txtpnDasdas, BorderLayout.CENTER);
+        GroupLayout gl_aboutPanel = new GroupLayout(aboutPanel);
+        gl_aboutPanel.setHorizontalGroup(
+        	gl_aboutPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_aboutPanel.createSequentialGroup()
+        			.addGap(54)
+        			.addComponent(txtpnDasdas, GroupLayout.DEFAULT_SIZE, 395, Short.MAX_VALUE)
+        			.addGap(51))
+        );
+        gl_aboutPanel.setVerticalGroup(
+        	gl_aboutPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_aboutPanel.createSequentialGroup()
+        			.addContainerGap()
+        			.addComponent(txtpnDasdas, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
+        			.addGap(32))
+        );
+        aboutPanel.setLayout(gl_aboutPanel);
 		
 		JMenuBar jmb = new JMenuBar();
 
@@ -200,8 +216,11 @@ public class UI_API {
         JMenuItem jmiAbout = new JMenuItem("About");
         jmiAbout.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		frmBattleshipio.setTitle("BattleShip.io : About");
+        		welcomePanel.setVisible(false);
+        		loginPanel.setVisible(false);
+        		mainPanel.setVisible(false);
         		aboutPanel.setVisible(true);
+        		frmBattleshipio.setTitle("BattleShip.io : About");
         		
         	}
         });
