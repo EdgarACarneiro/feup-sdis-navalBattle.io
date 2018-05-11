@@ -1,15 +1,21 @@
-/*public class EchoClient {
+package Communication;
+
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+public class UDPClient {
     private DatagramSocket socket;
     private InetAddress address;
  
     private byte[] buf;
  
-    public EchoClient() {
+    public UDPClient() throws Exception {
         socket = new DatagramSocket();
         address = InetAddress.getByName("localhost");
     }
  
-    public String sendEcho(String msg) {
+    public String sendUDP(String msg) throws Exception {
         buf = msg.getBytes();
         DatagramPacket packet 
           = new DatagramPacket(buf, buf.length, address, 4445);
@@ -25,4 +31,3 @@
         socket.close();
     }
 }
-*/

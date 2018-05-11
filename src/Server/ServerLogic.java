@@ -1,7 +1,5 @@
 package Server;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
@@ -13,7 +11,7 @@ public class ServerLogic {
 
     // Uses Game Logic + Authentication Logic
 	
-	public void authentication(String username) throws NoSuchAlgorithmException {
+	public void authentication(String username) {
 
 		if (!users.containsKey(username))
 			users.put(username, 0.0);

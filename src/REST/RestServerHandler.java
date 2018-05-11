@@ -10,9 +10,7 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
 public class RestServerHandler implements HttpHandler {
-	
 
-	
 	private static final int PARAM_NAME_IDX = 0;
 	private static final int PARAM_VALUE_IDX = 1;
 	
