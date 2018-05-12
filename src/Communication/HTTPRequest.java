@@ -16,7 +16,6 @@ public class HTTPRequest {
 	private static final String CHARSET = "UTF-8";
 	private static final String PROTOCOL = "http";
 
-
 	private URL url;
 
 	public HTTPRequest(String host, String file, int port) throws MalformedURLException {
