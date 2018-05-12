@@ -8,7 +8,6 @@ import com.sun.net.httpserver.HttpServer;
 
 public class RestServer {
 
-
 	private HttpServer httpServer;
 
 	/**
@@ -29,7 +28,6 @@ public class RestServer {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
