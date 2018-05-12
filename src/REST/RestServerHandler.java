@@ -21,8 +21,6 @@ public class RestServerHandler implements HttpHandler {
 	private static final String EQUAL_DELIMITER = "=";
 	
 	public void handle(HttpExchange t) throws IOException {
-
-
 		String path = t.getRequestURI().getPath();
 		String[] paths = path.split("/"); //path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
 
