@@ -1,5 +1,7 @@
 package Communication;
 
+import Server.PlayersListener;
+
 public class CommunicationAPI {
 
     // Primeiro -fazer conexao usando multicasts e cenas
@@ -7,4 +9,8 @@ public class CommunicationAPI {
     // usar comunicação estilo rest
 
     // INDEPENDENTE DE SE É SERVDIOR OU CLIENTE
+
+    public static void channel(PlayersListener higherLayer) {
+        new UDPServer(higherLayer).run();
+    }
 }

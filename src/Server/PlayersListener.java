@@ -1,20 +1,27 @@
 package Server;
 
-import Communication.UDPServer;
+import Communication.CommunicationAPI;
+import Utils.ThreadPool;
+
+import java.net.DatagramPacket;
 
 public class PlayersListener implements Runnable {
 
     ServerLogic logic;
 
-    UDPServer channel;
+    ThreadPool threadPool;
 
     public PlayersListener(ServerLogic serverLogic) {
         logic = serverLogic;
-        channel = new UDPServer();
+        threadPool = new ThreadPool();
+    }
+
+    public void receiveReport(DatagramPacket message) {
+        // TODO -- received the given packet, throw a new thread with it to parse it and do more stuff (bubble it up)
     }
 
     @Override
     public void run() {
-        channel.run();
+        CommunicationAPI.channel(this);
     }
 }
