@@ -1,6 +1,4 @@
 import Communication.RestServer;
-import Communication.UDPClient;
-import Communication.UDPServer;
 import REST.RestServerHandler;
 
 public class Main {
