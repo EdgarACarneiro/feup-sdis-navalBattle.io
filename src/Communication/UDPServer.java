@@ -11,8 +11,12 @@ public class UDPServer extends Thread {
     private DatagramSocket socket;
     private byte[] buf = new byte[256];
  
-    public UDPServer() throws SocketException {
-        socket = new DatagramSocket(4445);
+    public UDPServer() {
+        try {
+            socket = new DatagramSocket(4445);
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
  
     public void run() {

@@ -2,10 +2,14 @@ package Authentication;
 
 import java.util.HashMap;
 
-public class AuthManager {
+public class AuthManager implements Runnable {
 
     private HashMap<String, Double> users = new HashMap<>();
     private HashMap<String, Double> loggedUsers = new HashMap<>();
+
+    public AuthManager() {
+
+    }
 
     public void authentication(String username) {
 
@@ -23,5 +27,10 @@ public class AuthManager {
 
     public HashMap<String, Double> loggedUsers(){
         return loggedUsers;
+    }
+
+    @Override
+    public void run() {
+
     }
 }
