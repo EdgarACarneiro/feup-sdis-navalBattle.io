@@ -9,6 +9,8 @@ import java.util.HashMap;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import Communication.HttpMethod;
+
 public class RestServerHandler implements HttpHandler {
 
 	private static final int PARAM_NAME_IDX = 0;
@@ -21,11 +23,18 @@ public class RestServerHandler implements HttpHandler {
 	private static final String EQUAL_DELIMITER = "=";
 	
 	public void handle(HttpExchange t) throws IOException {
+
+		
 		String path = t.getRequestURI().getPath();
 		String[] paths = path.split("/"); //path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
-
-		String temp=this.readRequestBody(t);
-		HashMap<String,String> params=getParams(temp);
+		
+		String params_string;
+		if(t.getRequestMethod().equals(HttpMethod.GET))
+			params_string=t.getRequestURI().getQuery();
+		else
+			params_string=this.readRequestBody(t);
+		
+		HashMap<String,String> params=getParams(params_string);
 		
 		switch (paths[2]) {
 		case "attack":

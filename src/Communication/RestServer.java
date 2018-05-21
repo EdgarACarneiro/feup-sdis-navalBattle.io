@@ -3,30 +3,37 @@ package Communication;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+import javax.net.ssl.SSLContext;
+
 import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.HttpsConfigurator;
+import com.sun.net.httpserver.HttpsServer;
+
+import Security.SecurityAPI;
 
 public class RestServer {
 
-	private HttpServer httpServer;
+	private HttpsServer httpsServer;
+	private static int BACKLOG = 0;
 
 	/**
 	 * Instantiates a http server.
 	 *
-	 * @param port the port
-	 * @param context the context eg: /navalBattle
-	 * @param handler the handler
+	 * @param port
+	 *            the port
+	 * @param context
+	 *            the context eg: /navalBattle
+	 * @param handler
+	 *            the handler
 	 */
 	public RestServer(int port, String context, HttpHandler handler) {
 		try {
-			//Create HttpServer which is listening on the given port 
-			httpServer = HttpServer.create(new InetSocketAddress(port), 0);
-			//Create a new context for the given context and handler
-			httpServer.createContext(context, handler);
-			//Create a default executor
-			httpServer.setExecutor(null);
-		} catch (IOException e) {
-			e.printStackTrace();
+			this.httpsServer = HttpsServer.create(new InetSocketAddress(port), BACKLOG);
+			SSLContext sslContext = SecurityAPI.getSSLContext();
+			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext));
+			httpsServer.createContext(context, handler);
+		} catch (Exception e) {
+			System.err.println("An unexpected ocurred creating the https server, try again!!!");
 		}
 	}
 
@@ -34,6 +41,6 @@ public class RestServer {
 	 * Start.
 	 */
 	public void start() {
-		this.httpServer.start();
+		this.httpsServer.start();
 	}
 }
