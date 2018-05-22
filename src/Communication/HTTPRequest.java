@@ -1,71 +1,73 @@
 package Communication;
 
-import java.io.BufferedReader;
+
 import java.io.BufferedWriter;
-import java.io.DataOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
+
 import java.net.URLEncoder;
+import java.net.UnknownHostException;
 import java.util.Map;
 
+import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
-import org.omg.CORBA_2_3.portable.OutputStream;
+import Security.SecurityAPI;
 
 public class HTTPRequest {
-
 	private static final String CHARSET = "UTF-8";
-	private static final String PROTOCOL = "http";
 
-	private URL url;
+	private String host;
+	private int port;
+	private SSLSocket sslSocket;
 
-	public HTTPRequest(String host, String file, int port) throws MalformedURLException {
-		this.url = new URL(PROTOCOL, host, port, file);
+	public HTTPRequest(String host, int port) throws UnknownHostException, IOException {
+		this.host = host;
+		this.port = port;
+
+		SSLContext sslContext = SecurityAPI.getSSLContext();
+		// Create socket factory
+		SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
+		// Create socket
+		this.sslSocket = (SSLSocket) sslSocketFactory.createSocket(this.host, this.port);
+		sslSocket.setTcpNoDelay(true);
 	}
 
-	public String sendRequest(Map<String, String> parameters,String requestMethod) throws IOException {
-		HttpURLConnection con = (HttpURLConnection) url.openConnection();
-		con.setRequestMethod(requestMethod);
-
-		con.setRequestProperty("Content-Type", "application/json");
-		con.setInstanceFollowRedirects(false);
-
-		if (parameters != null && !parameters.isEmpty()) {
-			con.setDoOutput(true);
-			DataOutputStream out = new DataOutputStream(con.getOutputStream());
-			out.writeBytes(parameterStringBuilder(parameters));
-			out.flush();
-			out.close();
-		}	
-
-		return handleResponse(con);
+	private void handshake() throws IOException {
+		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
+		sslSocket.startHandshake();
 	}
 
-	private String handleResponse(HttpURLConnection con) throws IOException {
-		if (con.getResponseCode() != 200) {
-			System.out.println("Response code: " + con.getResponseCode());
-			throw new IOException(con.getResponseMessage());
-		}
+	
+	public String makeRequest(String requestMethod,String path, Map<String, String> params) throws IOException {
+		this.handshake();
 
-		BufferedReader in = new BufferedReader(
-				new InputStreamReader(con.getInputStream()));
-		String inputLine;
-		StringBuffer content = new StringBuffer();
-		while ((inputLine = in.readLine()) != null) {
-			content.append(inputLine);
+		String paramaters = parameterStringBuilder(params);
+		InputStream inputStream = this.sslSocket.getInputStream();
+		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(this.sslSocket.getOutputStream(), CHARSET));
+		
+		if(requestMethod.equals(HttpMethod.GET))
+			wr.write(requestMethod + " /" + path + "?" + paramaters + " HTTP/1.1\r\n");
+		else
+			wr.write(requestMethod + " /" + path + " HTTP/1.1\r\n");
+		
+		if(!requestMethod.equals(HttpMethod.GET)) {
+			wr.write("Content-Length: " + paramaters.length() + "\r\n");
+			wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
 		}
-		in.close();
-		if (con != null)
-			con.disconnect();
-
-		return content.toString();
+		
+		wr.write("\r\n");
+		
+		if(!requestMethod.equals(HttpMethod.GET))
+			wr.write(paramaters);
+		
+		wr.flush();
+		
+		return this.handleResponse(inputStream);
 	}
 
 	private static String parameterStringBuilder(Map<String, String> params) throws UnsupportedEncodingException {
@@ -82,89 +84,23 @@ public class HTTPRequest {
 		return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
 	}
 
-	private static void getMethod(SSLSocket socket, String path, String ip, String port) {
-
-		InputStream inputStream = socket.getInputStream(); 
-		OutputStream outputStream = (OutputStream) socket.getOutputStream(); 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); 
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
-		//PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(outputStream));
-		wr.write("GET " + "/" + path + " HTTP/1.1\r\n");
-		wr.write("Host: "+  ip + ":" + port + "\r\n");		 
-		wr.write("\r\n");
-		wr.flush(); 				
-	}
-
-	private static void postMethod(SSLSocket socket, String path, String ip, String port, String data) {
-
-		InputStream inputStream = socket.getInputStream(); 
-		OutputStream outputStream = (OutputStream) socket.getOutputStream(); 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); 
-
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
+	private String handleResponse(InputStream inputStream) throws IOException {
 		
-		wr.write("POST " + "/" + path + " HTTP/1.1\r\n");
+		ByteArrayOutputStream result = new ByteArrayOutputStream();
+		byte[] buffer = new byte[1024];
+		int length;
+		while ((length = inputStream.read(buffer)) != -1) {
+		    result.write(buffer, 0, length);
+		}
 
-		wr.write("Content-Length: " + data.length() + "\r\n");
-		wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
-
-		wr.write("\r\n");
-		wr.write(data);
-		wr.flush(); 				
-	}
-	
-	private static void putMethod(SSLSocket socket, String path, String ip, String port, String data) {
-
-		InputStream inputStream = socket.getInputStream(); 
-		OutputStream outputStream = (OutputStream) socket.getOutputStream(); 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); 
-
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
+		String temp[]=result.toString(CHARSET).split("\r\n\r\n");
+		String response = temp[1];
+		String statuscode = temp[0].split(" ")[1];
 		
-		wr.write("PUT " + "/" + path + " HTTP/1.1\r\n");
-
-		wr.write("Content-Length: " + data.length() + "\r\n");
-		wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
-
-		wr.write("\r\n");
-		wr.write(data);
-		wr.flush(); 				
+		if (Integer.parseInt(statuscode) != 200) {
+			System.out.println("Response code: " + statuscode);
+			throw new IOException(response);
+		}
+		return response;
 	}
-	
-	private static void patchtMethod(SSLSocket socket, String path, String ip, String port, String data) {
-
-		InputStream inputStream = socket.getInputStream(); 
-		OutputStream outputStream = (OutputStream) socket.getOutputStream(); 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); 
-
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
-		
-		wr.write("PATCH " + "/" + path + " HTTP/1.1\r\n");
-		
-		wr.write("Content-Length: " + data.length() + "\r\n");
-		wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
-
-		wr.write("\r\n");
-		wr.write(data);
-		wr.flush(); 				
-	}
-	
-	private static void deleteMethod(SSLSocket socket, String path, String ip, String port, String data) {
-
-		InputStream inputStream = socket.getInputStream(); 
-		OutputStream outputStream = (OutputStream) socket.getOutputStream(); 
-		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)); 
-
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
-		
-		wr.write("DELETE " + "/" + path + " HTTP/1.1\r\n");
-		wr.write("Host: "+  ip + ":" + port + "\r\n");	 //not sure about HOST here
-
-		wr.write("\r\n");
-		wr.write(data);
-		wr.flush(); 				
-	}
-
-
-
 }

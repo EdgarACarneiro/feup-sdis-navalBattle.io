@@ -1,5 +1,15 @@
 package Player;
 
+import java.awt.EventQueue;
+import java.io.IOException;
+import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
+
+import Communication.HTTPRequest;
+import Communication.HttpMethod;
+import UI.UI_API;
+
 public class PlayerLogic {
 
     private enum State {
@@ -8,8 +18,14 @@ public class PlayerLogic {
         GAME
     };
 
-	// Uses Game Logic + Authentication Logic
+    public static void main(String[] args) throws UnknownHostException, IOException {
+		HTTPRequest request=new HTTPRequest("192.168.1.4",9999);
+		Map<String, String> params= new HashMap<>();
+		params.put("x", "1");
+		params.put("b", "2");
+		request.makeRequest(HttpMethod.GET,"app/create", params);
 
+	}
     public PlayerLogic() {
         //TODO - Uma unica thread, esta thread controla todo o flow do programa
     }

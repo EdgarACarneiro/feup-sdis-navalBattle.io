@@ -1,6 +1,6 @@
 package Communication;
 
-import java.io.IOException;
+
 import java.net.InetSocketAddress;
 
 import javax.net.ssl.SSLContext;
