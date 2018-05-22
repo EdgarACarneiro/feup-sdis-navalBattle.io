@@ -34,6 +34,10 @@ public class HTTPRequest {
 		SSLSocketFactory sslSocketFactory = sslContext.getSocketFactory();
 		// Create socket
 		this.sslSocket = (SSLSocket) sslSocketFactory.createSocket(this.host, this.port);
+		
+		//This controls the TCP_NODELAY socket option. 
+		//TCP_NODELAY disables/enables the use of Nagle's Algorithm to control the amount of buffering used when transferring data. 
+		//Nagle's algorithm tries to send full data segments by waiting, if necessary, for enough writes to come through to fill up the segment
 		sslSocket.setTcpNoDelay(true);
 	}
 
