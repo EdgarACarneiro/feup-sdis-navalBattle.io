@@ -54,7 +54,7 @@ public class RestServerHandler implements HttpHandler {
 	private HashMap<String, String> getParams(String query) {
 		HashMap<String, String> params = new HashMap<String, String>();
 
-		if (query != null) {
+		if (query != null && !query.equals("")) {
 			String[] queryParams = query.split(AND_DELIMITER);
 			if (queryParams.length > 0) {
 				for (String qParam : queryParams) {
@@ -71,7 +71,7 @@ public class RestServerHandler implements HttpHandler {
 		try {
 			t.sendResponseHeaders(statusCode, response.getBytes().length);
 			OutputStream os = t.getResponseBody();
-			os.write(response.getBytes());
+			os.write(response.getBytes(), 0, response.getBytes().length);
 			os.flush();
 			os.close();
 		} catch (IOException e) {

@@ -55,6 +55,9 @@ public class HTTPRequest {
 		else
 			wr.write(requestMethod + " /" + path + " HTTP/1.1\r\n");
 		
+		wr.write("Connection: close\r\n");
+		wr.write("User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; de-de) AppleWebKit/523.10.3 (KHTML, like Gecko) Version/3.0.4 Safari/523.10\r\n");
+		
 		if(!requestMethod.equals(HttpMethod.GET)) {
 			wr.write("Content-Length: " + paramaters.length() + "\r\n");
 			wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
@@ -92,7 +95,7 @@ public class HTTPRequest {
 		while ((length = inputStream.read(buffer)) != -1) {
 		    result.write(buffer, 0, length);
 		}
-
+		sslSocket.close();
 		String temp[]=result.toString(CHARSET).split("\r\n\r\n");
 		String response = temp[1];
 		String statuscode = temp[0].split(" ")[1];
