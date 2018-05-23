@@ -96,6 +96,8 @@ public class UI_API {
         JButton btnLogin = new JButton("Login");
         JButton btnToLogin = new JButton("Login");
         JButton btnToRegister = new JButton("Register");
+        JButton sendButton = new JButton("Send");
+        JButton btnSubmit = new JButton("Save");   
         JTextArea aboutText = new JTextArea();
 		JMenuBar jmb = new JMenuBar();
         JComboBox<String> comboBox = new JComboBox<String>();
@@ -141,6 +143,8 @@ public class UI_API {
         GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
         GroupLayout gl_loginPanel = new GroupLayout(loginPanel);
         GroupLayout gl_aboutPanel = new GroupLayout(aboutPanel);
+        GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 
         frmBattleshipio.getContentPane().add(welcomePanel, "name_3507367092678");
         frmBattleshipio.getContentPane().add(mainPanel, "name_2194987317518");
@@ -150,6 +154,8 @@ public class UI_API {
         aboutPanel.setLayout(gl_aboutPanel);     
         welcomePanel.setLayout(gl_welcomePanel);        
         loginPanel.setLayout(gl_loginPanel);
+        profilePanel.setLayout(gl_profilePanel);
+        mainPanel.setLayout(gl_mainPanel);
 
         //Login Page
         usernameddd = new JTextField();
@@ -160,10 +166,19 @@ public class UI_API {
         passwordField.setHorizontalAlignment(SwingConstants.CENTER);
         
         lblLogin.setHorizontalAlignment(SwingConstants.CENTER);      
-        lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);        
+        lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);   
         
-        JButton sendButton = new JButton("Send");
-        GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        //About Page
+        aboutText.setWrapStyleWord(true);
+        aboutText.setBackground(UIManager.getColor("CheckBox.background"));
+        aboutText.setLineWrap(true);
+        aboutText.setFont(new Font("Garuda", Font.PLAIN, 15));
+        aboutText.setTabSize(0);
+        aboutText.setEditable(false);
+        aboutText.setColumns(3);
+        aboutText.setText("sda\ndasda\nda\nsd\nas\ndas\ndadas");
+        
+        //Group Layouts
         gl_mainPanel.setHorizontalGroup(
         	gl_mainPanel.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_mainPanel.createSequentialGroup()
@@ -194,19 +209,6 @@ public class UI_API {
         						.addComponent(xField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))))
         			.addGap(0))
         );
-        mainPanel.setLayout(gl_mainPanel);
-        
-        //About Page
-        aboutText.setWrapStyleWord(true);
-        aboutText.setBackground(UIManager.getColor("CheckBox.background"));
-        aboutText.setLineWrap(true);
-        aboutText.setFont(new Font("Garuda", Font.PLAIN, 15));
-        aboutText.setTabSize(0);
-        aboutText.setEditable(false);
-        aboutText.setColumns(3);
-        aboutText.setText("sda\ndasda\nda\nsd\nas\ndas\ndadas");
-        
-        //Group Layouts
         gl_welcomePanel.setHorizontalGroup(
         	gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
         		.addComponent(lblWelcome, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
@@ -279,9 +281,6 @@ public class UI_API {
         			.addContainerGap(59, Short.MAX_VALUE))
         );
         
-        JButton btnNewButton = new JButton("New button");
-        
-        GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
         gl_profilePanel.setHorizontalGroup(
         	gl_profilePanel.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_profilePanel.createSequentialGroup()
@@ -293,11 +292,12 @@ public class UI_API {
         				.addGroup(gl_profilePanel.createSequentialGroup()
         					.addGap(169)
         					.addGroup(gl_profilePanel.createParallelGroup(Alignment.LEADING)
-        						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(btnSubmit, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         						.addComponent(comboBox, Alignment.TRAILING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         						.addComponent(username, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))))
         			.addGap(188))
         );
+        
         gl_profilePanel.setVerticalGroup(
         	gl_profilePanel.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_profilePanel.createSequentialGroup()
@@ -308,10 +308,9 @@ public class UI_API {
         			.addGap(32)
         			.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
         			.addGap(29)
-        			.addComponent(btnNewButton)
+        			.addComponent(btnSubmit)
         			.addContainerGap(83, Short.MAX_VALUE))
         );
-        profilePanel.setLayout(gl_profilePanel);
         
         //Action Listeners
         btnToLogin.addActionListener(new ActionListener() {
@@ -389,6 +388,12 @@ public class UI_API {
         	}
         });
         
+        btnSubmit.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		//TODO - Send Changes
+        	}
+        });  
+        
         username.addFocusListener(new FocusListener() {
 
             @Override
@@ -439,7 +444,7 @@ public class UI_API {
                 }
             }
         }); 
-        
+               
         frmBattleshipio.setVisible(true);
 	}
 	
