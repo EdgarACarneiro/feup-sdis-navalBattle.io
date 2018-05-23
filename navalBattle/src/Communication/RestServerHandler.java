@@ -1,18 +1,13 @@
 package Communication;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.util.HashMap;
 
 import Messages.RESTMessage;
 import Utils.HigherLayer;
 import Utils.ThreadPool;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-
-import Communication.HttpMethod;
 
 public class RestServerHandler implements HttpHandler {
 
@@ -22,17 +17,16 @@ public class RestServerHandler implements HttpHandler {
      */
     private ThreadPool dispatcher;
 
-	private HigherLayer higherLayer;
+	private HigherLayer superior;
 
 	public RestServerHandler(HigherLayer higherlayer) {
-        this.higherLayer = higherlayer;
+        superior = higherlayer;
+        dispatcher = new ThreadPool();
         // TODO -> Ver as alterações aqui com o Rubén, semelhantes ao UDPServer, para retirar logica de interpretação daqui
     }
 
-	public void handle(HttpExchange exchange) throws IOException {
-
+	public void handle(HttpExchange exchange) {
         dispatcher.run(() -> reportToSuperior(exchange));
-
 	}
 
 	public static void sendResponse(HttpExchange t, int statusCode, String response) {
@@ -48,6 +42,6 @@ public class RestServerHandler implements HttpHandler {
 	}
 
     private void reportToSuperior(HttpExchange exchange) {
-        higherLayer.receiveReport(new RESTMessage(exchange);
+        superior.receiveReport(new RESTMessage(exchange));
     }
 }

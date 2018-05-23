@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-public class RESTMessage {
+public class RESTMessage implements  Message {
 
     private static final int PARAM_NAME_IDX = 0;
     private static final int PARAM_VALUE_IDX = 1;
@@ -26,20 +26,26 @@ public class RESTMessage {
 
     private String content;
 
+    private HashMap<String, String> params;
+
+    private HttpExchange exchange;
+
     public RESTMessage(HttpExchange exchange) {
+        this.exchange = exchange;
         String path = exchange.getRequestURI().getPath();
         String[] paths = path.split("/"); // path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
 
         String params_string = new String();
         if (exchange.getRequestMethod().equals(HttpMethod.GET))
             params_string = exchange.getRequestURI().getQuery();
-        else try {
+        else
+            try {
             params_string = this.readRequestBody(exchange);
         } catch (java.io.IOException e) {
-            // TODO STH e avaliar se isto vai aqui
+            // TODO sth e avaliar se isto vai aqui
         }
 
-        HashMap<String, String> params = getParams(params_string);
+        params = extractParams(params_string);
 
         /*
          * ISto ou passamos um handler do path como argumento e esse handler retorna a
@@ -57,7 +63,7 @@ public class RESTMessage {
         }
     }
 
-    private HashMap<String, String> getParams(String query) {
+    private HashMap<String, String> extractParams(String query) {
         HashMap<String, String> params = new HashMap<String, String>();
 
         if (query != null && !query.equals("")) {
