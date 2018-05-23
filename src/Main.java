@@ -1,20 +1,23 @@
-import Communication.RestServer;
-import REST.RestServerHandler;
-import Security.SecurityAPI;
+import Server.Server;
+import Player.Player;
 
 public class Main {
 
-	private static final String CONTEXT = "/app";
-	private static final int PORT = 9999;
+	public static void main(String[] args) {
 
-	public static void main(String[] args) throws Exception {
-		SecurityAPI.generateCertificate();
-		// Create a new SimpleHttpServer
-		RestServer simpleHttpServer = new RestServer(PORT, CONTEXT, new RestServerHandler());
-		simpleHttpServer.start();
-		
-		System.out.println("Server is started and listening on port " + PORT);
+		if (args[0].equals("Server") && args.length == 2)
+            new Server(args[1]);
 
-		UI.UI_API menu = new UI.UI_API();
+        else if (args[0].equals("Player") && args.length == 3)
+		    new Player(args[1], args[2]);
+
+        else printUsage();
 	}
+
+	private static void printUsage() {
+	    System.err.println("Wrong usage of program!");
+	    System.out.println("Correct usage:\n" +
+                "server <port>, in case you intend to launch a game server;" +
+                "player <serverIP> <serverPort>, in case you intend to play;");
+    }
 }

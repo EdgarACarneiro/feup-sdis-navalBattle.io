@@ -5,10 +5,17 @@ import Messages.UDPMessage;
 
 public class PlayersListener implements Runnable {
 
-    ServerLogic logic;
+    // Class this class reports to
+    Server superior;
 
-    public PlayersListener(ServerLogic serverLogic) {
-        logic = serverLogic;
+    // TODO: Provavelmente fica mais a cima
+    private static final String CONTEXT = "/app";
+
+    int port;
+
+    public PlayersListener(Server server, int port) {
+        superior = server;
+        this.port = port;
     }
 
     public void receiveReport(UDPMessage message) {
@@ -18,6 +25,6 @@ public class PlayersListener implements Runnable {
     @Override
     public void run() {
         // Starts listening to the respective channel
-        CommunicationAPI.channel(this);
+        CommunicationAPI.channel(this, port, CONTEXT);
     }
 }

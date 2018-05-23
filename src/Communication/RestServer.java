@@ -33,14 +33,14 @@ public class RestServer {
 			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext));
 			httpsServer.createContext(context, handler);
 		} catch (Exception e) {
-			System.err.println("An unexpected ocurred creating the https server, try again!!!");
+			System.err.println("An unexpected occurred creating the https server, try again!!!");
 		}
 	}
 
 	/**
-	 * Start.
+	 * Start running the server.
 	 */
-	public void start() {
+	public void run() {
 		this.httpsServer.start();
 	}
 }

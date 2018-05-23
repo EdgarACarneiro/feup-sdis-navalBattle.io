@@ -2,9 +2,10 @@ package Server;
 
 import Authentication.AuthManager;
 import Communication.CommunicationAPI;
+import Communication.RestServer;
 import Utils.ThreadPool;
 
-public class ServerLogic {
+public class Server {
 
     private static final int NUM_MAIN_THREADS = 2;
 
@@ -12,15 +13,22 @@ public class ServerLogic {
 
     private CommunicationAPI communication;
 
+    // TODO: avaliar amanhã a necessidade disto
     private AuthManager authentication;
 
     private PlayersListener listener;
 
-    public ServerLogic() {
+    private static final String CONTEXT = "/app";
+
+    private RestServer server;
+
+    public Server(String port) {
         threadPool = new ThreadPool(NUM_MAIN_THREADS);
         communication = new CommunicationAPI();
-        authentication = new AuthManager();
-        listener = new PlayersListener(this);
+        listener = new PlayersListener(this, new Integer(port));
+        //authentication = new AuthManager();
+
+        //UI.UI_API menu = new UI.UI_API();
 
         run();
         // TODO - The threadPool will control: laucnhing threads for answering and signup login and stuff using rest

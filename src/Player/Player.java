@@ -10,13 +10,7 @@ import Communication.HTTPRequest;
 import Communication.HttpMethod;
 import UI.UI_API;
 
-public class PlayerLogic {
-
-    private enum State {
-        LOGIN,
-        REGISTRATION,
-        GAME
-    };
+public class Player {
 
     public static void main(String[] args) throws UnknownHostException, IOException {
 		HTTPRequest request=new HTTPRequest("192.168.1.4",9999);
@@ -26,8 +20,12 @@ public class PlayerLogic {
 		request.makeRequest(HttpMethod.GET,"app/create", params);
 
 	}
-    public PlayerLogic() {
+    public Player() {
         //TODO - Uma unica thread, esta thread controla todo o flow do programa
+    }
+
+    public Player(String serverIP, String serverPort) {
+
     }
 
     public void run() {

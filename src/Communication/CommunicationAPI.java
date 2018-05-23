@@ -1,16 +1,21 @@
 package Communication;
 
+import Security.SecurityAPI;
 import Server.PlayersListener;
+import Player.Player;
 
 public class CommunicationAPI {
 
-    // Primeiro -fazer conexao usando multicasts e cenas
-    // Depois de estabelecida a conexao com o utilizador
-    // usar comunicação estilo rest
+    public static void channel(PlayersListener higherLayer, int port, String context) {
+        //new UDPServer(higherLayer).run();
 
-    // INDEPENDENTE DE SE É SERVDIOR OU CLIENTE
-
-    public static void channel(PlayersListener higherLayer) {
-        new UDPServer(higherLayer).run();
+        SecurityAPI.generateCertificate();
+        new RestServer(port, context, new RestServerHandler()).run();
     }
+
+    public static void channel(Player higherLayer) {
+        // TODO: Ver o que vamos ter do lado do cliente para receção da mensagens
+    }
+
+    //TODO: mais funções que fazem o Request
 }

@@ -3,7 +3,6 @@ package Security;
 import java.io.File;
 import java.io.FileInputStream;
 
-import java.io.IOException;
 import java.lang.ProcessBuilder.Redirect;
 import java.security.KeyStore;
 
@@ -25,7 +24,7 @@ public class SecurityAPI {
 
 	public static final String SSL_PROTOCOL = "TLS";
 
-	public static void generateCertificate() throws InterruptedException, IOException {
+	public static void generateCertificate() {
 		if(KEYSTORE_FILE.exists())
 			return;
 		
@@ -40,8 +39,13 @@ public class SecurityAPI {
 		processBuilder.redirectErrorStream(true);
 		processBuilder.redirectOutput(Redirect.INHERIT);
 		processBuilder.redirectError(Redirect.INHERIT);
-		Process exec = processBuilder.start();
-		exec.waitFor();
+
+		try {
+            Process exec = processBuilder.start();
+            exec.waitFor();
+        } catch (java.io.IOException | java.lang.InterruptedException e) {
+            System.err.println("Failed to generate Certificate. Communication Proceeding without certification");
+        }
 	}
 
 	public static SSLContext getSSLContext() {
@@ -62,7 +66,6 @@ public class SecurityAPI {
 			System.err.println("There was a problem getting the SSLContext! Verify if the KeyStore file exists");
 			return null;
 		}
-
 	}
 
 }
