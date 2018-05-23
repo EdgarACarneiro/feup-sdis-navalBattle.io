@@ -32,6 +32,7 @@ public class UI_API {
 	private JPasswordField passwordField;
 	private JTextField username;
 	private boolean login = true;
+    private JTextPane textPane;
 
 	/**
 	 * Launch the application.
@@ -68,7 +69,7 @@ public class UI_API {
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
         
         //Declarations
-        JTextPane textPane = new JTextPane();
+        textPane = new JTextPane();
         JPanel loginPanel = new JPanel();
         JPanel welcomePanel = new JPanel();
         JPanel mainPanel = new JPanel();
@@ -254,10 +255,12 @@ public class UI_API {
         
         btnLogin.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		if(login)
-        			System.out.println("Login");
-        		else
-        			System.out.println("Register");
+        		if(login) {
+        			System.out.println("Login");	
+        		}
+        		else {
+        			System.out.println("Register");        			
+        		}
         		jmOptions.setEnabled(true);
         	}
         });
@@ -304,5 +307,9 @@ public class UI_API {
         });
         
         frmBattleshipio.setVisible(true);
+	}
+	
+	public void printMap(String map) {
+		textPane.setText(map);
 	}
 }
