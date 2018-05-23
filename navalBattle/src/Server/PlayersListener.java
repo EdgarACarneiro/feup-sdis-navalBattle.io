@@ -1,6 +1,7 @@
 package Server;
 
 import Communication.CommunicationAPI;
+import Messages.Message;
 import Messages.RESTMessage;
 import Messages.UDPMessage;
 import Utils.HigherLayer;
@@ -21,7 +22,9 @@ public class PlayersListener implements Runnable, HigherLayer {
     }
 
     @Override
-    public void receiveReport(RESTMessage message) {
+    public void receiveReport(Message message) {
+        if (!(message instanceof RESTMessage))
+            System.err.println("Received unexpected type of message");
         // TODO -- Do stuff with received UDPMessage (bubble it up)
     }
 

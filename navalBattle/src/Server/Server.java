@@ -1,7 +1,5 @@
 package Server;
 
-import Authentication.AuthManager;
-import Communication.CommunicationAPI;
 import Communication.RestServer;
 import Utils.ThreadPool;
 
@@ -11,11 +9,6 @@ public class Server {
 
     private ThreadPool threadPool;
 
-    private CommunicationAPI communication;
-
-    // TODO: avaliar amanhã a necessidade disto
-    private AuthManager authentication;
-
     private PlayersListener listener;
 
     private static final String CONTEXT = "/app";
@@ -24,11 +17,7 @@ public class Server {
 
     public Server(String port) {
         threadPool = new ThreadPool(NUM_MAIN_THREADS);
-        communication = new CommunicationAPI();
-        listener = new PlayersListener(this, new Integer(port));
-        //authentication = new AuthManager();
-
-        //UI.UI_API menu = new UI.UI_API();
+        listener = new PlayersListener(this, Integer.parseInt(port));
 
         run();
         // TODO - The threadPool will control: laucnhing threads for answering and signup login and stuff using rest
@@ -36,7 +25,6 @@ public class Server {
     }
 
     private void run() {
-        threadPool.run(authentication);
         threadPool.run(listener);
     }
 

@@ -1,9 +1,9 @@
 package Utils;
 
-import Messages.RESTMessage;
+import Messages.Message;
 
 // Class representing a higher layer of abstraction, when compared to the Communication Layer
 public interface HigherLayer {
 
-    void receiveReport(RESTMessage message);
+    void receiveReport(Message message);
 }

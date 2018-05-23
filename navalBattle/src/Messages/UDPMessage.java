@@ -3,7 +3,7 @@ package Messages;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-public class UDPMessage {
+public class UDPMessage implements Message {
 
     // TODO : provavelmente posso ter uma Class comum entre ambas as mensagens, com metodos comuns como:
     // TODO (continuar): getContent, getSender, fields comuns relacionados, etc
