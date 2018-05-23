@@ -1,5 +1,6 @@
 package Communication;
 
+import Messages.RESTMessage;
 import Messages.UDPMessage;
 import Server.PlayersListener;
 import Utils.ThreadPool;
@@ -50,6 +51,6 @@ public class UDPServer extends Thread {
     }
 
     private void reportToSuperior(DatagramPacket packet) {
-        superior.receiveReport(new UDPMessage(packet));
+        /*superior.receiveReport(new UDPMessage(packet));*/
     }
 }

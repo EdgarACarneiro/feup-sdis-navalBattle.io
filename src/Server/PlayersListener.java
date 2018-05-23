@@ -1,9 +1,11 @@
 package Server;
 
 import Communication.CommunicationAPI;
+import Messages.RESTMessage;
 import Messages.UDPMessage;
+import Utils.HigherLayer;
 
-public class PlayersListener implements Runnable {
+public class PlayersListener implements Runnable, HigherLayer {
 
     // Class this class reports to
     Server superior;
@@ -18,7 +20,8 @@ public class PlayersListener implements Runnable {
         this.port = port;
     }
 
-    public void receiveReport(UDPMessage message) {
+    @Override
+    public void receiveReport(RESTMessage message) {
         // TODO -- Do stuff with received UDPMessage (bubble it up)
     }
 

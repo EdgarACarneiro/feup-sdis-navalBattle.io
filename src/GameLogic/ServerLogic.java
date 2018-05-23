@@ -2,7 +2,7 @@ package GameLogic;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-public class ServerGameLogic {
+public class ServerLogic {
 
     /**
      * HashMap saving the id of the boat associated to each userName (user logged)

@@ -10,7 +10,7 @@ public class CommunicationAPI {
         //new UDPServer(higherLayer).run();
 
         SecurityAPI.generateCertificate();
-        new RestServer(port, context, new RestServerHandler()).run();
+        new RestServer(port, context, new RestServerHandler(higherLayer)).run();
     }
 
     public static void channel(Player higherLayer) {
