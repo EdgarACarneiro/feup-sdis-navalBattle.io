@@ -6,12 +6,14 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
 import java.awt.CardLayout;
 import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import javax.swing.JPasswordField;
-import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
@@ -24,15 +26,18 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.UIManager;
 import javax.swing.LayoutStyle.ComponentPlacement;
-
+import javax.swing.JComboBox;
 
 public class UI_API {
 
 	private JFrame frmBattleshipio;
 	private JPasswordField passwordField;
-	private JTextField username;
+	private JTextField usernameddd;
 	private boolean login = true;
     private JTextPane textPane;
+    private JTextField yField;
+    private JTextField xField;
+    private JTextField username;
 
 	/**
 	 * Launch the application.
@@ -64,7 +69,7 @@ public class UI_API {
 		frmBattleshipio = new JFrame();
 		frmBattleshipio.setIconImage(Toolkit.getDefaultToolkit().getImage(UI_API.class.getResource("/UI/bomb (1).png")));
 		frmBattleshipio.setTitle("BattleShip.io");
-		frmBattleshipio.setBounds(100, 100, 500, 400);
+		frmBattleshipio.setBounds(100, 100, 500, 419);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
         
@@ -74,42 +79,57 @@ public class UI_API {
         JPanel welcomePanel = new JPanel();
         JPanel mainPanel = new JPanel();
         JPanel aboutPanel = new JPanel();
+        JPanel profilePanel = new JPanel();
         JMenu jmHelp = new JMenu("Help");
         JMenu jmOptions = new JMenu("Options");
         JMenu jmFile = new JMenu("File");
-        JMenu profile = new JMenu("Profile");
         JMenu moreOptions = new JMenu("More Options");
-        JMenuItem jmiLogin = new JMenuItem("Login");
-        JMenuItem jmiRegister = new JMenuItem("Register");
+        JMenuItem jmiConnect = new JMenuItem("Play");
+        JMenuItem editProfile = new JMenuItem("Edit Profile");
         JMenuItem jmiExit = new JMenuItem("Exit");
         JMenuItem jmiAbout = new JMenuItem("About");
-        JMenuItem changeColor = new JMenuItem("Change Color");
-        JMenuItem changeUsername = new JMenuItem("Change Username");
         JLabel lblLogin = new JLabel("Login");
         JLabel lblWelcome = new JLabel("Welcome to BattleShip.io");
+        JLabel lblEditProfile = new JLabel("Edit Profile");
+        lblEditProfile.setFont(new Font("Dialog", Font.BOLD, 18));
+        lblWelcome.setFont(new Font("Dialog", Font.BOLD, 18));
         JButton btnLogin = new JButton("Login");
         JButton btnToLogin = new JButton("Login");
         JButton btnToRegister = new JButton("Register");
         JTextArea aboutText = new JTextArea();
 		JMenuBar jmb = new JMenuBar();
-		
+        JComboBox<String> comboBox = new JComboBox<String>();
+        comboBox.setFont(new Font("Dialog", Font.BOLD, 14));
+        comboBox.addItem("Red");
+        comboBox.addItem("Blue");
+        comboBox.addItem("Yellow");
+        comboBox.addItem("Green");
+        username = new JTextField();
+        username.setFont(new Font("Dialog", Font.PLAIN, 14));
+        username.setText("username");
+        username.setColumns(10);
+        textPane.setEditable(false);   
+        
+        yField = new JTextField();
+        yField.setText("y");
+        yField.setColumns(10);
+        
+        xField = new JTextField();
+        xField.setText("x");
+        xField.setColumns(10);
+        
 		//Menu Bar
         jmb.add(jmFile);
         jmb.add(jmOptions);
         jmb.add(jmHelp);
 
-        jmOptions.setEnabled(false);
-        jmOptions.add(profile);
+        jmOptions.add(editProfile);
         jmOptions.add(moreOptions);
         
         moreOptions.add(new JMenuItem("A"));
         moreOptions.add(new JMenuItem("B"));
         
-        profile.add(changeColor);
-        profile.add(changeUsername);
-        
-        jmFile.add(jmiLogin);
-        jmFile.add(jmiRegister);
+        jmFile.add(jmiConnect);
         jmFile.addSeparator();
         jmFile.add(jmiExit);
         
@@ -125,25 +145,56 @@ public class UI_API {
         frmBattleshipio.getContentPane().add(welcomePanel, "name_3507367092678");
         frmBattleshipio.getContentPane().add(mainPanel, "name_2194987317518");
         frmBattleshipio.getContentPane().add(loginPanel, "name_2179697515965");
+        frmBattleshipio.getContentPane().add(profilePanel, "name_2209926227877");
         frmBattleshipio.getContentPane().add(aboutPanel);
-
-        mainPanel.setLayout(new GridLayout(0, 1, 0, 0));
         aboutPanel.setLayout(gl_aboutPanel);     
         welcomePanel.setLayout(gl_welcomePanel);        
-        loginPanel.setLayout(gl_loginPanel);        
-        mainPanel.add(textPane);
+        loginPanel.setLayout(gl_loginPanel);
 
         //Login Page
-        username = new JTextField();
-        username.setHorizontalAlignment(SwingConstants.CENTER);
-        username.setColumns(10);
+        usernameddd = new JTextField();
+        usernameddd.setHorizontalAlignment(SwingConstants.CENTER);
+        usernameddd.setColumns(10);
         passwordField = new JPasswordField();
         passwordField.setToolTipText("");
         passwordField.setHorizontalAlignment(SwingConstants.CENTER);
         
         lblLogin.setHorizontalAlignment(SwingConstants.CENTER);      
         lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);        
-        textPane.setEditable(false);   
+        
+        JButton sendButton = new JButton("Send");
+        GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        gl_mainPanel.setHorizontalGroup(
+        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_mainPanel.createSequentialGroup()
+        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        				.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+        				.addGroup(gl_mainPanel.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(xField, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(yField, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+        					.addGap(18)
+        					.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+        					.addGap(21)))
+        			.addGap(0))
+        );
+        gl_mainPanel.setVerticalGroup(
+        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_mainPanel.createSequentialGroup()
+        			.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
+        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        				.addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(gl_mainPanel.createSequentialGroup()
+        					.addGap(7)
+        					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING, false)
+        						.addComponent(yField, Alignment.TRAILING)
+        						.addComponent(xField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))))
+        			.addGap(0))
+        );
+        mainPanel.setLayout(gl_mainPanel);
         
         //About Page
         aboutText.setWrapStyleWord(true);
@@ -206,7 +257,7 @@ public class UI_API {
         					.addGap(104)
         					.addGroup(gl_loginPanel.createParallelGroup(Alignment.TRAILING)
         						.addComponent(passwordField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-        						.addComponent(username, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))))
+        						.addComponent(usernameddd, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))))
         			.addGap(113))
         		.addGroup(Alignment.LEADING, gl_loginPanel.createSequentialGroup()
         			.addGap(187)
@@ -220,7 +271,7 @@ public class UI_API {
         			.addGap(80)
         			.addComponent(lblLogin)
         			.addGap(50)
-        			.addComponent(username, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+        			.addComponent(usernameddd, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
         			.addGap(18)
         			.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -228,15 +279,49 @@ public class UI_API {
         			.addContainerGap(59, Short.MAX_VALUE))
         );
         
+        JButton btnNewButton = new JButton("New button");
+        
+        GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
+        gl_profilePanel.setHorizontalGroup(
+        	gl_profilePanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_profilePanel.createSequentialGroup()
+        			.addGroup(gl_profilePanel.createParallelGroup(Alignment.LEADING)
+        				.addGroup(gl_profilePanel.createSequentialGroup()
+        					.addGap(182)
+        					.addComponent(lblEditProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        					.addGap(18))
+        				.addGroup(gl_profilePanel.createSequentialGroup()
+        					.addGap(169)
+        					.addGroup(gl_profilePanel.createParallelGroup(Alignment.LEADING)
+        						.addComponent(btnNewButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(comboBox, Alignment.TRAILING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        						.addComponent(username, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 143, Short.MAX_VALUE))))
+        			.addGap(188))
+        );
+        gl_profilePanel.setVerticalGroup(
+        	gl_profilePanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_profilePanel.createSequentialGroup()
+        			.addGap(66)
+        			.addComponent(lblEditProfile)
+        			.addGap(39)
+        			.addComponent(username, GroupLayout.PREFERRED_SIZE, 39, GroupLayout.PREFERRED_SIZE)
+        			.addGap(32)
+        			.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+        			.addGap(29)
+        			.addComponent(btnNewButton)
+        			.addContainerGap(83, Short.MAX_VALUE))
+        );
+        profilePanel.setLayout(gl_profilePanel);
+        
         //Action Listeners
         btnToLogin.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		lblLogin.setText("Login");
                 btnLogin.setText("Login");
                 login = true;
-        		loginPanel.setVisible(true);
+        		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
-                mainPanel.setVisible(false);
+                mainPanel.setVisible(true);
                 aboutPanel.setVisible(false);
         	}
         });
@@ -246,7 +331,7 @@ public class UI_API {
                 lblLogin.setText("Register");
                 btnLogin.setText("Register");
                 login = false;
-        		loginPanel.setVisible(true);
+        		profilePanel.setVisible(true);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(false);
                 aboutPanel.setVisible(false);
@@ -265,27 +350,16 @@ public class UI_API {
         	}
         });
         
-        jmiLogin.addActionListener(new ActionListener() {
+        jmiConnect.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
         		lblLogin.setText("Login");
                 btnLogin.setText("Login");
                 login = true;
-        		loginPanel.setVisible(true);
+        		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
-                mainPanel.setVisible(false);
+                mainPanel.setVisible(true);
                 aboutPanel.setVisible(false);
-        	}
-        });
-        
-        jmiRegister.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		lblLogin.setText("Register");
-                btnLogin.setText("Register");
-                login = false;
-        		loginPanel.setVisible(true);
-                welcomePanel.setVisible(false);
-                mainPanel.setVisible(false);
-                aboutPanel.setVisible(false);
+                frmBattleshipio.setTitle("BattleShip.io : Play");  
         	}
         });
         
@@ -298,13 +372,73 @@ public class UI_API {
         jmiAbout.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		welcomePanel.setVisible(false);
-        		loginPanel.setVisible(false);
+        		profilePanel.setVisible(false);
         		mainPanel.setVisible(false);
         		aboutPanel.setVisible(true);
-        		frmBattleshipio.setTitle("BattleShip.io : About");
-        		
+        		frmBattleshipio.setTitle("BattleShip.io : About");        		
         	}
         });
+        
+        editProfile.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		welcomePanel.setVisible(false);
+        		profilePanel.setVisible(true);
+        		mainPanel.setVisible(false);
+        		aboutPanel.setVisible(false);
+        		frmBattleshipio.setTitle("BattleShip.io : Edit Profile");
+        	}
+        });
+        
+        username.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent fe) {
+            	if (username.getText().equals("username")) {
+                    username.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                if (username.getText().length() <=1 || username.getText().equals("username")) {
+                    username.setText("username");
+                }
+            }
+        });   
+        
+        xField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent fe) {
+            	if (xField.getText().equals("x")) {
+            		xField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                if (xField.getText().length() == 0 || xField.getText().equals("x")) {
+                	xField.setText("x");
+                }
+            }
+        });   
+        
+        yField.addFocusListener(new FocusListener() {
+
+            @Override
+            public void focusGained(FocusEvent fe) {
+            	if (yField.getText().equals("y")) {
+            		yField.setText("");
+                }
+            }
+
+            @Override
+            public void focusLost(FocusEvent fe) {
+                if (yField.getText().length() == 0 || yField.getText().equals("y")) {
+                	yField.setText("y");
+                }
+            }
+        }); 
         
         frmBattleshipio.setVisible(true);
 	}
