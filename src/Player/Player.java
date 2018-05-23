@@ -2,6 +2,7 @@ package Player;
 
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +22,21 @@ public class Player {
 
 	}
     public Player() {
-        //TODO - Uma unica thread, esta thread controla todo o flow do programa
+        //TODO - Uma unica thread, esta thread controla todo o flow do programa.
     }
 
     public Player(String serverIP, String serverPort) {
-
+    	try {
+			InetAddress ip = InetAddress.getByName(serverIP);
+		} catch (UnknownHostException readIP) {
+			System.err.println("Failed to get IP from " + serverIP);
+			readIP.printStackTrace();
+		}
+    	int port = Integer.parseInt(serverPort);
+    	
+    	//TODO - Using sockets connect to server.
+    	
+    	UI_API app = new UI_API();
     }
 
     public void run() {
