@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import javax.swing.JPasswordField;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JPanel;
@@ -31,9 +30,6 @@ import javax.swing.JComboBox;
 public class UI_API {
 
 	private JFrame frmBattleshipio;
-	private JPasswordField passwordField;
-	private JTextField usernameddd;
-	private boolean login = true;
     private JTextPane textPane;
     private JTextField yField;
     private JTextField xField;
@@ -75,7 +71,6 @@ public class UI_API {
         
         //Declarations
         textPane = new JTextPane();
-        JPanel loginPanel = new JPanel();
         JPanel welcomePanel = new JPanel();
         JPanel mainPanel = new JPanel();
         JPanel aboutPanel = new JPanel();
@@ -88,14 +83,14 @@ public class UI_API {
         JMenuItem editProfile = new JMenuItem("Edit Profile");
         JMenuItem jmiExit = new JMenuItem("Exit");
         JMenuItem jmiAbout = new JMenuItem("About");
-        JLabel lblLogin = new JLabel("Login");
         JLabel lblWelcome = new JLabel("Welcome to BattleShip.io");
         JLabel lblEditProfile = new JLabel("Edit Profile");
         lblEditProfile.setFont(new Font("Dialog", Font.BOLD, 18));
         lblWelcome.setFont(new Font("Dialog", Font.BOLD, 18));
-        JButton btnLogin = new JButton("Login");
-        JButton btnToLogin = new JButton("Login");
-        JButton btnToRegister = new JButton("Register");
+        JButton btnPlay = new JButton("Play");
+        btnPlay.setFont(new Font("Dialog", Font.BOLD, 16));
+        JButton btnProfile = new JButton("Edit Profile");
+        btnProfile.setFont(new Font("Dialog", Font.BOLD, 16));
         JButton sendButton = new JButton("Send");
         JButton btnSubmit = new JButton("Save");   
         JTextArea aboutText = new JTextArea();
@@ -141,31 +136,18 @@ public class UI_API {
         
         //Layouts		
         GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
-        GroupLayout gl_loginPanel = new GroupLayout(loginPanel);
         GroupLayout gl_aboutPanel = new GroupLayout(aboutPanel);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 
         frmBattleshipio.getContentPane().add(welcomePanel, "name_3507367092678");
         frmBattleshipio.getContentPane().add(mainPanel, "name_2194987317518");
-        frmBattleshipio.getContentPane().add(loginPanel, "name_2179697515965");
         frmBattleshipio.getContentPane().add(profilePanel, "name_2209926227877");
         frmBattleshipio.getContentPane().add(aboutPanel);
         aboutPanel.setLayout(gl_aboutPanel);     
-        welcomePanel.setLayout(gl_welcomePanel);        
-        loginPanel.setLayout(gl_loginPanel);
+        welcomePanel.setLayout(gl_welcomePanel);
         profilePanel.setLayout(gl_profilePanel);
         mainPanel.setLayout(gl_mainPanel);
-
-        //Login Page
-        usernameddd = new JTextField();
-        usernameddd.setHorizontalAlignment(SwingConstants.CENTER);
-        usernameddd.setColumns(10);
-        passwordField = new JPasswordField();
-        passwordField.setToolTipText("");
-        passwordField.setHorizontalAlignment(SwingConstants.CENTER);
-        
-        lblLogin.setHorizontalAlignment(SwingConstants.CENTER);      
         lblWelcome.setHorizontalAlignment(SwingConstants.CENTER);   
         
         //About Page
@@ -214,9 +196,9 @@ public class UI_API {
         		.addComponent(lblWelcome, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         		.addGroup(gl_welcomePanel.createSequentialGroup()
         			.addGap(132)
-        			.addComponent(btnToRegister, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        			.addComponent(btnProfile, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         			.addGap(38)
-        			.addComponent(btnToLogin, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+        			.addComponent(btnPlay, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
         			.addGap(134))
         );
         
@@ -227,8 +209,8 @@ public class UI_API {
         			.addComponent(lblWelcome, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE)
         			.addGap(28)
         			.addGroup(gl_welcomePanel.createParallelGroup(Alignment.BASELINE)
-        				.addComponent(btnToRegister)
-        				.addComponent(btnToLogin))
+        				.addComponent(btnProfile)
+        				.addComponent(btnPlay))
         			.addContainerGap(127, Short.MAX_VALUE))
         );
         
@@ -246,39 +228,6 @@ public class UI_API {
         			.addContainerGap()
         			.addComponent(aboutText, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE)
         			.addGap(32))
-        );
-        
-        gl_loginPanel.setHorizontalGroup(
-        	gl_loginPanel.createParallelGroup(Alignment.TRAILING)
-        		.addGroup(gl_loginPanel.createSequentialGroup()
-        			.addGroup(gl_loginPanel.createParallelGroup(Alignment.TRAILING)
-        				.addGroup(gl_loginPanel.createSequentialGroup()
-        					.addGap(262)
-        					.addComponent(btnLogin, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-        				.addGroup(gl_loginPanel.createSequentialGroup()
-        					.addGap(104)
-        					.addGroup(gl_loginPanel.createParallelGroup(Alignment.TRAILING)
-        						.addComponent(passwordField, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-        						.addComponent(usernameddd, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE))))
-        			.addGap(113))
-        		.addGroup(Alignment.LEADING, gl_loginPanel.createSequentialGroup()
-        			.addGap(187)
-        			.addComponent(lblLogin, GroupLayout.PREFERRED_SIZE, 111, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(202, Short.MAX_VALUE))
-        );
-        
-        gl_loginPanel.setVerticalGroup(
-        	gl_loginPanel.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_loginPanel.createSequentialGroup()
-        			.addGap(80)
-        			.addComponent(lblLogin)
-        			.addGap(50)
-        			.addComponent(usernameddd, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-        			.addGap(18)
-        			.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE)
-        			.addPreferredGap(ComponentPlacement.UNRELATED)
-        			.addComponent(btnLogin)
-        			.addContainerGap(59, Short.MAX_VALUE))
         );
         
         gl_profilePanel.setHorizontalGroup(
@@ -313,11 +262,8 @@ public class UI_API {
         );
         
         //Action Listeners
-        btnToLogin.addActionListener(new ActionListener() {
+        btnPlay.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		lblLogin.setText("Login");
-                btnLogin.setText("Login");
-                login = true;
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
@@ -325,11 +271,8 @@ public class UI_API {
         	}
         });
         
-        btnToRegister.addActionListener(new ActionListener() {
+        btnProfile.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-                lblLogin.setText("Register");
-                btnLogin.setText("Register");
-                login = false;
         		profilePanel.setVisible(true);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(false);
@@ -337,23 +280,8 @@ public class UI_API {
         	}
         });
         
-        btnLogin.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        		if(login) {
-        			System.out.println("Login");	
-        		}
-        		else {
-        			System.out.println("Register");        			
-        		}
-        		jmOptions.setEnabled(true);
-        	}
-        });
-        
         jmiConnect.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		lblLogin.setText("Login");
-                btnLogin.setText("Login");
-                login = true;
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
