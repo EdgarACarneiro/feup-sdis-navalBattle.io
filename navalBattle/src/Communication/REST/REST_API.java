@@ -1,4 +1,4 @@
-package Communication;
+package Communication.REST;
 
 public class REST_API {
 

@@ -1,6 +1,5 @@
 package Server;
 
-import Communication.RestServer;
 import Utils.ThreadPool;
 
 public class Server {
@@ -12,8 +11,6 @@ public class Server {
     private PlayersListener listener;
 
     private static final String CONTEXT = "/app";
-
-    private RestServer server;
 
     public Server(String port) {
         threadPool = new ThreadPool(NUM_MAIN_THREADS);

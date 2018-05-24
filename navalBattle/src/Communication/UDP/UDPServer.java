@@ -1,8 +1,6 @@
-package Communication;
+package Communication.UDP;
 
-import Messages.RESTMessage;
 import Messages.UDPMessage;
-import Server.PlayersListener;
 import Utils.HigherLayer;
 import Utils.ThreadPool;
 

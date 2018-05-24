@@ -1,4 +1,4 @@
-package Communication;
+package Communication.REST;
 
 
 import java.net.InetSocketAddress;

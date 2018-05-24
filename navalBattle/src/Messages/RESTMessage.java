@@ -1,6 +1,6 @@
 package Messages;
 
-import Communication.HttpMethod;
+import Communication.REST.HttpMethod;
 
 import com.sun.net.httpserver.HttpExchange;
 import java.io.BufferedReader;

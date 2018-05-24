@@ -1,4 +1,4 @@
-package Communication;
+package Communication.UDP;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,25 +7,27 @@ import java.net.InetAddress;
 public class UDPClient {
     private DatagramSocket socket;
     private InetAddress address;
+    private int port;
  
     private byte[] buf;
  
-    public UDPClient() throws Exception {
+    public UDPClient(String address, int port) throws Exception {
         socket = new DatagramSocket();
-        address = InetAddress.getByName("localhost");
+        this.address = InetAddress.getByName(address);
+        this.port = port;
     }
- 
+
+    // TODO to be called inside a thread
     public String sendUDP(String msg) throws Exception {
         buf = msg.getBytes();
 
-        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, 4445);
+        DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
         socket.send(packet);
 
         packet = new DatagramPacket(buf, buf.length);
         socket.receive(packet);
 
-        String received = new String(packet.getData(), 0, packet.getLength());
-        return received;
+        return new String(packet.getData(), 0, packet.getLength());
     }
  
     public void close() {

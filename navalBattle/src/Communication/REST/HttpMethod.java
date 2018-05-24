@@ -1,4 +1,4 @@
-package Communication;
+package Communication.REST;
 
 public class HttpMethod {
 	public static final String GET = "GET";
