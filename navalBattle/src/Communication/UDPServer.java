@@ -3,6 +3,7 @@ package Communication;
 import Messages.RESTMessage;
 import Messages.UDPMessage;
 import Server.PlayersListener;
+import Utils.HigherLayer;
 import Utils.ThreadPool;
 
 import java.io.IOException;
@@ -11,25 +12,27 @@ import java.net.DatagramSocket;
 import java.net.SocketException;
 
 public class UDPServer extends Thread {
- 
+
+    private static final int MESSAGE_SIZE = 1024;
+
     private DatagramSocket socket;
 
     /**
-     * ThreadPool to quickly dispatch the received UDP received messages.
+     * ThreadPool to quickly dispatch the received UDP messages.
      * Dispatcher in this architecture level to minimize the waiting time of message in the UDP channel
      */
     private ThreadPool dispatcher;
 
-    private byte[] buf = new byte[256];
+    private byte[] buf = new byte[MESSAGE_SIZE];
 
-    private PlayersListener superior;
+    private HigherLayer superior;
  
-    public UDPServer(PlayersListener higherLayer) {
-        dispatcher = new ThreadPool();
+    public UDPServer(HigherLayer higherLayer, int port) {
         superior = higherLayer;
+        dispatcher = new ThreadPool();
 
         try {
-            socket = new DatagramSocket(4445);
+            socket = new DatagramSocket(port);
         } catch (SocketException e) {
             e.printStackTrace();
         }
@@ -51,6 +54,6 @@ public class UDPServer extends Thread {
     }
 
     private void reportToSuperior(DatagramPacket packet) {
-        /*superior.receiveReport(new UDPMessage(packet));*/
+        superior.receiveReport(new UDPMessage(packet));
     }
 }

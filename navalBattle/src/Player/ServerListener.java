@@ -9,9 +9,6 @@ public class ServerListener implements Runnable, HigherLayer {
     // Class this class reports to
     Player superior;
 
-    // TODO: Provavelmente fica mais a cima
-    private static final String CONTEXT = "/app";
-
     int port;
 
     public ServerListener(Player server, int port) {
@@ -29,7 +26,7 @@ public class ServerListener implements Runnable, HigherLayer {
 
     @Override
     public void run() {
-        // Starts listening to the respective channel
-        //CommunicationAPI.channel(this, port, CONTEXT);
+        //Starts listening to the respective channel
+        CommunicationAPI.channel(this, port);
     }
 }

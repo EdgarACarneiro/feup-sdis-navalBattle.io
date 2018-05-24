@@ -12,8 +12,8 @@ import com.sun.net.httpserver.HttpHandler;
 public class RestServerHandler implements HttpHandler {
 
     /**
-     * ThreadPool to quickly dispatch the received UDP received messages.
-     * Dispatcher in this architecture level to minimize the waiting time of message in the UDP channel
+     * ThreadPool to quickly dispatch the received messages.
+     * Dispatcher in this architecture level to minimize the waiting time of message in the REST channel
      */
     private ThreadPool dispatcher;
 
@@ -22,7 +22,6 @@ public class RestServerHandler implements HttpHandler {
 	public RestServerHandler(HigherLayer higherlayer) {
         superior = higherlayer;
         dispatcher = new ThreadPool();
-        // TODO -> Ver as alterações aqui com o Rubén, semelhantes ao UDPServer, para retirar logica de interpretação daqui
     }
 
 	public void handle(HttpExchange exchange) {

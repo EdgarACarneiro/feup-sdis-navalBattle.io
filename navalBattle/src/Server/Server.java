@@ -20,7 +20,7 @@ public class Server {
         listener = new PlayersListener(this, Integer.parseInt(port));
 
         run();
-        // TODO - The threadPool will control: laucnhing threads for answering and signup login and stuff using rest
+        // TODO - The threadPool will control: launching threads for answering and signup login and stuff using rest
         // TODO - The main thread handling the game will create other threads for sending udp messages to all the players
     }
 

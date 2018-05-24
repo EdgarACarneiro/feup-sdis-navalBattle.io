@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 
-public class RESTMessage implements  Message {
+public class RESTMessage implements Message {
 
     private static final int PARAM_NAME_IDX = 0;
     private static final int PARAM_VALUE_IDX = 1;
@@ -92,5 +92,9 @@ public class RESTMessage implements  Message {
         br.close();
         isr.close();
         return buf.toString();
+    }
+
+    public HashMap<String, String> getParams() {
+        return params;
     }
 }

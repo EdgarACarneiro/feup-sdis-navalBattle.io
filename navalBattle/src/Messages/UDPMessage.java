@@ -19,4 +19,16 @@ public class UDPMessage implements Message {
         port = packet.getPort();
         content= new String(packet.getData(), 0, packet.getLength()).trim();
     }
+
+    public InetAddress getAddress() {
+        return address;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public String getContent() {
+        return content;
+    }
 }
