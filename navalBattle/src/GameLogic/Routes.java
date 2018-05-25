@@ -16,16 +16,15 @@ public class Routes {
 
 	static{
 		try {
-			routes.put(new Pair<>("attack", RESTMethod.GET), Player.class.getMethod("attack")); //jogador ataca -> server calcula se acertou mas o alvo só é atualizado no turno seguinte
+			routes.put(new Pair<>("attack", RESTMethod.GET), Player.class.getMethod("attack")); //jogador ataca -> server calcula se acertou mas o alvo sï¿½ ï¿½ atualizado no turno seguinte
 			routes.put(new Pair<>("move", RESTMethod.POST), Player.class.getMethod("move")); //move o jogador
 			routes.put(new Pair<>("updateGame", RESTMethod.GET), Server.class.getMethod("updateGame")); //manda estado do jogo a todos os jogadores
 
-			//routes.put(new Pair<>("targetHit", RESTMethod.POST), TestApp.class.getMethod("targetHit"));	// resposta do server (se acertou ou não)
+			//routes.put(new Pair<>("targetHit", RESTMethod.POST), TestApp.class.getMethod("targetHit"));	// resposta do server (se acertou ou nï¿½o)
 			//routes.put(new Pair<>("removeBlock", PATCH), TestApp.class.getMethod("removeBlock")); //se o jogador ficou com tamanho reduzido
 		}
 		catch (Exception e) {e.printStackTrace();}
 	}
-
 
 	public static void callAction(Pair<String, RESTMethod> route, String params) {
 		Method action = routes.get(route);
@@ -42,11 +41,5 @@ public class Routes {
 		}
 		return;
 	}
-
-
-
-
-
-
 
 }

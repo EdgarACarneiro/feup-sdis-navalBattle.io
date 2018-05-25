@@ -5,6 +5,7 @@ import Communication.UDP.UDPClient;
 import Messages.Message;
 import Messages.RESTMessage;
 import Utils.HigherLayer;
+import Utils.ThreadPool;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
@@ -64,5 +65,17 @@ public class PlayersHandler implements Runnable, HigherLayer {
         UDPClient player = playersUDP.get(clientID);
         // TODO posso fazer aqui a cena de repetir três vezes até mandar, pq aqui é udp que só é mandado uma vez
         return player.sendUDP(content);
+    }
+
+    public void updateAllClients(String update, ThreadPool threadPool) {
+        for (UDPClient player : playersUDP.values())
+            threadPool.run(() -> player.sendUDP(update));
+    }
+
+    public void updateClient(String update, int clientId) {
+        if (playersUDP.containsKey(clientId)) {
+            playersUDP.get(clientId).sendUDP(update);
+        } else
+            System.err.println("Unable to send message to Client, unknown client ID received: " + clientId);
     }
 }

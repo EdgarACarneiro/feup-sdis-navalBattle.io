@@ -11,9 +11,6 @@ public class Server {
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
-    // Tem que ir p cima istooo
-    private static final String CONTEXT = "/app";
-
     public Server(String port) {
         threadPool = new ThreadPool();
         listener = new PlayersHandler(this, Integer.parseInt(port));
@@ -47,10 +44,13 @@ public class Server {
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
     public void startGameUpdates() {
         threadPool.run(() -> {
-            for (UDPClient player : players.values()) {
-                player.sendUDP(requestMap());
-            }
+            listener.updateAllClients(requestMap(), threadPool);
         }, 0, UPDATE_ALL_CLIENTS_TIME);
+    }
+
+    // TODO: to be called by UI when some1 shot my boat or smth
+    public void noticeClient(String content, int id) {
+        listener.updateClient(content, id);
     }
 
     // TODO change ver o que ele vai receber
