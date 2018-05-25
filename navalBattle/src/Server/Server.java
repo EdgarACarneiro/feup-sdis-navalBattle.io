@@ -1,47 +1,65 @@
 package Server;
 
+import Communication.UDP.UDPClient;
 import Utils.ThreadPool;
+
+import java.util.HashMap;
 
 public class Server {
 
-    private static final int NUM_MAIN_THREADS = 2;
-
+    private PlayersListener listener;
     private ThreadPool threadPool;
 
-    private PlayersListener listener;
+    private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
+    // Tem que ir p cima istooo
     private static final String CONTEXT = "/app";
 
+    //Mapeamento do socket a ser usado para cada jogador/cliente, sendo que estes têm um id
+    HashMap<Integer, UDPClient> players;
+
     public Server(String port) {
-        threadPool = new ThreadPool(NUM_MAIN_THREADS);
+        threadPool = new ThreadPool();
         listener = new PlayersListener(this, Integer.parseInt(port));
+        players = new HashMap<>();
+        //gameAPI = new GameAPI();
 
         run();
-        // TODO - The threadPool will control: launching threads for answering and signup login and stuff using rest
-        // TODO - The main thread handling the game will create other threads for sending udp messages to all the players
     }
 
     private void run() {
+        //gameAPI.startGame();
         threadPool.run(listener);
     }
 
-    // Delegated methods - called to GameLogic
-    public void updatePlayers() {
-        // TODO - use UDP to send attribute that is game state to all n the game or someshit
+    // TODO function might be more complex than this
+    public boolean sendClient(String content, int clientID) {
+        if (!players.containsKey(clientID))
+            return false;
+
+        // TODO posso fazer aqui a cena de repetir três vezes até mandar, pq aqui é udp que só é mandado uma vez
+        UDPClient player = players.get(clientID);
+        return threadPool.run(() -> player.sendUDP(content)) == null;
+        ///TODO Se pintar passar em result o rsultado? no estilo do map também?
     }
 
-    public void sendPlayerAction() {
-        // TODO - notify a player sth happened - if failed a shoot, got a shoot or even got shot.
+    // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
+    public void startGameUpdates() {
+        threadPool.run(() -> {
+            for (UDPClient player : players.values()) {
+                player.sendUDP(requestMap());
+            }
+        }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
-    // Bubbling up methods - passed to GameLogic
-    public void receivedAction() {
-        // TODO - pass action to GameLogic on ServerSide, either its moving, shooting, etc
+    public void reportToLogic() {
+        //TODO Call a game logic function to pass it the received info
+        //TODO mudar tb o valor de retorno
     }
 
-    public void newPlayer() {
-        // TODO - pass action to GameLogic on ServerSide, server side will after call a method to send the player its position, probably a new board
+    // TODO rquest a string representation of the map from the UI
+    public String requestMap() {
+        //gameAPI.getMap();
+        return "";
     }
-
-    // TODO: ... other bubbling up methods...
 }

@@ -18,15 +18,24 @@ public class UDPClient {
     }
 
     // TODO to be called inside a thread
-    public String sendUDP(String msg) throws Exception {
+    public String sendUDP(String msg) {
         buf = msg.getBytes();
 
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
-        socket.send(packet);
+        try {
+            socket.send(packet);
+        } catch (java.io.IOException e) {
+            System.err.println(("Failed to send message to " + address + " on port " + port));
+            return null;
+        }
 
         packet = new DatagramPacket(buf, buf.length);
-        socket.receive(packet);
-
+        try {
+            socket.receive(packet);
+        } catch (java.io.IOException e) {
+            System.err.println(("Failed to receive message from " + address + " on port " + port));
+            return null;
+        }
         return new String(packet.getData(), 0, packet.getLength());
     }
  

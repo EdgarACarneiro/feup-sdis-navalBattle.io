@@ -19,16 +19,16 @@ public class ServerSender {
         this.serverPort = Integer.parseInt(serverPort);
     }
 
-    public boolean send(Map<String, String> content) {
+    public String sendRequest(Map<String, String> content, String context) {
         HTTPRequest request;
 
         try {
             request = new HTTPRequest(serverIP, serverPort);
-            request.makeRequest(HttpMethod.GET,"app/create", content);
+            return request.makeRequest(HttpMethod.GET, context, content);
+
         } catch (java.io.IOException e) {
             System.err.println("Failed to create Http Request with server " + serverIP + " on port " + serverPort);
-            return false;
+            return null;
         }
-        return true;
     }
 }

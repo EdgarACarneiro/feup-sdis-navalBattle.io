@@ -1,5 +1,6 @@
 package Utils;
 
+import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -32,12 +33,12 @@ public class ThreadPool {
 
     //TODO: Methods to handle the threadPool - not doing nth with returned Futures for now
 
-    public void run(Runnable runObject) {
-        executor.submit(runObject);
+    public Future<?> run(Runnable runObject) {
+        return executor.submit(runObject);
     }
 
-    public void run(Runnable runObject, int delay) {
-        executor.schedule(runObject, delay, TimeUnit.MILLISECONDS);
+    public Future<?> run(Runnable runObject, int delay) {
+        return executor.schedule(runObject, delay, TimeUnit.MILLISECONDS);
     }
 
     public void run(Runnable runObject, int delay, int period) {

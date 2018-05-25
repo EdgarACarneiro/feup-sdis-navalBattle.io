@@ -109,7 +109,7 @@ public class HTTPRequest {
 		
 		if (Integer.parseInt(statuscode) != 200) {
 			System.out.println("Response code: " + statuscode);
-			throw new IOException(response);
+			return null;
 		}
 		return response;
 	}
