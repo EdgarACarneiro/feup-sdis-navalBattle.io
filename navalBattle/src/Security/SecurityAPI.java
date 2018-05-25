@@ -29,7 +29,7 @@ public class SecurityAPI {
 			return;
 		
 		File keytool = new File(System.getProperty("java.home"), "bin/keytool");
-		new File("KeyStore").mkdirs();
+		new File("Keystore").mkdirs();
 		String[] genkeyCmd = new String[] { keytool.toString(), "-genkey", "-keyalg", "RSA", "-alias",
 				"navalBattle_alias", "-validity", "365", "-keysize", "2048", "-dname",
 				"cn=navalBattle,ou=SDIS,o=FEUP,c=PT", "-keystore", KEYSTORE_FILE.getAbsolutePath(), "-storepass",
