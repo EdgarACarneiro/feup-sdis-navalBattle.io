@@ -30,8 +30,10 @@ public class RestServer {
 		try {
 			this.httpsServer = HttpsServer.create(new InetSocketAddress(port), BACKLOG);
 			SSLContext sslContext = SecurityAPI.getSSLContext();
+
 			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext));
 			httpsServer.createContext(context, handler);
+
 		} catch (Exception e) {
 			System.err.println("An unexpected occurred creating the https server, try again!!!");
 		}

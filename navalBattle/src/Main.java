@@ -5,10 +5,10 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		if (args[0].equals("Server") && args.length == 2)
+		if (args[0].equals("server") && args.length == 2)
             new Server(args[1]);
 
-        else if (args[0].equals("Player") && args.length == 3)
+        else if (args[0].equals("player") && args.length == 3)
 		    new Player(args[1], args[2]);
 
         else printUsage();

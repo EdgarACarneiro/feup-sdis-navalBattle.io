@@ -25,7 +25,9 @@ public class PlayersListener implements Runnable, HigherLayer {
     public void receiveReport(Message message) {
         if (!(message instanceof RESTMessage))
             System.err.println("Received unexpected type of message");
+
         // TODO -- Do stuff with received RESTMessage (bubble it up)
+        superior.receiveReport((RESTMessage) message);
     }
 
     @Override

@@ -1,6 +1,7 @@
 package Server;
 
 import Communication.UDP.UDPClient;
+import Messages.Message;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
 
@@ -31,6 +32,9 @@ public class Server {
     private void run() {
         //gameAPI.startGame();
         threadPool.run(listener);
+
+        // TODO Eliminar, está só para teste
+        startGameUpdates();
     }
 
     /**
@@ -61,14 +65,22 @@ public class Server {
         }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
+    // TODO change ver o que ele vai receber
+    public void receiveReport(RESTMessage clientMessage) {
+
+        // TODO: so para testar, tem de ser mudado
+        replyClient(clientMessage, 200, "PINTA BRO");
+    }
+
     public void reportToLogic() {
         //TODO Call a game logic function to pass it the received info
         //TODO mudar tb o valor de retorno
     }
 
-    // TODO rquest a string representation of the map from the UI
+    // TODO request a string representation of the map from the UI -> or the update to send wtv
     public String requestMap() {
         //gameAPI.getMap();
-        return "";
+        // TODO change- only ffor testing
+        return "CHICABALA";
     }
 }

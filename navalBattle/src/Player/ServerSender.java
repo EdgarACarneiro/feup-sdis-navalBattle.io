@@ -20,10 +20,8 @@ public class ServerSender {
     }
 
     public String sendRequest(Map<String, String> content, String context) {
-        HTTPRequest request;
-
         try {
-            request = new HTTPRequest(serverIP, serverPort);
+            HTTPRequest request = new HTTPRequest(serverIP, serverPort);
             return request.makeRequest(HttpMethod.GET, context, content);
 
         } catch (java.io.IOException e) {

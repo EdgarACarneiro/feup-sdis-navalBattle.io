@@ -20,7 +20,7 @@ public class Player {
         // TODO initialize logic here
 
         run();
-        new UI_API();
+        //new UI_API();
     }
 
     private void run() {
@@ -50,5 +50,14 @@ public class Player {
     params.put("x", "1");
     params.put("b", "2");
     */
+
+    private void teste() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            HashMap<String, String> teste = new HashMap<>();
+            teste.put("value", sc.nextLine());
+            sendServer(teste, "/app");
+        }
+    }
 
 }
