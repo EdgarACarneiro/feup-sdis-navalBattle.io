@@ -11,7 +11,7 @@ public class PlayersListener implements Runnable, HigherLayer {
     // Class this class reports to
     Server superior;
 
-    // TODO: Provavelmente fica mais a cima
+    // TODO: Fica mais a cima
     private static final String CONTEXT = "/app";
 
     int port;

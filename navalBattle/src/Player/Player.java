@@ -3,7 +3,9 @@ package Player;
 import UI.UI_API;
 import Utils.ThreadPool;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Player {
 
@@ -25,12 +27,16 @@ public class Player {
         threadPool.run(listener);
     }
 
+    /**
+     * METHODS FOR INTERACTION WITH HIGHER LAYER
+     */
+
     // TODO function might be more complex than this
-    public boolean sendServer(Map<String, String> content, String context, String result) {
+    public boolean sendServer(Map<String, String> content, String context) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
         return threadPool.run(() -> sender.sendRequest(content, context)) == null;
 
-        ///TODO Se pintar passar em result o rsultado? no estilo do map também?
+        ///TODO Ao pintar passar o resultado para o dispatcher do Vitor
     }
 
     public void reportToLogic() {
@@ -42,6 +48,7 @@ public class Player {
     // Como vai o conteudo dos requests po servidor
     Map<String, String> params= new HashMap<>();
     params.put("x", "1");
-    params.put("b", "2");*/
+    params.put("b", "2");
+    */
 
 }

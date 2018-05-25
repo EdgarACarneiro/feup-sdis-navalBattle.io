@@ -1,6 +1,7 @@
 package Server;
 
 import Communication.UDP.UDPClient;
+import Messages.RESTMessage;
 import Utils.ThreadPool;
 
 import java.util.HashMap;
@@ -32,6 +33,10 @@ public class Server {
         threadPool.run(listener);
     }
 
+    /**
+     * METHODS FOR INTERACTION WITH HIGHER LAYERS
+     */
+
     // TODO function might be more complex than this
     public boolean sendClient(String content, int clientID) {
         if (!players.containsKey(clientID))
@@ -41,6 +46,10 @@ public class Server {
         UDPClient player = players.get(clientID);
         return threadPool.run(() -> player.sendUDP(content)) == null;
         ///TODO Se pintar passar em result o rsultado? no estilo do map também?
+    }
+
+    public void replyClient(RESTMessage clientMessage, int statusCode, String content) {
+        threadPool.run(() -> new RESTMessage(clientMessage, statusCode, content).sendAsReply());
     }
 
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo

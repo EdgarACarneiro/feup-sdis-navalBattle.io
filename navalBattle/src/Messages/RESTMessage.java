@@ -1,6 +1,7 @@
 package Messages;
 
 import Communication.REST.HttpMethod;
+import Communication.REST.RestServerHandler;
 
 import com.sun.net.httpserver.HttpExchange;
 import java.io.BufferedReader;
@@ -25,6 +26,8 @@ public class RESTMessage implements Message {
     private String method;
 
     private String content;
+
+    private int statusCode;
 
     private HashMap<String, String> params;
 
@@ -63,6 +66,16 @@ public class RESTMessage implements Message {
         }
     }
 
+    public RESTMessage(RESTMessage firstMessage, int statusCode, String content) {
+        this.exchange = firstMessage.getExchange();
+        this.statusCode = statusCode;
+        this.content = content;
+    }
+
+    public void sendAsReply() {
+        RestServerHandler.sendResponse(exchange, statusCode, content);
+    }
+
     private HashMap<String, String> extractParams(String query) {
         HashMap<String, String> params = new HashMap<String, String>();
 
@@ -96,5 +109,9 @@ public class RESTMessage implements Message {
 
     public HashMap<String, String> getParams() {
         return params;
+    }
+
+    public HttpExchange getExchange() {
+        return exchange;
     }
 }
