@@ -4,12 +4,12 @@ import Communication.REST.RestServer;
 import Communication.REST.RestServerHandler;
 import Communication.UDP.UDPServer;
 import Security.SecurityAPI;
-import Server.PlayersListener;
+import Server.PlayersHandler;
 import Player.ServerListener;
 
 public class CommunicationAPI {
 
-    public static void channel(PlayersListener higherLayer, int port, String context) {
+    public static void channel(PlayersHandler higherLayer, int port, String context) {
         SecurityAPI.generateCertificate();
         new RestServer(port, context, new RestServerHandler(higherLayer)).run();
     }

@@ -25,6 +25,9 @@ public class Player {
 
     private void run() {
         threadPool.run(listener);
+
+        //TODO DELETE AFTER, for tests
+        threadPool.run(this::teste);
     }
 
     /**

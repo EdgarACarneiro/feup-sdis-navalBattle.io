@@ -3,6 +3,7 @@ package Communication.UDP;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.InetSocketAddress;
 
 public class UDPClient {
     private DatagramSocket socket;
@@ -11,9 +12,14 @@ public class UDPClient {
  
     private byte[] buf;
  
-    public UDPClient(String address, int port) throws Exception {
-        socket = new DatagramSocket();
-        this.address = InetAddress.getByName(address);
+    public UDPClient(InetSocketAddress address, int port) {
+        try {
+            socket = new DatagramSocket();
+        } catch(java.net.SocketException e) {
+            System.err.println("Failed to create UDP Client with IP " + address + " on port " + port);
+        }
+
+        this.address = address.getAddress();
         this.port = port;
     }
 

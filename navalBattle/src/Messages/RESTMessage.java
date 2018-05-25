@@ -7,6 +7,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetSocketAddress;
 import java.util.HashMap;
 
 public class RESTMessage implements Message {
@@ -113,5 +114,9 @@ public class RESTMessage implements Message {
 
     public HttpExchange getExchange() {
         return exchange;
+    }
+
+    public InetSocketAddress getAddress() {
+        return exchange.getRemoteAddress();
     }
 }

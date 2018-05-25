@@ -12,9 +12,6 @@ public class ServerListener implements Runnable, HigherLayer {
     // Class this class reports to
     Player superior;
 
-    // TODO: ser o jogador a escolher o port, para caso este nao esteja disponivel
-    private static final int FIXED_PORT_ACROSS_APP = 8080;
-
     public ServerListener(Player higherlayer) {
         superior = higherlayer;
     }

@@ -1,15 +1,12 @@
 package Server;
 
 import Communication.UDP.UDPClient;
-import Messages.Message;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
 
-import java.util.HashMap;
-
 public class Server {
 
-    private PlayersListener listener;
+    private PlayersHandler listener;
     private ThreadPool threadPool;
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
@@ -17,13 +14,9 @@ public class Server {
     // Tem que ir p cima istooo
     private static final String CONTEXT = "/app";
 
-    //Mapeamento do socket a ser usado para cada jogador/cliente, sendo que estes têm um id
-    HashMap<Integer, UDPClient> players;
-
     public Server(String port) {
         threadPool = new ThreadPool();
-        listener = new PlayersListener(this, Integer.parseInt(port));
-        players = new HashMap<>();
+        listener = new PlayersHandler(this, Integer.parseInt(port));
         //gameAPI = new GameAPI();
 
         run();
@@ -41,14 +34,9 @@ public class Server {
      * METHODS FOR INTERACTION WITH HIGHER LAYERS
      */
 
-    // TODO function might be more complex than this
     public boolean sendClient(String content, int clientID) {
-        if (!players.containsKey(clientID))
-            return false;
+        return threadPool.run(() -> listener.sendClient(content, clientID)) == null;
 
-        // TODO posso fazer aqui a cena de repetir três vezes até mandar, pq aqui é udp que só é mandado uma vez
-        UDPClient player = players.get(clientID);
-        return threadPool.run(() -> player.sendUDP(content)) == null;
         ///TODO Se pintar passar em result o rsultado? no estilo do map também?
     }
 
@@ -66,7 +54,7 @@ public class Server {
     }
 
     // TODO change ver o que ele vai receber
-    public void receiveReport(RESTMessage clientMessage) {
+    public void receiveReport(RESTMessage clientMessage, int clientID) {
 
         // TODO: so para testar, tem de ser mudado
         replyClient(clientMessage, 200, "PINTA BRO");
