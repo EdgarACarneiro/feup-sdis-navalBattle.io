@@ -13,11 +13,11 @@ public class ServerLogic {
      */
     private ConcurrentHashMap<String, Integer> usersBoats;
     
-	public void createMap() {
+	public void updateMap() {
 		length = numPlayers*4;
 		for (int i = 0 ; i < length ; i++) {
 			for (int j = 0 ; j < length ; j++) {
-				usersBoats.putIfAbsent(i + "+" + j, 0); // Populate with water
+				usersBoats.putIfAbsent(i + "+" + j, -1); // Populate with water
 			}
 		}
 	}
@@ -38,8 +38,8 @@ public class ServerLogic {
 	}
 	
 	public boolean attack(int col, int row) {
-		if (usersBoats.get(col + "+" + row) != 0) { // 0 - Water
-			usersBoats.put(col + "+" + row, 1); // 1 - Destroyed ship
+		if (usersBoats.get(col + "+" + row) != -1) { // -1 - Water
+			usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
 			return true;
 		}
 		
@@ -47,10 +47,13 @@ public class ServerLogic {
 	}
 	
 	public void newPlayer(int id) {
+		System.out.println(numPlayers);
 		numPlayers++;
 		
 		Random rand = new Random();
-
+		
+		System.out.println(id);
+			
 		int  col = rand.nextInt(length);
 		int  row = rand.nextInt(length);
 		
