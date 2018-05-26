@@ -11,7 +11,7 @@ public class GameEncoder {
 				sb.append(server.getFromId(i,j, id));
 				if(j != server.getLength()-1) sb.append(",");
 			}
-			System.out.println(";");
+			sb.append(";");
 		}
 		sb.deleteCharAt(sb.length()-1);
 		return sb.toString();

@@ -3,7 +3,6 @@ package Server;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
 import GameLogic.ServerLogic;
-import GameLogic.GameEncoder;
 
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -92,6 +91,7 @@ public class Server {
 
     // TODO request a string representation of the map from the UI -> or the update to send wtv
     public String requestMap(int clientID) {
+    	game.updateMap();
     	return game.requestMap(clientID);
     }
 }
