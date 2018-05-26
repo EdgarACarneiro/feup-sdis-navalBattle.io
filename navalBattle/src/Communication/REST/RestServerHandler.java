@@ -25,7 +25,8 @@ public class RestServerHandler implements HttpHandler {
     }
 
 	public void handle(HttpExchange exchange) {
-        dispatcher.run(() -> reportToSuperior(exchange));
+        System.out.println("FDS");
+		dispatcher.run(() -> reportToSuperior(exchange));
 	}
 
 	public static void sendResponse(HttpExchange t, int statusCode, String response) {

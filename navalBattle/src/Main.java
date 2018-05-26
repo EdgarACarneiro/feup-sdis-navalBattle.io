@@ -5,7 +5,7 @@ public class Main {
 
 	public static void main(String[] args) {
 
-		if (args[0].equals("server") && args.length == 2)
+		if (args[0].equals("game") && args.length == 2)
             new Server(args[1]);
 
         else if (args[0].equals("player") && args.length == 3)
@@ -17,7 +17,7 @@ public class Main {
 	private static void printUsage() {
 	    System.err.println("Wrong usage of program!");
 	    System.out.println("Correct usage:\n" +
-                "server <port>, in case you intend to launch a game server;" +
+                "game <port>, in case you intend to launch a game server;" +
                 "player <serverIP> <serverPort>, in case you intend to play;");
     }
 }

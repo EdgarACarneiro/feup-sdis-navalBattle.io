@@ -37,7 +37,7 @@ public class Player {
     // TODO function might be more complex than this
     public boolean sendServer(Map<String, String> content, String context) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
-        return threadPool.run(() -> sender.sendRequest(content, context)) == null;
+        return threadPool.run(() -> sender.sendRequest(context, content)) == null;
 
         ///TODO Ao pintar passar o resultado para o dispatcher do Vitor
     }

@@ -19,7 +19,7 @@ public class ServerSender {
         this.serverPort = Integer.parseInt(serverPort);
     }
 
-    public String sendRequest(Map<String, String> content, String context) {
+    public String sendRequest(String context, Map<String, String> content) {
         try {
             HTTPRequest request = new HTTPRequest(serverIP, serverPort);
             return request.makeRequest(HttpMethod.GET, context, content);

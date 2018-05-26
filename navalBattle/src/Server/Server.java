@@ -1,6 +1,5 @@
 package Server;
 
-import Communication.UDP.UDPClient;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
 
@@ -34,7 +33,7 @@ public class Server {
     public boolean sendClient(String content, int clientID) {
         return threadPool.run(() -> listener.sendClient(content, clientID)) == null;
 
-        ///TODO Se pintar passar em result o rsultado? no estilo do map também?
+        // TODO Se pintar passar em result o rsultado? no estilo do map também?
     }
 
     public void replyClient(RESTMessage clientMessage, int statusCode, String content) {

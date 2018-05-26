@@ -68,6 +68,9 @@ public class PlayersHandler implements Runnable, HigherLayer {
     }
 
     public void updateAllClients(String update, ThreadPool threadPool) {
+        // TODO: test purposes
+        System.out.println("Sending message to " + playersUDP.size() + " players");
+
         for (UDPClient player : playersUDP.values())
             threadPool.run(() -> player.sendUDP(update));
     }
