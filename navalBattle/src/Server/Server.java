@@ -1,32 +1,34 @@
 package Server;
 
-import GameLogic.GameAPI;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
+import GameLogic.ServerLogic;
+import GameLogic.GameEncoder;
 
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
+
 public class Server {
 
     private PlayersHandler handler;
     private ThreadPool threadPool;
-    private GameAPI game;
+    private ServerLogic game;
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
     public Server(String port) {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
-        //game = new GameAPI();
+        game = new ServerLogic();
 
         run();
     }
 
     private void run() {
-        //gameAPI.startGame();
+        game.updateMap();
         threadPool.run(handler);
 
         // TODO Eliminar, está só para teste
@@ -88,7 +90,10 @@ public class Server {
 
     // TODO request a string representation of the map from the UI -> or the update to send wtv
     public String requestMap(int clientID) {
-        //return game.requestMap(clientID);
+    	//String map = GameEncoder.encodeForPlayer(game, clientID);
+    	
+    	//System.out.println(map);
+    	
         return "JA DA BOYS";
     }
 }
