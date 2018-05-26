@@ -15,7 +15,7 @@ public class GameLogicAPI {
 		Date dNow = new Date( );
 		
     		  
-		System.out.println("Current Date: " + ft.format(dNow));
+		//System.out.println("Current Date: " + ft.format(dNow));
 	}
 	
 	public void parseMap(String mapString) {

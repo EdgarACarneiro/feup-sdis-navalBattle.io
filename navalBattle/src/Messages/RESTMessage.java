@@ -35,6 +35,7 @@ public class RESTMessage implements Message {
     private HttpExchange exchange;
 
     public RESTMessage(HttpExchange exchange) {
+
         this.exchange = exchange;
         String path = exchange.getRequestURI().getPath();
         String[] paths = path.split("/"); // path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
@@ -55,7 +56,7 @@ public class RESTMessage implements Message {
          * ISto ou passamos um handler do path como argumento e esse handler retorna a
          * string e o status a responder
          */
-        switch (paths[2]) {
+        /*switch (paths[2]) {
             case "attack":
                 // chama função relativa ao url no rest_api com os parâmetros obtidos
                 // anteriormente
@@ -64,7 +65,7 @@ public class RESTMessage implements Message {
                 break;
             default:
                 //sendResponse(exchange, HTTP_NOTFOUND_STATUS, "Not Found");
-        }
+        }*/
     }
 
     public RESTMessage(RESTMessage firstMessage, int statusCode, String content) {
