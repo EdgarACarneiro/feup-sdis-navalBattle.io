@@ -37,7 +37,7 @@ public class ServerLogic {
 		return 0;
 	}
 	
-	public boolean attack(int col, int row, String position) {
+	public boolean attack(int col, int row) {
 		if (usersBoats.get(col + "+" + row) != 0) { // 0 - Water
 			usersBoats.put(col + "+" + row, 1); // 1 - Destroyed ship
 			return true;
@@ -55,19 +55,5 @@ public class ServerLogic {
 		int  row = rand.nextInt(length);
 		
 		usersBoats.put(col + "+" + row, id);
-	}
-	
-	public String encodeForPlayer(int id) {
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < getLength(); i++) {
-			sb.append("[");
-			for(int j = 0; j < getLength(); j++) {
-				sb.append(getFromId(i,j, id));
-				if(j != getLength()-1) sb.append(",");
-			}
-			sb.append("]\n");
-		}
-		sb.deleteCharAt(sb.length()-1);
-		return sb.toString();
 	}
 }
