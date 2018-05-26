@@ -12,7 +12,7 @@ public class GameDecoder {
     
     public static void parseMap(GameAPI player, String mapString) {
 		
-		String[] columns = mapString.split("-");
+		String[] columns = mapString.split(";");
 		
 		int[][] map = new int[columns.length][columns.length];
 		
