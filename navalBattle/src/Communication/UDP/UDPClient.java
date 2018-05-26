@@ -12,14 +12,14 @@ public class UDPClient {
  
     private byte[] buf;
  
-    public UDPClient(InetSocketAddress address, int port) {
+    public UDPClient(InetAddress address, int port) {
         try {
             socket = new DatagramSocket();
         } catch(java.net.SocketException e) {
             System.err.println("Failed to create UDP Client with IP " + address + " on port " + port);
         }
 
-        this.address = address.getAddress();
+        this.address = address;
         this.port = port;
     }
 
@@ -30,19 +30,11 @@ public class UDPClient {
         DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
         try {
             socket.send(packet);
+            return msg;
         } catch (java.io.IOException e) {
             System.err.println(("Failed to send message to " + address + " on port " + port));
             return null;
         }
-
-        packet = new DatagramPacket(buf, buf.length);
-        try {
-            socket.receive(packet);
-        } catch (java.io.IOException e) {
-            System.err.println(("Failed to receive message from " + address + " on port " + port));
-            return null;
-        }
-        return new String(packet.getData(), 0, packet.getLength());
     }
  
     public void close() {

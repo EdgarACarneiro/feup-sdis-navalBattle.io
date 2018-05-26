@@ -38,6 +38,10 @@ public class Player {
     public boolean sendServer(Map<String, String> content, String context) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
         Future result = threadPool.run(() -> sender.sendRequest(context, content));
+
+        //TODO Do stuff in between, neste momento ela bloqueia aqui no get, qd pode tar a executar outras cenas
+
+
         try {
             System.out.println(result.get());
         } catch (InterruptedException | ExecutionException e) {

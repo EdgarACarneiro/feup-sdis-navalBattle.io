@@ -7,6 +7,7 @@ import Messages.RESTMessage;
 import Utils.HigherLayer;
 import Utils.ThreadPool;
 
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -21,7 +22,7 @@ public class PlayersHandler implements Runnable, HigherLayer {
     int port;
 
     //Mapeamento do socket a ser usado para cada jogador/cliente, sendo que estes têm um id e o respetivo cliente udp
-    private ConcurrentHashMap<InetSocketAddress, Integer> players;
+    private ConcurrentHashMap<InetAddress, Integer> players;
     private ConcurrentHashMap<Integer, UDPClient> playersUDP;
 
     public PlayersHandler(Server server, int port) {
@@ -39,15 +40,15 @@ public class PlayersHandler implements Runnable, HigherLayer {
         RESTMessage restMsg = (RESTMessage) message;
         int clientID;
 
-        if (players.containsKey(restMsg.getAddress()))
-            clientID = players.get(restMsg.getAddress());
+        InetAddress address = restMsg.getAddress().getAddress();
+        if (players.containsKey(address))
+            clientID = players.get(address);
         else {
             clientID = players.size();
-            players.put(restMsg.getAddress(), clientID);
-            playersUDP.put(clientID, new UDPClient(restMsg.getAddress(), FIXED_PORT_ACROSS_APP));
+            players.put(address, clientID);
+            playersUDP.put(clientID, new UDPClient(address, FIXED_PORT_ACROSS_APP));
         }
 
-        // TODO -- Do stuff with received RESTMessage (bubble it up)
         superior.receiveReport((RESTMessage) message, clientID);
     }
 

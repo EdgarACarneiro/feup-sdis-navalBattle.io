@@ -22,6 +22,8 @@ public class ServerListener implements Runnable, HigherLayer {
             System.err.println("Received unexpected type of message");
 
         // TODO -- Do stuff with received UDPMessage (bubble it up)
+        UDPMessage msgUDP = (UDPMessage) message;
+        System.out.println(msgUDP.getContent());
     }
 
     @Override
