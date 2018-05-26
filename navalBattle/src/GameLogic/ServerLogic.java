@@ -1,11 +1,11 @@
 package GameLogic;
 
+import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerLogic {
 	
-	private int height;
-	private int width;
+	private int length;
 	private int numPlayers;
 
     /**
@@ -14,19 +14,16 @@ public class ServerLogic {
     private ConcurrentHashMap<String, Integer> usersBoats;
     
 	public void createMap() {
-		for (int i = 0 ; i < numPlayers*4 ; i++) {
-			for (int j = 0 ; j < numPlayers*4 ; j++) {
-				usersBoats.put(i + "+" + j, 0); // Populate with water
+		length = numPlayers*4;
+		for (int i = 0 ; i < length ; i++) {
+			for (int j = 0 ; j < length ; j++) {
+				usersBoats.putIfAbsent(i + "+" + j, 0); // Populate with water
 			}
 		}
 	}
 	
-	public int height() {
-		return height;
-	}
-
-	public int width() {
-		return width;
+	public int getLength() {
+		return length;
 	}
 	
 	public int get(int col, int row) {
@@ -34,27 +31,39 @@ public class ServerLogic {
 	}
 	
 	public int getFromId(int col, int row, int id) {
-		if (usersBoats.get(col + "+" + row) == id)
-			return usersBoats.get(col + "+" + row);
+		int pos = usersBoats.get(col + "+" + row);
+		if (pos == id)
+			return pos;
 		return 0;
 	}
 	
 	public boolean attack(int col, int row, String position) {
 		if (usersBoats.get(col + "+" + row) != 0) { // 0 - Water
-			usersBoats.replace(col + "+" + row, 1); // 1 - Destroyed ship
+			usersBoats.put(col + "+" + row, 1); // 1 - Destroyed ship
 			return true;
 		}
 		
 		return false;
 	}
 	
+	public void newPlayer(int id) {
+		numPlayers++;
+		
+		Random rand = new Random();
+
+		int  col = rand.nextInt(length);
+		int  row = rand.nextInt(length);
+		
+		usersBoats.put(col + "+" + row, id);
+	}
+	
 	public String encodeForPlayer(int id) {
 		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < height(); i++) {
+		for(int i = 0; i < getLength(); i++) {
 			sb.append("[");
-			for(int j = 0; j < width(); j++) {
+			for(int j = 0; j < getLength(); j++) {
 				sb.append(getFromId(i,j, id));
-				if(j != width()-1) sb.append(",");
+				if(j != getLength()-1) sb.append(",");
 			}
 			sb.append("]\n");
 		}
