@@ -12,35 +12,56 @@ import Server.Server;
 
 public class Routes {
 
-	private static HashMap<Pair<String, RESTMethod>, Method> routes = new HashMap<>();
+	Player player;
+	Server server;
 
-	static{
+	private static HashMap<Pair<String, RESTMethod>, String> routes = new HashMap<>();
+
+	public Routes(Player player){
+		this.player = player;
+		
 		try {
-			routes.put(new Pair<>("attack", RESTMethod.GET), Player.class.getMethod("attack")); //jogador ataca -> server calcula se acertou mas o alvo s� � atualizado no turno seguinte
-			routes.put(new Pair<>("move", RESTMethod.POST), Player.class.getMethod("move")); //move o jogador
-			routes.put(new Pair<>("updateGame", RESTMethod.GET), Server.class.getMethod("updateGame")); //manda estado do jogo a todos os jogadores
-			routes.put(new Pair<>("create", RESTMethod.GET), Server.class.getMethod("create")); // New Player
-			routes.put(new Pair<>("create", RESTMethod.POST), ServerLogic.class.getMethod("newPlayer")); //cria um novo jogador
-
-			//routes.put(new Pair<>("targetHit", RESTMethod.POST), TestApp.class.getMethod("targetHit"));	// resposta do server (se acertou ou n�o)
-			//routes.put(new Pair<>("removeBlock", PATCH), TestApp.class.getMethod("removeBlock")); //se o jogador ficou com tamanho reduzido
+			routes.put(new Pair<>("attack", RESTMethod.GET), "attack"); //jogador ataca -> server calcula se acertou mas o alvo s� � atualizado no turno seguinte
+			routes.put(new Pair<>("move", RESTMethod.POST), "move"); //move o jogador
+			
 		}
 		catch (Exception e) {e.printStackTrace();}
+		
 	}
 
-	public static void callAction(Pair<String, RESTMethod> route, String params) {
-		Method action = routes.get(route);
-
-		if (action == null){
-			System.out.println("Error");
-			return;
-		}
+	public Routes(Server server){
+		this.server = server; 
 
 		try {
-			action.invoke(null, params);
-		} catch (Exception e) {
-			System.out.println("An unexpected error ocurred");
+
+		routes.put(new Pair<>("updateGame", RESTMethod.GET),"updateGame"); //manda estado do jogo a todos os jogadores
+		routes.put(new Pair<>("create", RESTMethod.POST), "create"); // New Player
+
 		}
+		catch (Exception e) {e.printStackTrace();}
+		
 	}
 
+
+	public void callAction(Pair<String, RESTMethod> route, String params) {
+
+		String action = routes.get(route);
+
+
+		switch(action){
+			case "attack":
+				this.player.attack();
+				break;
+			case "move":
+				this.player.move();
+				break;
+			case "updateGame":
+				this.server.updateGame();
+				break;
+			case "create":
+				this.server.create();
+				break;
+
+		}
+	}
 }

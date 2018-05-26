@@ -7,19 +7,31 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
+import GameLogic.Routes;
+
+import Utils.Pair;
+import Utils.RESTMethod;
 
 public class Player {
 
-	private ServerSender sender;
-	private ServerListener listener;
+    private ServerSender sender;
+    private ServerListener listener;
     private ThreadPool threadPool;
     private GameAPI game;
+    private Routes routes;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
         game = new GameAPI();
+        routes = new Routes(this);
+
+        //route testing
+        RESTMethod r = RESTMethod.GET;
+        String action = "move";
+        Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
+        routes.callAction(url, "teste");
 
         run();
     }
@@ -60,6 +72,15 @@ public class Player {
     params.put("x", "1");
     params.put("b", "2");
     */
+
+
+    public void attack(){
+        System.out.println("Send Attack to Server here");
+    }
+
+    public void move(){
+        System.out.println("Move here and send to server");
+    }
 
     private void teste() {
         Scanner sc = new Scanner(System.in);

@@ -8,13 +8,17 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import GameLogic.Routes;
 
+import Utils.Pair;
+import Utils.RESTMethod;
 
 public class Server {
 
     private PlayersHandler handler;
     private ThreadPool threadPool;
     private ServerLogic game;
+    private Routes routes;
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
@@ -22,6 +26,13 @@ public class Server {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
         game = new ServerLogic();
+        routes = new Routes(this);
+
+        //route testing
+        RESTMethod r = RESTMethod.GET;
+        String action = "updateGame";
+        Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
+        routes.callAction(url, "teste");
 
         run();
     }
@@ -91,7 +102,15 @@ public class Server {
 
     // TODO request a string representation of the map from the UI -> or the update to send wtv
     public String requestMap(int clientID) {
-    	game.updateMap();
-    	return game.requestMap(clientID);
+        game.updateMap();
+        return game.requestMap(clientID);
+    }
+
+    public void updateGame(){
+        System.out.println("update the game to everyone here");
+    }
+
+     public void create(){
+        System.out.println("create a new player here");
     }
 }
