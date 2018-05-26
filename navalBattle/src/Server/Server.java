@@ -1,8 +1,11 @@
 package Server;
 
+import GameLogic.GameAPI;
 import Messages.RESTMessage;
 import Utils.ThreadPool;
 
+import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -10,13 +13,14 @@ public class Server {
 
     private PlayersHandler handler;
     private ThreadPool threadPool;
+    private GameAPI game;
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
     public Server(String port) {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
-        //gameAPI = new GameAPI();
+        //game = new GameAPI();
 
         run();
     }
@@ -55,7 +59,12 @@ public class Server {
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
     public void startGameUpdates() {
         threadPool.run(() -> {
-            handler.updateAllClients(requestMap(), threadPool);
+            Enumeration<Integer> keys = handler.getClientsIDs();
+
+            while(keys.hasMoreElements()) {
+                int key = keys.nextElement();
+                threadPool.run(() -> handler.updateClient(requestMap(key), key));
+            }
         }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
@@ -66,20 +75,20 @@ public class Server {
 
     // TODO change ver o que ele vai receber
     public void receiveReport(RESTMessage clientMessage, int clientID) {
-
+        //String statusCode =
+        reportToLogic(clientMessage.getContext(), clientMessage.getParams(), clientID);
         // TODO: so para testar, tem de ser mudado
-        replyClient(clientMessage, 200, "PINTA BRO");
+        replyClient(clientMessage, 200 /* statusCode */, "PINTA BRO");
     }
 
-    public void reportToLogic() {
+    public void reportToLogic(String context, HashMap params, int clientID) {
         //TODO Call a game logic function to pass it the received info
         //TODO mudar tb o valor de retorno
     }
 
     // TODO request a string representation of the map from the UI -> or the update to send wtv
-    public String requestMap() {
-        //gameAPI.getMap();
-        // TODO change- only ffor testing
-        return "CHICABALA";
+    public String requestMap(int clientID) {
+        //return game.requestMap(clientID);
+        return "JA DA BOYS";
     }
 }

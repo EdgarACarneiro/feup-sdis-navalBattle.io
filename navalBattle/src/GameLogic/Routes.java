@@ -39,7 +39,6 @@ public class Routes {
 		} catch (Exception e) {
 			System.out.println("An unexpected error ocurred");
 		}
-		return;
 	}
 
 }

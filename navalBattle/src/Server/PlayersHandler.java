@@ -9,6 +9,7 @@ import Utils.ThreadPool;
 
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class PlayersHandler implements Runnable, HigherLayer {
@@ -34,6 +35,7 @@ public class PlayersHandler implements Runnable, HigherLayer {
 
     @Override
     public void receiveReport(Message message) {
+        System.out.println("tas a dar?'");
         if (!(message instanceof RESTMessage))
             System.err.println("Received unexpected type of message");
 
@@ -68,15 +70,12 @@ public class PlayersHandler implements Runnable, HigherLayer {
         return player.sendUDP(content);
     }
 
-    public void updateAllClients(String update, ThreadPool threadPool) {
-        // TODO: test purposes
-        System.out.println("Sending message to " + playersUDP.size() + " players");
-
-        for (UDPClient player : playersUDP.values())
-            threadPool.run(() -> player.sendUDP(update));
+    public Enumeration<Integer> getClientsIDs() {
+        return playersUDP.keys();
     }
 
     public void updateClient(String update, int clientId) {
+        System.out.println("Sending to player " + clientId); //TODO: delete
         if (playersUDP.containsKey(clientId)) {
             playersUDP.get(clientId).sendUDP(update);
         } else

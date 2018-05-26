@@ -28,6 +28,8 @@ public class RESTMessage implements Message {
 
     private String content;
 
+    private String context = null;
+
     private int statusCode;
 
     private HashMap<String, String> params;
@@ -49,23 +51,10 @@ public class RESTMessage implements Message {
         } catch (java.io.IOException e) {
             // TODO sth e avaliar se isto vai aqui
         }
-
         params = extractParams(params_string);
 
-        /*
-         * ISto ou passamos um handler do path como argumento e esse handler retorna a
-         * string e o status a responder
-         */
-        /*switch (paths[2]) {
-            case "attack":
-                // chama função relativa ao url no rest_api com os parâmetros obtidos
-                // anteriormente
-                // o retorno da função do rest_api pode ser a resposta ao "pedido" nesse caso
-                // chamar sendResponse(HttpExchange t, int statusCode, String response)
-                break;
-            default:
-                //sendResponse(exchange, HTTP_NOTFOUND_STATUS, "Not Found");
-        }*/
+        if (paths.length > 2 )
+            context = paths[2];
     }
 
     public RESTMessage(RESTMessage firstMessage, int statusCode, String content) {
@@ -117,7 +106,12 @@ public class RESTMessage implements Message {
         return exchange;
     }
 
+    public String getContext() {
+        return context;
+    }
+
     public InetSocketAddress getAddress() {
         return exchange.getRemoteAddress();
     }
+
 }

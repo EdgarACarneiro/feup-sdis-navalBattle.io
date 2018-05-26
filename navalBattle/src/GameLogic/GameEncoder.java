@@ -1,7 +1,5 @@
 package GameLogic;
 
-import GameLogic.ServerLogic;
-
 public class GameEncoder {
     // TODO: Class to encode boards and boards information into a string to send to the players
     // TODO: all methods should be static, acts as a filter
@@ -20,7 +18,7 @@ public class GameEncoder {
 		return sb.toString();
 	}
     
-    public static String encodePlayer(GameLogicAPI player) { //Or send move?
+    public static String encodePlayer(GameAPI player) { //Or send move?
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < player.getLength(); i++) {
 			for(int j = 0; j < player.getLength(); j++) {
@@ -33,7 +31,7 @@ public class GameEncoder {
 		return sb.toString();
 	}
     
-    public static String sendMove(GameLogicAPI player) {
+    public static String sendMove(GameAPI player) {
 		return player.getAttackCol() + "+" + player.getAttackRow();
 	}
 }

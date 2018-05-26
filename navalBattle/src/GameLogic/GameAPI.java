@@ -1,6 +1,6 @@
 package GameLogic;
 
-public class GameLogicAPI {
+public class GameAPI {
 	
 	private int[][] map;
 	private int length;

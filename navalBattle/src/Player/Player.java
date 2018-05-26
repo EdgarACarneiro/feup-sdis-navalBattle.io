@@ -20,7 +20,6 @@ public class Player {
         // TODO initialize logic here
 
         run();
-        //new UI_API();
     }
 
     private void run() {
