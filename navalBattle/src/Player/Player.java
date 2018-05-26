@@ -1,11 +1,11 @@
 package Player;
 
-import UI.UI_API;
 import Utils.ThreadPool;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.concurrent.*;
 
 public class Player {
 
@@ -37,7 +37,13 @@ public class Player {
     // TODO function might be more complex than this
     public boolean sendServer(Map<String, String> content, String context) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
-        return threadPool.run(() -> sender.sendRequest(context, content)) == null;
+        Future result = threadPool.run(() -> sender.sendRequest(context, content));
+        try {
+            System.out.println(result.get());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
 
         ///TODO Ao pintar passar o resultado para o dispatcher do Vitor
     }
@@ -59,7 +65,7 @@ public class Player {
         while (true) {
             HashMap<String, String> teste = new HashMap<>();
             teste.put("value", sc.nextLine());
-            sendServer(teste, "/app");
+            sendServer(teste, "app/");
         }
     }
 

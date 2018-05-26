@@ -31,7 +31,8 @@ public class Server {
      */
 
     public boolean sendClient(String content, int clientID) {
-        return threadPool.run(() -> listener.sendClient(content, clientID)) == null;
+        // Missing the get to get the value
+        return threadPool.run(() -> {return listener.sendClient(content, clientID);}) == null;
 
         // TODO Se pintar passar em result o rsultado? no estilo do map também?
     }

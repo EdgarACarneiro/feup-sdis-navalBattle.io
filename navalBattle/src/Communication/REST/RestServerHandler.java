@@ -25,7 +25,6 @@ public class RestServerHandler implements HttpHandler {
     }
 
 	public void handle(HttpExchange exchange) {
-        System.out.println("FDS");
 		dispatcher.run(() -> reportToSuperior(exchange));
 	}
 
@@ -42,6 +41,6 @@ public class RestServerHandler implements HttpHandler {
 	}
 
     private void reportToSuperior(HttpExchange exchange) {
-        superior.receiveReport(new RESTMessage(exchange));
+	    superior.receiveReport(new RESTMessage(exchange));
     }
 }

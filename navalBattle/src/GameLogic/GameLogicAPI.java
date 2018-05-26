@@ -11,7 +11,7 @@ public class GameLogicAPI {
 	public int getLength() {
 		return length;
 	}
-	
+
 	public boolean isGameOver() {
 		return gameOver;
 	}
