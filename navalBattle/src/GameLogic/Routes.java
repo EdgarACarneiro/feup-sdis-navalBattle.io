@@ -19,6 +19,7 @@ public class Routes {
 			routes.put(new Pair<>("attack", RESTMethod.GET), Player.class.getMethod("attack")); //jogador ataca -> server calcula se acertou mas o alvo s� � atualizado no turno seguinte
 			routes.put(new Pair<>("move", RESTMethod.POST), Player.class.getMethod("move")); //move o jogador
 			routes.put(new Pair<>("updateGame", RESTMethod.GET), Server.class.getMethod("updateGame")); //manda estado do jogo a todos os jogadores
+			routes.put(new Pair<>("create", RESTMethod.POST), ServerLogic.class.getMethod("newPlayer")); //cria um novo jogador
 
 			//routes.put(new Pair<>("targetHit", RESTMethod.POST), TestApp.class.getMethod("targetHit"));	// resposta do server (se acertou ou n�o)
 			//routes.put(new Pair<>("removeBlock", PATCH), TestApp.class.getMethod("removeBlock")); //se o jogador ficou com tamanho reduzido
