@@ -60,6 +60,8 @@ public class Server {
 
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
     public void startGameUpdates() {
+
+        game.newPlayer(0);
         threadPool.run(() -> {
             Enumeration<Integer> keys = handler.getClientsIDs();
 
@@ -90,10 +92,6 @@ public class Server {
 
     // TODO request a string representation of the map from the UI -> or the update to send wtv
     public String requestMap(int clientID) {
-    	//String map = GameEncoder.encodeForPlayer(game, clientID);
-    	
-    	//System.out.println(map);
-    	
-        return "JA DA BOYS";
+    	return game.requestMap(clientID);
     }
 }

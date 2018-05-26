@@ -1,9 +1,12 @@
 package GameLogic;
 
+import java.security.SecureRandom;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerLogic {
+
+    private static final int MAX_AUGMENTATION = 20;
 	
 	private int length;
 	private int numPlayers;
@@ -12,6 +15,10 @@ public class ServerLogic {
      * HashMap saving the id of the boat associated to each userName (user logged)
      */
     private ConcurrentHashMap<String, Integer> usersBoats;
+
+    public ServerLogic() {
+        usersBoats = new ConcurrentHashMap<>();
+    }
     
 	public void updateMap() {
 		length = numPlayers*4;
@@ -47,16 +54,16 @@ public class ServerLogic {
 	}
 	
 	public void newPlayer(int id) {
-		System.out.println(numPlayers);
 		numPlayers++;
-		
-		Random rand = new Random();
-		
-		System.out.println(id);
-			
-		int  col = rand.nextInt(length);
-		int  row = rand.nextInt(length);
+
+        Random rand = new Random(100);
+		int  col = rand.nextInt(MAX_AUGMENTATION);
+		int  row = rand.nextInt(MAX_AUGMENTATION);
 		
 		usersBoats.put(col + "+" + row, id);
+	}
+
+	public String requestMap(int id) {
+		return GameEncoder.encodeForPlayer(this, id);
 	}
 }
