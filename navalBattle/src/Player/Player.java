@@ -1,6 +1,7 @@
 package Player;
 
 import Utils.ThreadPool;
+import GameLogic.GameAPI;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,12 +13,13 @@ public class Player {
 	private ServerSender sender;
 	private ServerListener listener;
     private ThreadPool threadPool;
+    private GameAPI game;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
-        // TODO initialize logic here
+        game = new GameAPI();
 
         run();
     }
