@@ -6,6 +6,7 @@ import Utils.Pair;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class ServerLogic {
 
@@ -19,28 +20,49 @@ public class ServerLogic {
      */
     private ConcurrentHashMap<String, Integer> boats;
 
+    /**
+     * Hashmap to save to each player where its map starts
+     */
+    private ConcurrentHashMap<Integer, String> playersMapsPos;
+
+    private CopyOnWriteArrayList<String> destroyedBoats;
+
     public ServerLogic() {
         boats = new ConcurrentHashMap<>();
+        playersMapsPos = new ConcurrentHashMap<>();
         length = MAP_DISPLAY_SIZE;
         router = new Router(this);
+        destroyedBoats = new CopyOnWriteArrayList<>();
     }
-	
-	public int getLength() {
-		return length;
-	}
-	
-	public int getFromId(int col, int row, int id) {
-		if (boats.get(col + "+" + row) == id || boats.get(col + "+" + row) == -1 || boats.get(col + "+" + row) == -2)
-			return boats.get(col + "+" + row);
-		return -1;
-	}
+
+	public String getMapStartingPos(int player) {
+        if (playersMapsPos.containsKey(player))
+            return playersMapsPos.get(player);
+        return null;
+    }
+
+    public int getCell(int col, int row, int id) {
+        String pos = col + "+" + row;
+
+        if (boats.containsKey(pos)) {
+            if (boats.get(pos) == id)
+                return GameCells.BOAT;
+        }
+
+        if (destroyedBoats.contains(pos))
+            return GameCells.DESTROYED_BOAT;
+
+        return GameCells.WATER;
+    }
 
 	public int attack(HashMap<String, String> params, Integer playerId) {
-        String col = params.get("col");
-        String row = params.get("row");
+        String pos = params.get("col") + "+" + params.get("row");
 
-        if (boats.containsKey("")) {
-            boats.put(col + "+" + row, GameCells.DESTROYED_BOAT);
+        if (boats.containsKey(pos)) {
+            playersMapsPos.remove(boats.get(pos));
+            boats.remove(pos);
+
+            destroyedBoats.add(pos);
             return HTTPCode.SUCCESS;
         }
         return HTTPCode.UNSUCCESS;
@@ -57,8 +79,23 @@ public class ServerLogic {
         } while (boats.containsKey(col + "+" + row));
 		
 		boats.put(col + "+" + row, playerId);
+		addStartingPos(col, row, playerId);
+
 		return HTTPCode.SUCCESS;
 	}
+
+	public void addStartingPos(int col, int row, int id) {
+        int colOffset = col - (MAP_DISPLAY_SIZE / 2);
+        int rowOffset = row - (MAP_DISPLAY_SIZE / 2);
+        int startCol = 0;
+        int startRow = 0;
+
+        if (colOffset > 0)
+            startCol = colOffset;
+        if (rowOffset > 0)
+            startRow = rowOffset;
+        playersMapsPos.put(id, startCol + "+" + startRow);
+    }
 
 	public String requestMap(int id) {
 		return GameEncoder.encodeForPlayer(this, id);

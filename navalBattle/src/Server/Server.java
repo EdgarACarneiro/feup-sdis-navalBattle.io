@@ -17,7 +17,7 @@ public class Server {
     private ThreadPool threadPool;
     private ServerLogic game;
 
-    private static final int UPDATE_ALL_CLIENTS_TIME = 3000;
+    private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
     public Server(String port) {
         threadPool = new ThreadPool();
@@ -28,10 +28,7 @@ public class Server {
     }
 
     private void run() {
-        game.updateMap();
         threadPool.run(handler);
-
-        // TODO Eliminar, está só para teste
         startGameUpdates();
     }
 
@@ -57,7 +54,7 @@ public class Server {
         threadPool.run(() -> new RESTMessage(clientMessage, statusCode, content).sendAsReply());
     }
 
-    // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
+    // Function that updates all the players board every 0.5 seconds
     private void startGameUpdates() {
 
         threadPool.run(() -> {
@@ -91,9 +88,7 @@ public class Server {
         return game.triggerAction(info, params, clientID);
     }
 
-    // TODO request a string representation of the map from the logic -> or the update to send wtv
     private String requestMap(int clientID) {
-        game.updateMap();
         return game.requestMap(clientID);
     }
 }
