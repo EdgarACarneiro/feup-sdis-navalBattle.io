@@ -31,17 +31,19 @@ public class PrintMap extends JPanel {
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		if (map != null)
-			for (int i = 0 ; i < map.length ; i++) {
-				for (int j = 0 ; i < map[i].length ; j++) {
+		if (map != null) {
+			g.drawImage(Assets.water, xDimension, yDimension, xDimension, yDimension, null);
+			for (int i = 1 ; i < map.length + 1 ; i++) {
+				for (int j = 1 ; j < map[i].length + 1 ; j++) {
 					if (map[i][j] == -1) 
-						g.drawImage(Assets.water, j*xDimension+16, i*yDimension+16, xDimension/2, yDimension/2, null);
+						g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
 					else if (map[i][j] == -2) 
-						g.drawImage(Assets.redShip, j*xDimension+16, i*yDimension+16, xDimension/2, yDimension/2, null);
+						g.drawImage(Assets.redShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
 					else 
-						g.drawImage(Assets.blueShip, j*xDimension+16, i*yDimension+16, xDimension/2, yDimension/2, null);
+						g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
 				}
 			}
+		}
 	}
 
 
@@ -51,8 +53,8 @@ public class PrintMap extends JPanel {
 	public void changeImagesDimension() {
 		int height = map.length;// altura do mapa
 		int width = map[0].length;// largura do mapa
-		xDimension = 500 / width;
-		yDimension = 500 / height;
+		xDimension = 40;
+		yDimension = 40;
 	}
 
 }
