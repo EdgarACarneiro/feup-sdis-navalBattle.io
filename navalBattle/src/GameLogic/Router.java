@@ -13,7 +13,6 @@ public class Router {
 	ServerLogic logic;
 
 	// <Pair< context, method>, callable>
-	
 	private static HashMap<Pair<String, String>, String> routes = new HashMap<>();
 
 	public Router(ServerLogic server){
@@ -32,17 +31,8 @@ public class Router {
 
 	public int callAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
         try {
-        	Method method = null;
-        	if (routes.get(route).equals("newPlayer")) {
-        		method = ServerLogic.class.getMethod(routes.get(route), HashMap.class, Integer.class);
-                return (Integer) method.invoke(logic, params, clientID);
-        	}
-        	else if (routes.get(route).equals("attack")) {
-        		int col = Integer.parseInt(params.get("COL"));
-        		int row = Integer.parseInt(params.get("ROW"));
-        		method = ServerLogic.class.getMethod(routes.get(route), int.class, int.class);
-                return (Integer) method.invoke(logic, col, row);
-        	}
+            Method method = ServerLogic.class.getMethod(routes.get(route), HashMap.class, Integer.class);
+            return (Integer) method.invoke(logic, params, clientID);
 
         } catch (NoSuchMethodException e) {
             System.err.println("Unable to find method for the given request.");
@@ -52,6 +42,5 @@ public class Router {
             System.err.println("Failed to successfully the given method.");
             return HTTPCode.ERROR;
         }
-		return 0;
     }
 }
