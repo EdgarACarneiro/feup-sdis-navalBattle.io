@@ -8,8 +8,6 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerLogic {
-
-    private static final int MAX_AUGMENTATION = 20;
 	
 	private int length;
 	private int numPlayers;

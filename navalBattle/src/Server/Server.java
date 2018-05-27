@@ -83,7 +83,7 @@ public class Server {
         replyClient(
                 clientMessage,
                 reportToLogic(valuableInfo, clientMessage.getParams(), clientID),
-                "Mapa talvez??"
+                "Welcome Player " + clientID
         );
     }
 
