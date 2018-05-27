@@ -1,42 +1,27 @@
 package GameLogic;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.lang.reflect.*;
 
-import Communication.REST.HTTPCodes;
-import Communication.REST.HTTPRequest;
+import Communication.REST.HTTPCode;
+import Communication.REST.HTTPMethod;
 import Utils.Pair;
-import Utils.RESTMethod;
-
-import Player.Player;
-import Server.Server;
 
 public class Router {
 
 	ServerLogic logic;
 
-	private static HashMap<Pair<String, RESTMethod>, String> routes = new HashMap<>();
-
-	public Router(Player player){
-		//this.player = player;
-		
-		try {
-			routes.put(new Pair<>("attack", RESTMethod.GET), "attack"); //jogador ataca -> server calcula se acertou mas o alvo s� � atualizado no turno seguinte
-			routes.put(new Pair<>("move", RESTMethod.POST), "move"); //move o jogador
-			
-		}
-		catch (Exception e) {e.printStackTrace();}
-		
-	}
+	// <Pair< context, method>, callable>
+	private static HashMap<Pair<String, String>, String> routes = new HashMap<>();
 
 	public Router(ServerLogic server){
 		logic = server;
 
 		try {
-            routes.put(new Pair<>("updateGame", RESTMethod.GET),"updateGame"); //manda estado do jogo a todos os jogadores
-            routes.put(new Pair<>("create", RESTMethod.POST), "newPlayer"); // New Player
+            routes.put(new Pair<>("app/create", HTTPMethod.POST), "newPlayer"); // New Player
+            routes.put(new Pair<>("app/attack", HTTPMethod.POST), "attack"); //jogador ataca -> server calcula se acertou mas o alvo só é atualizado no turno seguinte
+            routes.put(new Pair<>("app/move", HTTPMethod.POST), "move"); //move o jogador
 		}
 		catch (Exception e) {
 		    System.err.println("Failed to add Routing method to Routing table");
@@ -44,19 +29,19 @@ public class Router {
 	}
 
 
-	public int callAction(Pair<String, RESTMethod> route, HashMap<String, String> params) {
+	public int callAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
 
         try {
-            Method method = logic.getClass().getMethod(routes.get(route), HashMap.class);
-            return (Integer) method.invoke(logic, params);
+            Method method = logic.getClass().getMethod(routes.get(route), HashMap.class, Integer.class);
+            return (Integer) method.invoke(logic, params, clientID);
 
         } catch (NoSuchMethodException e) {
             System.err.println("Unable to find method for the given request.");
-            return HTTPCodes.NOT_FOUND;
+            return HTTPCode.NOT_FOUND;
 
         } catch (IllegalAccessException | InvocationTargetException e) {
             System.err.println("Failed to successfully the given method.");
-            return HTTPCodes.ERROR;
+            return HTTPCode.ERROR;
         }
     }
 }

@@ -10,7 +10,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 import Utils.Pair;
-import Utils.RESTMethod;
 
 public class Server {
 
@@ -24,12 +23,6 @@ public class Server {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
         game = new ServerLogic();
-
-        //route testing
-        RESTMethod r = RESTMethod.GET;
-        String action = "updateGame";
-        Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
-        routes.callAction(url, "test");
 
         run();
     }
@@ -78,38 +71,30 @@ public class Server {
         }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
-    // TODO: to be called by UI when some1 shot my boat or smth
+    // TODO: to be called by logic when some1 shot my boat or smth - MBY IMPLEMENT
     public void noticeClient(String content, int id) {
         handler.updateClient(content, id);
     }
 
-    // TODO change ver o que ele vai receber
+    // Result of bubbling up functions
     public void receiveReport(RESTMessage clientMessage, int clientID) {
-        //String statusCode =
-        reportToLogic(clientMessage.getContext(), clientMessage.getParams(), clientID);
-        // TODO: so para testar, tem de ser mudado
-        
-        
-        
-        replyClient(clientMessage, 200 /* statusCode */, "PINTA BRO");
+        Pair<String, String> valuableInfo =
+                new Pair<>(clientMessage.getContext(), clientMessage.getMethod());
+
+        replyClient(
+                clientMessage,
+                reportToLogic(valuableInfo, clientMessage.getParams(), clientID),
+                "Mapa talvez??"
+        );
     }
 
-    public void reportToLogic(String context, HashMap params, int clientID) {
-        //TODO Call a game logic function to pass it the received info
-        //TODO mudar tb o valor de retorno
+    public int reportToLogic(Pair<String, String> info, HashMap<String, String> params, int clientID) {
+        return game.triggerAction(info, params, clientID);
     }
 
-    // TODO request a string representation of the map from the UI -> or the update to send wtv
+    // TODO request a string representation of the map from the logic -> or the update to send wtv
     public String requestMap(int clientID) {
         game.updateMap();
         return game.requestMap(clientID);
-    }
-
-    public void updateGame(){
-    	game.updateMap();
-    }
-
-    public void create(int id){
-		game.newPlayer(id);
     }
 }

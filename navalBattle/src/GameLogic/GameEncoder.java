@@ -17,7 +17,7 @@ public class GameEncoder {
 		return sb.toString();
 	}
     
-    public static String encodePlayer(GameAPI player) { //Or send move?
+    public static String encodePlayer(PlayerLogic player) { //Or send move?
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < player.getLength(); i++) {
 			for(int j = 0; j < player.getLength(); j++) {
@@ -30,7 +30,7 @@ public class GameEncoder {
 		return sb.toString();
 	}
     
-    public static String sendMove(GameAPI player) {
+    public static String sendMove(PlayerLogic player) {
 		return player.getAttackCol() + "+" + player.getAttackRow();
 	}
 }

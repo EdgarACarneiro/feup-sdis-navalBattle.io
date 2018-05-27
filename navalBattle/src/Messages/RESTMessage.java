@@ -15,9 +15,6 @@ public class RESTMessage implements Message {
     private static final int PARAM_NAME_IDX = 0;
     private static final int PARAM_VALUE_IDX = 1;
 
-    private static final int HTTP_OK_STATUS = 200;
-    private static final int HTTP_NOTFOUND_STATUS = 404;
-
     private static final String AND_DELIMITER = "&";
     private static final String EQUAL_DELIMITER = "=";
 
@@ -39,11 +36,13 @@ public class RESTMessage implements Message {
     public RESTMessage(HttpExchange exchange) {
 
         this.exchange = exchange;
+        method = exchange.getRequestMethod();
+
         String path = exchange.getRequestURI().getPath();
         String[] paths = path.split("/"); // path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
 
         String params_string = new String();
-        if (exchange.getRequestMethod().equals(HTTPMethod.GET))
+        if (method.equals(HTTPMethod.GET))
             params_string = exchange.getRequestURI().getQuery();
         else
             try {
@@ -108,6 +107,10 @@ public class RESTMessage implements Message {
 
     public String getContext() {
         return context;
+    }
+
+    public String getMethod() {
+        return method;
     }
 
     public InetSocketAddress getAddress() {

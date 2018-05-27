@@ -10,7 +10,7 @@ public class GameDecoder {
     	server.attack(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
     }
     
-    public static void parseMap(GameAPI player, String mapString) {
+    public static void parseMap(PlayerLogic player, String mapString) {
 		
 		String[] columns = mapString.split(";");
 		

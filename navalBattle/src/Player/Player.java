@@ -1,43 +1,32 @@
 package Player;
 
 import Utils.ThreadPool;
-import GameLogic.GameAPI;
+import GameLogic.PlayerLogic;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
-import GameLogic.Router;
 import GameLogic.GameEncoder;
-import Utils.Pair;
-import Utils.RESTMethod;
 
 public class Player {
 
     private ServerSender sender;
     private ServerListener listener;
     private ThreadPool threadPool;
-    private GameAPI game;
-    private Router router;
+    private PlayerLogic game;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
-        game = new GameAPI();
-        router = new Router(this);
+        game = new PlayerLogic(this);
         
         /*try {
         	new UI_API(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}*/
-
-        //route testing
-        RESTMethod r = RESTMethod.POST;
-        String action = "move";
-        Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
-        router.callAction(url, "move");
 
         run();
     }

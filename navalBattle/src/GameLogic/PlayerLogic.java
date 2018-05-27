@@ -1,12 +1,20 @@
 package GameLogic;
 
-public class GameAPI {
+import Player.Player;
+
+public class PlayerLogic {
 	
 	private int[][] map;
 	private int length;
 	private boolean gameOver = false;
 	private int attackcol = -1;
 	private int attackrow = -1;
+
+	private Player bottomLayer;
+
+	public PlayerLogic(Player bottomLayer) {
+		this.bottomLayer = bottomLayer;
+	}
 	
 	public int getLength() {
 		return length;

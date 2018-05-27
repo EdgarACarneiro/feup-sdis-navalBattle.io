@@ -1,5 +1,9 @@
 package GameLogic;
 
+import Communication.REST.HTTPCode;
+import Utils.Pair;
+
+import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -55,17 +59,22 @@ public class ServerLogic {
 		return false;
 	}
 	
-	public void newPlayer(int id) {
+	public int newPlayer(HashMap<String, String> params, int playerId) {
 		numPlayers++;
 
         Random rand = new Random(100);
 		int  col = rand.nextInt(MAX_AUGMENTATION);
 		int  row = rand.nextInt(MAX_AUGMENTATION);
 		
-		usersBoats.put(col + "+" + row, id);
+		usersBoats.put(col + "+" + row, playerId);
+		return HTTPCode.SUCCESS;
 	}
 
 	public String requestMap(int id) {
 		return GameEncoder.encodeForPlayer(this, id);
 	}
+
+	public int triggerAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
+        return router.callAction(route, params, clientID);
+    }
 }
