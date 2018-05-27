@@ -32,9 +32,12 @@ public class PrintMap extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		if (map != null) {
-			g.drawImage(Assets.water, xDimension, yDimension, xDimension, yDimension, null);
-			for (int i = 1 ; i < map.length + 1 ; i++) {
-				for (int j = 1 ; j < map[i].length + 1 ; j++) {
+			for (int i = 0 ; i < map.length ; i++) {
+				g.drawImage(Assets.water, 0, i*yDimension, xDimension, yDimension, null);
+				g.drawImage(Assets.water, i*yDimension, 0, xDimension, yDimension, null);
+			}
+			for (int i = 1 ; i + 1 < map.length ; i++) {
+				for (int j = 1 ; j + 1 < map[i].length ; j++) {
 					if (map[i][j] == -1) 
 						g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
 					else if (map[i][j] == -2) 

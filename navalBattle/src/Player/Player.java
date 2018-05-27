@@ -52,7 +52,6 @@ public class Player {
 
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);
-        System.out.println(game.getMap());
     }
 
 }

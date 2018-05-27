@@ -90,7 +90,7 @@ public class PlayerLogic {
 
 	public void updateMap(String map) {
         GameDecoder.parseMap(this, map);
-        ui.printMap(this.map);
+        ui.panel.setGame(this.map);
     }
 
 	public int[][] getMap() {
