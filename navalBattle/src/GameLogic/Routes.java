@@ -50,7 +50,7 @@ public class Routes {
 
 		switch(action){
 			case "attack":
-				this.player.attack();
+				//this.player.attack();
 				break;
 			case "move":
 				this.player.move();
@@ -59,7 +59,7 @@ public class Routes {
 				this.server.updateGame();
 				break;
 			case "create":
-				this.server.create();
+				//this.server.create();
 				break;
 
 		}
