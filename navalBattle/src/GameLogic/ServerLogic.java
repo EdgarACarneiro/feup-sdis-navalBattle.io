@@ -35,10 +35,10 @@ public class ServerLogic {
         destroyedBoats = new CopyOnWriteArrayList<>();
     }
 
-	public String getMapStartingPos(int player) {
+	public String[] getMapStartingPos(int player) {
         if (playersMapsPos.containsKey(player))
-            return playersMapsPos.get(player);
-        return null;
+            return playersMapsPos.get(player).split("\\+");
+        return new String[] {};
     }
 
     public int getCell(int col, int row, int id) {

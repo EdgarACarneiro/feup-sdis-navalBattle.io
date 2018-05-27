@@ -11,7 +11,7 @@ import java.net.SocketException;
 
 public class UDPServer extends Thread {
 
-    private static final int MESSAGE_SIZE = 1024;
+    private static final int MESSAGE_SIZE = 2048;
 
     private DatagramSocket socket;
 

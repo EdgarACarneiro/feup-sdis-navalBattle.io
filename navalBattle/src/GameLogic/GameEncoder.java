@@ -1,14 +1,21 @@
 package GameLogic;
 
+import Player.Player;
+
 public class GameEncoder {
    
     public static String encodeForPlayer(ServerLogic server, int id) {
 		StringBuilder sb = new StringBuilder();
 		int size = ServerLogic.MAP_DISPLAY_SIZE;
 
-		String[] startPos = server.getMapStartingPos(id).split("\\+");
-		int startCol = Integer.parseInt(startPos[0]);
-		int startRow = Integer.parseInt(startPos[1]);
+		String[] startPos = server.getMapStartingPos(id);
+		int startCol = 0;
+		int startRow = 0;
+
+		if (startPos.length != 0) {
+            startCol = Integer.parseInt(startPos[0]);
+            startRow = Integer.parseInt(startPos[1]);
+        }
 
 		for (int i = 0; i < size; i++) {
 			for( int j = 0; j < size; j++) {
