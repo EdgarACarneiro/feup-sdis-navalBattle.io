@@ -41,9 +41,8 @@ public class ServerLogic {
 	}
 	
 	public int getFromId(int col, int row, int id) {
-		int pos = usersBoats.get(col + "+" + row);
-		if (pos == id)
-			return pos;
+		if (usersBoats.get(col + "+" + row) == id || usersBoats.get(col + "+" + row) == -1 || usersBoats.get(col + "+" + row) == -2)
+			return usersBoats.get(col + "+" + row);
 		return -1;
 	}
 	
