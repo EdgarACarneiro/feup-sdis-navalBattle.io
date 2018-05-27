@@ -47,13 +47,13 @@ public class ServerLogic {
 		return -1;
 	}
 	
-	public boolean attack(int col, int row) {
+	public int attack(int col, int row) {
 		if (usersBoats.get(col + "+" + row) != -1) { // -1 - Water
 			usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
-			return true;
+			return HTTPCode.SUCCESS;
 		}
 		
-		return false;
+		return HTTPCode.SUCCESS;
 	}
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {

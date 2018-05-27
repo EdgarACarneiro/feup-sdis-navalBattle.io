@@ -34,6 +34,10 @@ public class Player {
     public void initializeGame() {
     	game = new PlayerLogic(this);
     }
+    
+    public void processAttack(int col,int row) {
+    	game.attack(col, row);
+    }
 
     private void run() {
         threadPool.run(listener);

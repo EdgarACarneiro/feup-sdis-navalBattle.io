@@ -366,7 +366,12 @@ public class UI_API {
         
         sendButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		
+        		try {
+        			player.processAttack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
+        		}
+        		catch (NumberFormatException e) {
+        			e.printStackTrace();
+        		}
         	}
         });
                
