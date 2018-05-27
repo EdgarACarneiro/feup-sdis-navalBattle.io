@@ -7,9 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
-import GameLogic.Routes;
+import GameLogic.Router;
 import GameLogic.GameEncoder;
-import UI.UI_API;
 import Utils.Pair;
 import Utils.RESTMethod;
 
@@ -19,14 +18,14 @@ public class Player {
     private ServerListener listener;
     private ThreadPool threadPool;
     private GameAPI game;
-    private Routes routes;
+    private Router router;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
         game = new GameAPI();
-        routes = new Routes(this);
+        router = new Router(this);
         
         /*try {
         	new UI_API(this);
@@ -38,7 +37,7 @@ public class Player {
         RESTMethod r = RESTMethod.POST;
         String action = "move";
         Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
-        routes.callAction(url, "move");
+        router.callAction(url, "move");
 
         run();
     }

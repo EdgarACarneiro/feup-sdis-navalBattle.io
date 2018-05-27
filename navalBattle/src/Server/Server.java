@@ -8,7 +8,6 @@ import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import GameLogic.Routes;
 
 import Utils.Pair;
 import Utils.RESTMethod;
@@ -18,7 +17,6 @@ public class Server {
     private PlayersHandler handler;
     private ThreadPool threadPool;
     private ServerLogic game;
-    private Routes routes;
 
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
@@ -26,7 +24,6 @@ public class Server {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
         game = new ServerLogic();
-        routes = new Routes(this);
 
         //route testing
         RESTMethod r = RESTMethod.GET;

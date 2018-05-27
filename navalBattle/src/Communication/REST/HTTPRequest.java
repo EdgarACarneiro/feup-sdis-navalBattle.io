@@ -57,7 +57,7 @@ public class HTTPRequest {
 		InputStream inputStream = this.sslSocket.getInputStream();
 		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(this.sslSocket.getOutputStream(), CHARSET));
 		
-		if(requestMethod.equals(HttpMethod.GET))
+		if(requestMethod.equals(HTTPMethod.GET))
 			wr.write(requestMethod + " /" + path + "?" + paramaters + " HTTP/1.1\r\n");
 		else
 			wr.write(requestMethod + " /" + path + " HTTP/1.1\r\n");
@@ -65,14 +65,14 @@ public class HTTPRequest {
 		wr.write("Connection: close\r\n");
 		wr.write("User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X; de-de) AppleWebKit/523.10.3 (KHTML, like Gecko) Version/3.0.4 Safari/523.10\r\n");
 		
-		if(!requestMethod.equals(HttpMethod.GET)) {
+		if(!requestMethod.equals(HTTPMethod.GET)) {
 			wr.write("Content-Length: " + paramaters.length() + "\r\n");
 			wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
 		}
 		
 		wr.write("\r\n");
 		
-		if(!requestMethod.equals(HttpMethod.GET))
+		if(!requestMethod.equals(HTTPMethod.GET))
 			wr.write(paramaters);
 		
 		wr.flush();

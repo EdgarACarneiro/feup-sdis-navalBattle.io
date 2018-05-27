@@ -18,5 +18,4 @@ public class CommunicationAPI {
         new UDPServer(higherLayer, port).run();
     }
 
-    //TODO: mais funções que fazem o Request
 }

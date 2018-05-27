@@ -10,6 +10,8 @@ public class ServerLogic {
 	private int length;
 	private int numPlayers;
 
+	private Router router;
+
     /**
      * HashMap saving the id of the boat associated to each userName (user logged)
      */
@@ -17,10 +19,11 @@ public class ServerLogic {
 
     public ServerLogic() {
         usersBoats = new ConcurrentHashMap<>();
+        router = new Router(this);
     }
     
 	public void updateMap() {
-		length = numPlayers*4;
+		length = numPlayers * 4;
 		for (int i = 0 ; i < length ; i++) {
 			for (int j = 0 ; j < length ; j++) {
 				usersBoats.putIfAbsent(i + "+" + j, -1); // Populate with water

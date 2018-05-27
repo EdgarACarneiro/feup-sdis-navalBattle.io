@@ -1,6 +1,6 @@
 package Messages;
 
-import Communication.REST.HttpMethod;
+import Communication.REST.HTTPMethod;
 import Communication.REST.RestServerHandler;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -43,7 +43,7 @@ public class RESTMessage implements Message {
         String[] paths = path.split("/"); // path[0] é "" e path[1] é o context do servidor http eg:url /app/createUser
 
         String params_string = new String();
-        if (exchange.getRequestMethod().equals(HttpMethod.GET))
+        if (exchange.getRequestMethod().equals(HTTPMethod.GET))
             params_string = exchange.getRequestURI().getQuery();
         else
             try {
