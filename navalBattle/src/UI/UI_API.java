@@ -24,6 +24,9 @@ import java.awt.Toolkit;
 import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.UIManager;
+
+import Player.Player;
+
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
@@ -34,27 +37,14 @@ public class UI_API {
     private JTextField yField;
     private JTextField xField;
     private JTextField username;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UI_API window = new UI_API();
-					window.frmBattleshipio.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private Player player;
 
 	/**
 	 * Create the application.
+	 * @param player 
 	 */
-	public UI_API() {
+	public UI_API(Player player) {
+		this.player = player;
 		initialize();
 	}
 
@@ -372,6 +362,12 @@ public class UI_API {
                 }
             }
         }); 
+        
+        sendButton.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		player.attack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
+        	}
+        });
                
         frmBattleshipio.setVisible(true);
 	}
