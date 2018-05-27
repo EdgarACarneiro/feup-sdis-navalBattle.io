@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
 import GameLogic.Routes;
-
+import UI.UI_API;
 import Utils.Pair;
 import Utils.RESTMethod;
 
@@ -26,12 +26,18 @@ public class Player {
         listener = new ServerListener(this);
         game = new GameAPI();
         routes = new Routes(this);
+        
+        /*try {
+        	new UI_API(this);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}*/
 
         //route testing
-        RESTMethod r = RESTMethod.GET;
+        RESTMethod r = RESTMethod.POST;
         String action = "move";
         Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
-        routes.callAction(url, "teste");
+        routes.callAction(url, "move");
 
         run();
     }
@@ -74,8 +80,8 @@ public class Player {
     */
 
 
-    public void attack(){
-        System.out.println("Send Attack to Server here");
+    public void attack(int col, int row){
+        game.set(col, row);
     }
 
     public void move(){
