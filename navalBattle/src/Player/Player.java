@@ -1,11 +1,11 @@
 package Player;
 
+import Messages.UDPMessage;
 import Utils.Pair;
 import Utils.ThreadPool;
 import GameLogic.PlayerLogic;
 
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.concurrent.*;
 
 public class Player {
@@ -13,12 +13,13 @@ public class Player {
     private ServerSender sender;
     private ServerListener listener;
     private ThreadPool threadPool;
+    private PlayerLogic game;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
-        new PlayerLogic(this);
+        game =new PlayerLogic(this);
         
         /*try {
         	new UI_API(this);
@@ -31,9 +32,6 @@ public class Player {
 
     private void run() {
         threadPool.run(listener);
-
-        //TODO DELETE AFTER, for tests
-        threadPool.run(this::teste);
     }
 
     /**
@@ -52,18 +50,13 @@ public class Player {
         return 0;
     }
 
-    public void reportToLogic() {
-        //TODO Call a game logic function to pass it the received info
-        //TODO mudar tb o valor de retorno
+    // Result of bubbling up functions
+    public void receiveReport(UDPMessage clientMessage) {
+        reportToLogic(clientMessage.getContent());
     }
 
-    private void teste() {
-        Scanner sc = new Scanner(System.in);
-        while (true) {
-            HashMap<String, String> teste = new HashMap<>();
-            teste.put("value", sc.nextLine());
-            sendServer(teste, new Pair<>("app/", "POST"));
-        }
+    public void reportToLogic(String updatedMap) {
+        game.updateMap(updatedMap);
     }
 
 }

@@ -30,8 +30,6 @@ public class Router {
 
 
 	public int callAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
-        String test = routes.get(route);
-
         try {
             Method method = ServerLogic.class.getMethod(routes.get(route), HashMap.class, Integer.class);
             return (Integer) method.invoke(logic, params, clientID);

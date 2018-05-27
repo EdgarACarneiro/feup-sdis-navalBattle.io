@@ -73,4 +73,8 @@ public class PlayerLogic {
 		bottomLayer.sendServer(params, new Pair<>("app/attack", HTTPMethod.POST));
 	}
 
+	public void updateMap(String map) {
+        GameDecoder.parseMap(this, map);
+    }
+
 }

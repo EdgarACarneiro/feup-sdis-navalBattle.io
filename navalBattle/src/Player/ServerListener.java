@@ -18,12 +18,10 @@ public class ServerListener implements Runnable, HigherLayer {
 
     @Override
     public void receiveReport(Message message) {
-        if (!(message instanceof UDPMessage))
+        if (message instanceof UDPMessage)
+            superior.receiveReport((UDPMessage) message);
+        else
             System.err.println("Received unexpected type of message");
-
-        // TODO -- Do stuff with received UDPMessage (bubble it up)
-        UDPMessage msgUDP = (UDPMessage) message;
-        System.out.println(msgUDP.getContent());
     }
 
     @Override

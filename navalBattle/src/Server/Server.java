@@ -53,12 +53,12 @@ public class Server {
         // TODO Se pintar passar em result o rsultado? no estilo do map também?
     }
 
-    public void replyClient(RESTMessage clientMessage, int statusCode, String content) {
+    private void replyClient(RESTMessage clientMessage, int statusCode, String content) {
         threadPool.run(() -> new RESTMessage(clientMessage, statusCode, content).sendAsReply());
     }
 
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
-    public void startGameUpdates() {
+    private void startGameUpdates() {
 
         threadPool.run(() -> {
             Enumeration<Integer> keys = handler.getClientsIDs();
@@ -87,12 +87,12 @@ public class Server {
         );
     }
 
-    public int reportToLogic(Pair<String, String> info, HashMap<String, String> params, int clientID) {
+    private int reportToLogic(Pair<String, String> info, HashMap<String, String> params, int clientID) {
         return game.triggerAction(info, params, clientID);
     }
 
     // TODO request a string representation of the map from the logic -> or the update to send wtv
-    public String requestMap(int clientID) {
+    private String requestMap(int clientID) {
         game.updateMap();
         return game.requestMap(clientID);
     }
