@@ -1,6 +1,10 @@
 package GameLogic;
 
+import Communication.REST.HTTPMethod;
 import Player.Player;
+import Utils.Pair;
+
+import java.util.HashMap;
 
 public class PlayerLogic {
 	
@@ -52,4 +56,17 @@ public class PlayerLogic {
 		}
 		return false;
 	}
+
+	private void  createGame() {
+		bottomLayer.sendServer(null, new Pair<>("app/create", HTTPMethod.POST));
+	}
+
+	private void attack(int col, int row) {
+		HashMap<String, String> params = new HashMap<>();
+		params.put("col", Integer.toString(col));
+		params.put("row", Integer.toString(row));
+
+		bottomLayer.sendServer(params, new Pair<>("app/attack", HTTPMethod.POST));
+	}
+
 }

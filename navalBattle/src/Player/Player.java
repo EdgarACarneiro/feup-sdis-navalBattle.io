@@ -1,26 +1,24 @@
 package Player;
 
+import Utils.Pair;
 import Utils.ThreadPool;
 import GameLogic.PlayerLogic;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
-import GameLogic.GameEncoder;
 
 public class Player {
 
     private ServerSender sender;
     private ServerListener listener;
     private ThreadPool threadPool;
-    private PlayerLogic game;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
-        game = new PlayerLogic(this);
+        new PlayerLogic(this);
         
         /*try {
         	new UI_API(this);
@@ -42,18 +40,16 @@ public class Player {
      * METHODS FOR INTERACTION WITH HIGHER LAYER
      */
 
-    // TODO function might be more complex than this
-    public boolean sendServer(Map<String, String> content, String context) {
+    // Method to be called by logic to make requests to the Server
+    public boolean sendServer(HashMap<String, String> params, Pair<String, String> route) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
-        Future result = threadPool.run(() -> sender.sendRequest(context, content));
+        Future result = threadPool.run(() -> sender.sendRequest(route, params));
         try {
             System.out.println(result.get());
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return true;
-
-        ///TODO Ao pintar passar o resultado para o dispatcher do Vitor
     }
 
     public void reportToLogic() {
@@ -61,38 +57,12 @@ public class Player {
         //TODO mudar tb o valor de retorno
     }
 
-    /*
-    // Como vai o conteudo dos requests po servidor
-    Map<String, String> params= new HashMap<>();
-    params.put("x", "1");
-    params.put("b", "2");
-    */
-
-
-    public void attack(int col, int row){
-    	HashMap<String, String> attack = new HashMap<>();
-    	
-        if (game.set(col, row)) {
-        	attack.put("attack", GameEncoder.sendMove(game));
-        	sendServer(attack, "app/");
-        	// TODO - How to send 
-        }
-    }
-
-    public void create(){
-    	HashMap<String, String> creationReq = new HashMap<>();
-    	
-    	creationReq.put("create", "username?");
-    	sendServer(creationReq, "create");
-    	// TODO - How to send 
-    }
-
     private void teste() {
         Scanner sc = new Scanner(System.in);
         while (true) {
             HashMap<String, String> teste = new HashMap<>();
             teste.put("value", sc.nextLine());
-            sendServer(teste, "app/");
+            sendServer(teste, new Pair<>("app/", "POST"));
         }
     }
 

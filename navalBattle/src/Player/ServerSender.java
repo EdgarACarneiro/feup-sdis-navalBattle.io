@@ -2,6 +2,7 @@ package Player;
 
 import Communication.REST.HTTPRequest;
 import Communication.REST.HTTPMethod;
+import Utils.Pair;
 
 import java.util.Map;
 
@@ -19,10 +20,10 @@ public class ServerSender {
         this.serverPort = Integer.parseInt(serverPort);
     }
 
-    public String sendRequest(String context, Map<String, String> content) {
+    public String sendRequest(Pair<String, String> route, Map<String, String> content) {
         try {
             HTTPRequest request = new HTTPRequest(serverIP, serverPort);
-            return request.makeRequest(HTTPMethod.GET, context, content);
+            return request.makeRequest(route.getValue(), route.getKey(), content);
 
         } catch (java.io.IOException e) {
             System.err.println("Failed to create Http Request with server " + serverIP + " on port " + serverPort);
