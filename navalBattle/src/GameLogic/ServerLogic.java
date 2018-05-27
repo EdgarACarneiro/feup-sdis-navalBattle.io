@@ -33,10 +33,16 @@ public class ServerLogic {
      */
     private CopyOnWriteArrayList<String> destroyedBoats;
 
+    /**
+     * Concurrent Array displaying the failed shots
+     */
+    private CopyOnWriteArrayList<String> failedShots;
+
     public ServerLogic() {
         boats = new ConcurrentHashMap<>();
         playersMapsPos = new ConcurrentHashMap<>();
         destroyedBoats = new CopyOnWriteArrayList<>();
+        failedShots = new CopyOnWriteArrayList<>();
 
         router = new Router(this);
         threadpool = new ThreadPool();
@@ -61,6 +67,9 @@ public class ServerLogic {
         if (destroyedBoats.contains(pos))
             return GameCells.DESTROYED_BOAT;
 
+        if (failedShots.contains(pos))
+            return GameCells.FAILED_ATTACK;
+
         return GameCells.WATER;
     }
 
@@ -75,11 +84,18 @@ public class ServerLogic {
             threadpool.run(() -> cleanBot(pos), SHOW_DESTROYED_BOAT_TIME);
             return HTTPCode.SUCCESS;
         }
+
+        failedShots.add(pos);
+        threadpool.run(() -> cleanShot(pos), SHOW_DESTROYED_BOAT_TIME);
         return HTTPCode.UNSUCCESS;
     }
 
     private void cleanBot(String pos) {
         destroyedBoats.remove(pos);
+    }
+
+    private void cleanShot(String pos) {
+        failedShots.remove(pos);
     }
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
@@ -87,6 +103,8 @@ public class ServerLogic {
 		
         Random rand = new Random();
         int col; int row;
+        // Since the map is never densely populated (About 1 / (25*25), 76/(100 * 100)) it is not a problem to use trial and error
+        // Probably often even faster than iterating over the boats container
         do {
             col = rand.nextInt(length);
             row = rand.nextInt(length);

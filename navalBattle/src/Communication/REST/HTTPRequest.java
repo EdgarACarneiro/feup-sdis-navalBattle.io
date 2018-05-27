@@ -104,7 +104,9 @@ public class HTTPRequest {
 		}
 		sslSocket.close();
 		String temp[]=result.toString(CHARSET).split("\r\n\r\n");
-		String response = temp[1];
+		String response = "";
+		if (temp.length > 1)
+			response =temp[1];
 		String statuscode = temp[0].split(" ")[1];
 		
 		if (Integer.parseInt(statuscode) != 200) {

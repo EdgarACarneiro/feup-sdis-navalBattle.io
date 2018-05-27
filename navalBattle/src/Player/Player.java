@@ -29,7 +29,7 @@ public class Player {
     }
 
     /**
-     * METHODS FOR INTERACTION WITH HIGHER LAYER
+     * METHODS FOR INTERACTION WITH LAYERS
      */
 
     // Method to be called by logic to make requests to the Server
