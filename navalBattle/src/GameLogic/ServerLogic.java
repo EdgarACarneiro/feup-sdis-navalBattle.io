@@ -8,65 +8,55 @@ import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ServerLogic {
-	
-	private int length;
-	private int numPlayers;
 
+    public static final int MAP_DISPLAY_SIZE = 25;
+
+	private int length;
 	private Router router;
 
     /**
-     * HashMap saving the id of the boat associated to each userName (user logged)
+     * HashMap saving the pos of each boat and its id
      */
-    private ConcurrentHashMap<String, Integer> usersBoats;
+    private ConcurrentHashMap<String, Integer> boats;
 
     public ServerLogic() {
-        usersBoats = new ConcurrentHashMap<>();
+        boats = new ConcurrentHashMap<>();
+        length = MAP_DISPLAY_SIZE;
         router = new Router(this);
     }
-    
-	public void updateMap() {
-		for (int i = 0 ; i < length ; i++) {
-			for (int j = 0 ; j < length ; j++) {
-				usersBoats.putIfAbsent(i + "+" + j, -1); // Populate with water
-			}
-		}
-	}
 	
 	public int getLength() {
 		return length;
 	}
 	
-	public int get(int col, int row) {
-		return usersBoats.get(col + "+" + row);
-	}
-	
 	public int getFromId(int col, int row, int id) {
-		if (usersBoats.get(col + "+" + row) == id || usersBoats.get(col + "+" + row) == -1 || usersBoats.get(col + "+" + row) == -2)
-			return usersBoats.get(col + "+" + row);
+		if (boats.get(col + "+" + row) == id || boats.get(col + "+" + row) == -1 || boats.get(col + "+" + row) == -2)
+			return boats.get(col + "+" + row);
 		return -1;
 	}
 
 	public int attack(HashMap<String, String> params, Integer playerId) {
-        int col = Integer.parseInt(params.get("col"));
-        int row = Integer.parseInt(params.get("row"));
+        String col = params.get("col");
+        String row = params.get("row");
 
-        if (usersBoats.get(col + "+" + row) != 1) { // -1 - Water
-            usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
+        if (boats.containsKey("")) {
+            boats.put(col + "+" + row, GameCells.DESTROYED_BOAT);
             return HTTPCode.SUCCESS;
         }
-
         return HTTPCode.UNSUCCESS;
     }
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
-		numPlayers++;
-		length = numPlayers * 4;
+		length += 1;
 		
-        Random rand = new Random(100);
-		int  col = rand.nextInt(length);
-		int  row = rand.nextInt(length);
+        Random rand = new Random();
+        int col; int row;
+        do {
+            col = rand.nextInt(length);
+            row = rand.nextInt(length);
+        } while (boats.containsKey(col + "+" + row));
 		
-		usersBoats.put(col + "+" + row, playerId);
+		boats.put(col + "+" + row, playerId);
 		return HTTPCode.SUCCESS;
 	}
 
