@@ -85,6 +85,7 @@ public class PlayerLogic {
 	public void updateMap(String map) {
         GameDecoder.parseMap(this, map);
         window.printMap(this.map);
+        window.panel.setGame(this.map);
     }
 
 	public int[][] getMap() {

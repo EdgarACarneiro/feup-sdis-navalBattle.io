@@ -36,7 +36,7 @@ public class UI_API {
     private JTextField xField;
     private JTextField username;
     private PlayerLogic player;
-    private PrintMap panel;
+    public PrintMap panel;
 
 	/**
 	 * Create the application.
@@ -135,7 +135,7 @@ public class UI_API {
         		.addGroup(gl_mainPanel.createSequentialGroup()
         			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
         				.addGroup(gl_mainPanel.createSequentialGroup()
-        					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+        					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 598, GroupLayout.PREFERRED_SIZE)
         					.addPreferredGap(ComponentPlacement.RELATED)
         					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
         				.addGroup(gl_mainPanel.createSequentialGroup()
@@ -152,8 +152,8 @@ public class UI_API {
         		.addGroup(gl_mainPanel.createSequentialGroup()
         			.addContainerGap()
         			.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
+        				.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
         			.addGap(35)
         			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
         				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
