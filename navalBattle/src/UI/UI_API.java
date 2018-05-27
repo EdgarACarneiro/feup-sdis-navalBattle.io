@@ -31,7 +31,6 @@ import javax.swing.JComboBox;
 public class UI_API {
 
 	private JFrame frmBattleshipio;
-    private JTextPane textPane;
     private JTextField yField;
     private JTextField xField;
     private JTextField username;
@@ -54,13 +53,9 @@ public class UI_API {
 		frmBattleshipio = new JFrame();
 		frmBattleshipio.setIconImage(Toolkit.getDefaultToolkit().getImage(UI_API.class.getResource("/UI/bomb (1).png")));
 		frmBattleshipio.setTitle("BattleShip.io");
-		frmBattleshipio.setBounds(100, 100, 600, 600);
+		frmBattleshipio.setBounds(100, 100, 650, 780);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
-        
-        //Declarations
-        textPane = new JTextPane();
-        textPane.setEnabled(false);
         JPanel welcomePanel = new JPanel();
         JPanel mainPanel = new JPanel();
         JPanel aboutPanel = new JPanel();
@@ -95,7 +90,6 @@ public class UI_API {
         username.setFont(new Font("Dialog", Font.PLAIN, 14));
         username.setText("username");
         username.setColumns(10);
-        textPane.setEditable(false);   
         
         yField = new JTextField();
         yField.setText("y");
@@ -133,32 +127,25 @@ public class UI_API {
         gl_mainPanel.setHorizontalGroup(
         	gl_mainPanel.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_mainPanel.createSequentialGroup()
-        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        				.addGroup(gl_mainPanel.createSequentialGroup()
-        					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 598, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(gl_mainPanel.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(xField, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(yField, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
-        					.addGap(58)
-        					.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
-        			.addGap(16))
+        			.addContainerGap()
+        			.addComponent(xField, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
+        			.addComponent(yField, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        			.addGap(58)
+        			.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(96, Short.MAX_VALUE))
+        		.addComponent(panel, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
         gl_mainPanel.setVerticalGroup(
         	gl_mainPanel.createParallelGroup(Alignment.LEADING)
         		.addGroup(gl_mainPanel.createSequentialGroup()
         			.addContainerGap()
-        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
-        				.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
-        				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
-        			.addGap(35)
+        			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 667, GroupLayout.PREFERRED_SIZE)
+        			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-        				.addComponent(xField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
-        				.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+        				.addComponent(xField, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
+        				.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
         			.addContainerGap())
         );
         GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
@@ -378,27 +365,5 @@ public class UI_API {
         });
                
         frmBattleshipio.setVisible(true);
-	}
-	
-	public void printMap(int[][] map) {
-		StringBuilder sb = new StringBuilder();
-		for(int i = 0; i < map.length; i++) {
-			for(int j = 0; j < map[0].length; j++) {
-				if (map[i][j] == -1)
-					sb.append(" w ");
-				else
-					sb.append(" " + map[i][j] + " ");
-				if(j != map[0].length-1) sb.append("|");
-			}
-			
-			sb.append("\n");
-			
-			for(int j = 0; j < map[0].length; j++) {
-				sb.append("-----");
-			}
-			sb.append("-\n");
-		}
-		 
-		textPane.setText(sb.toString());
 	}
 }
