@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.concurrent.*;
 import GameLogic.Routes;
+import GameLogic.GameEncoder;
 import UI.UI_API;
 import Utils.Pair;
 import Utils.RESTMethod;
@@ -81,11 +82,21 @@ public class Player {
 
 
     public void attack(int col, int row){
-        game.set(col, row);
+    	HashMap<String, String> attack = new HashMap<>();
+    	
+        if (game.set(col, row)) {
+        	attack.put("attack", GameEncoder.sendMove(game));
+        	sendServer(attack, "app/");
+        	// TODO - How to send 
+        }
     }
 
-    public void move(){
-        System.out.println("Move here and send to server");
+    public void create(){
+    	HashMap<String, String> creationReq = new HashMap<>();
+    	
+    	creationReq.put("create", "username?");
+    	sendServer(creationReq, "create");
+    	// TODO - How to send 
     }
 
     private void teste() {

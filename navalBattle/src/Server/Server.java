@@ -32,7 +32,7 @@ public class Server {
         RESTMethod r = RESTMethod.GET;
         String action = "updateGame";
         Pair<String, RESTMethod> url = new Pair<String, RESTMethod>(action, r);
-        routes.callAction(url, "teste");
+        routes.callAction(url, "test");
 
         run();
     }
@@ -71,7 +71,6 @@ public class Server {
     // TODO: Função a ser chamada pela UI quando está pronta a começar o jogo
     public void startGameUpdates() {
 
-        game.newPlayer(0);
         threadPool.run(() -> {
             Enumeration<Integer> keys = handler.getClientsIDs();
 
@@ -92,6 +91,9 @@ public class Server {
         //String statusCode =
         reportToLogic(clientMessage.getContext(), clientMessage.getParams(), clientID);
         // TODO: so para testar, tem de ser mudado
+        
+        
+        
         replyClient(clientMessage, 200 /* statusCode */, "PINTA BRO");
     }
 
@@ -107,10 +109,10 @@ public class Server {
     }
 
     public void updateGame(){
-        System.out.println("update the game to everyone here");
+    	game.updateMap();
     }
 
-     public void create(){
-        System.out.println("create a new player here");
+    public void create(int id){
+		game.newPlayer(id);
     }
 }
