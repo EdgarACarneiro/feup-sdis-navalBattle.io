@@ -11,11 +11,11 @@ public class Assets {
 	 */
 	public static void init(){
 		try {
-			water = Loader.loadImage("/water.png");
-			redShip = Loader.loadImage("/red.png");
-			yellowShip = Loader.loadImage("/yellow.png");
-			greenShip = Loader.loadImage("/green.png");
-			blueShip = Loader.loadImage("/blue.png");
+			water = Loader.loadImage("../Images/water.png");
+			redShip = Loader.loadImage("../Images/red.png");
+			yellowShip = Loader.loadImage("../Images/yellow.png");
+			greenShip = Loader.loadImage("../Images/green.png");
+			blueShip = Loader.loadImage("../Images/blue.png");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
