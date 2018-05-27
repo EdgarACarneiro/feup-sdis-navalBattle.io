@@ -50,9 +50,10 @@ public class ServerLogic {
 	public int attack(int col, int row) {
 		if (usersBoats.get(col + "+" + row) != -1) { // -1 - Water
 			usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
+			System.out.println("You hit an enemy!");
 			return HTTPCode.SUCCESS;
 		}
-		
+		System.out.println("You hit water!");
 		return HTTPCode.SUCCESS;
 	}
 	
