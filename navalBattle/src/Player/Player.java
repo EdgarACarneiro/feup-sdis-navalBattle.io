@@ -15,28 +15,14 @@ public class Player {
     private ServerListener listener;
     private ThreadPool threadPool;
     private PlayerLogic game;
-    private UI_API window;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
+        game = new PlayerLogic(this);
         
-        try {
-        	window = new UI_API(this);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
         run();
-    }
-    
-    public void initializeGame() {
-    	game = new PlayerLogic(this);
-    }
-    
-    public void processAttack(int col,int row) {
-    	game.attack(col, row);
     }
 
     private void run() {
@@ -66,7 +52,7 @@ public class Player {
 
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);
-        window.printMap(game.getMap());
+        System.out.println(game.getMap());
     }
 
 }

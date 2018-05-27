@@ -1,7 +1,5 @@
 package UI;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -25,7 +23,7 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.UIManager;
 
-import Player.Player;
+import GameLogic.PlayerLogic;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
@@ -37,14 +35,15 @@ public class UI_API {
     private JTextField yField;
     private JTextField xField;
     private JTextField username;
-    private Player player;
+    private PlayerLogic player;
+    private PrintMap panel;
 
 	/**
 	 * Create the application.
-	 * @param player
+	 * @param playerLogic
 	 */
-	public UI_API(Player player) {
-		this.player = player;
+	public UI_API(PlayerLogic playerLogic) {
+		this.player = playerLogic;
 		initialize();
 	}
 
@@ -55,12 +54,13 @@ public class UI_API {
 		frmBattleshipio = new JFrame();
 		frmBattleshipio.setIconImage(Toolkit.getDefaultToolkit().getImage(UI_API.class.getResource("/UI/bomb (1).png")));
 		frmBattleshipio.setTitle("BattleShip.io");
-		frmBattleshipio.setBounds(100, 100, 500, 419);
+		frmBattleshipio.setBounds(100, 100, 600, 600);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
         
         //Declarations
         textPane = new JTextPane();
+        textPane.setEnabled(false);
         JPanel welcomePanel = new JPanel();
         JPanel mainPanel = new JPanel();
         JPanel aboutPanel = new JPanel();
@@ -127,7 +127,40 @@ public class UI_API {
         //Layouts		
         GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
         GroupLayout gl_aboutPanel = new GroupLayout(aboutPanel);
+        
+        panel = new PrintMap();
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
+        gl_mainPanel.setHorizontalGroup(
+        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_mainPanel.createSequentialGroup()
+        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        				.addGroup(gl_mainPanel.createSequentialGroup()
+        					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 285, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 293, GroupLayout.PREFERRED_SIZE))
+        				.addGroup(gl_mainPanel.createSequentialGroup()
+        					.addContainerGap()
+        					.addComponent(xField, GroupLayout.PREFERRED_SIZE, 172, GroupLayout.PREFERRED_SIZE)
+        					.addPreferredGap(ComponentPlacement.RELATED)
+        					.addComponent(yField, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+        					.addGap(58)
+        					.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)))
+        			.addGap(16))
+        );
+        gl_mainPanel.setVerticalGroup(
+        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        		.addGroup(gl_mainPanel.createSequentialGroup()
+        			.addContainerGap()
+        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.TRAILING)
+        				.addComponent(panel, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE)
+        				.addComponent(textPane, GroupLayout.PREFERRED_SIZE, 460, GroupLayout.PREFERRED_SIZE))
+        			.addGap(35)
+        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
+        				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        				.addComponent(xField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        				.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        			.addContainerGap())
+        );
         GroupLayout gl_profilePanel = new GroupLayout(profilePanel);
 
         frmBattleshipio.getContentPane().add(welcomePanel, "name_3507367092678");
@@ -149,38 +182,6 @@ public class UI_API {
         aboutText.setEditable(false);
         aboutText.setColumns(3);
         aboutText.setText("sda\ndasda\nda\nsd\nas\ndas\ndadas");
-        
-        //Group Layouts
-        gl_mainPanel.setHorizontalGroup(
-        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_mainPanel.createSequentialGroup()
-        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        				.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-        				.addGroup(gl_mainPanel.createSequentialGroup()
-        					.addContainerGap()
-        					.addComponent(xField, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(yField, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
-        					.addGap(18)
-        					.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-        					.addGap(21)))
-        			.addGap(0))
-        );
-        gl_mainPanel.setVerticalGroup(
-        	gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        		.addGroup(gl_mainPanel.createSequentialGroup()
-        			.addComponent(textPane, GroupLayout.DEFAULT_SIZE, 331, Short.MAX_VALUE)
-        			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        				.addGroup(Alignment.TRAILING, gl_mainPanel.createSequentialGroup()
-        					.addPreferredGap(ComponentPlacement.RELATED)
-        					.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 24, GroupLayout.PREFERRED_SIZE))
-        				.addGroup(gl_mainPanel.createSequentialGroup()
-        					.addGap(7)
-        					.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING, false)
-        						.addComponent(yField, Alignment.TRAILING)
-        						.addComponent(xField, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))))
-        			.addGap(0))
-        );
         gl_welcomePanel.setHorizontalGroup(
         	gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
         		.addComponent(lblWelcome, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
@@ -255,6 +256,7 @@ public class UI_API {
         btnPlay.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		player.initializeGame();
+        		panel.setGame(player.getMap());
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
@@ -367,10 +369,10 @@ public class UI_API {
         sendButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		try {
-        			player.processAttack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
+        			player.attack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
         		}
         		catch (NumberFormatException e) {
-        			e.printStackTrace();
+        			System.out.println("Failed to convert to Integer");
         		}
         	}
         });
