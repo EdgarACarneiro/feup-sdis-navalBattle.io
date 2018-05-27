@@ -3,12 +3,6 @@ package GameLogic;
 public class GameDecoder {
     // TODO: Class to decode the players requests. Received as a String
     // TODO: all methods should be static, acts as a filter
-
-    public static void decodeAttack(ServerLogic server, String attack) {
-    	String[] coords = attack.split("+");
-    	
-    	server.attack(Integer.parseInt(coords[0]), Integer.parseInt(coords[1]));
-    }
     
     public static void parseMap(PlayerLogic player, String mapString) {
 		

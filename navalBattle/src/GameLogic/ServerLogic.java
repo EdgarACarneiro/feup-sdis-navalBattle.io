@@ -46,15 +46,18 @@ public class ServerLogic {
 			return pos;
 		return -1;
 	}
-	
-	public int attack(int col, int row) {
-		if (usersBoats.get(col + "+" + row) != -1) { // -1 - Water
-			usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
-			return HTTPCode.SUCCESS;
-		}
-		
-		return HTTPCode.SUCCESS;
-	}
+
+	public int attack(HashMap<String, String> params, Integer playerId) {
+        int col = Integer.parseInt(params.get("col"));
+        int row = Integer.parseInt(params.get("row"));
+
+        if (usersBoats.get(col + "+" + row) != 1) { // -1 - Water
+            usersBoats.put(col + "+" + row, -2); // -2 - Destroyed ship
+            return HTTPCode.SUCCESS;
+        }
+
+        return HTTPCode.UNSUCCESS;
+    }
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
 		numPlayers++;
