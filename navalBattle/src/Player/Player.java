@@ -1,6 +1,7 @@
 package Player;
 
 import Messages.UDPMessage;
+import UI.UI_API;
 import Utils.Pair;
 import Utils.ThreadPool;
 import GameLogic.PlayerLogic;
@@ -19,15 +20,18 @@ public class Player {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
         listener = new ServerListener(this);
-        game =new PlayerLogic(this);
         
-        /*try {
+        try {
         	new UI_API(this);
 		} catch (Exception e) {
 			e.printStackTrace();
-		}*/
+		}
 
         run();
+    }
+    
+    public void initializeGame() {
+    	game = new PlayerLogic(this);
     }
 
     private void run() {

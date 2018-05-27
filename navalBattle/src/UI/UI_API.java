@@ -25,7 +25,6 @@ import javax.swing.JTextArea;
 import java.awt.Font;
 import javax.swing.UIManager;
 
-import GameLogic.PlayerLogic;
 import Player.Player;
 
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -38,14 +37,14 @@ public class UI_API {
     private JTextField yField;
     private JTextField xField;
     private JTextField username;
-    private PlayerLogic logic;
+    private Player player;
 
 	/**
 	 * Create the application.
-	 * @param logic
+	 * @param player
 	 */
-	public UI_API(PlayerLogic logic) {
-		this.logic = logic;
+	public UI_API(Player player) {
+		this.player = player;
 		initialize();
 	}
 
@@ -255,6 +254,7 @@ public class UI_API {
         //Action Listeners
         btnPlay.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
+        		player.initializeGame();
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
@@ -366,7 +366,7 @@ public class UI_API {
         
         sendButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		logic.attack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
+        		
         	}
         });
                
