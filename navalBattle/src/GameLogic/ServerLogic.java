@@ -27,7 +27,6 @@ public class ServerLogic {
     }
     
 	public void updateMap() {
-		length = numPlayers * 4;
 		for (int i = 0 ; i < length ; i++) {
 			for (int j = 0 ; j < length ; j++) {
 				usersBoats.putIfAbsent(i + "+" + j, -1); // Populate with water
@@ -47,7 +46,7 @@ public class ServerLogic {
 		int pos = usersBoats.get(col + "+" + row);
 		if (pos == id)
 			return pos;
-		return 0;
+		return -1;
 	}
 	
 	public boolean attack(int col, int row) {
@@ -61,10 +60,11 @@ public class ServerLogic {
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
 		numPlayers++;
-
+		length = numPlayers * 4;
+		
         Random rand = new Random(100);
-		int  col = rand.nextInt(MAX_AUGMENTATION);
-		int  row = rand.nextInt(MAX_AUGMENTATION);
+		int  col = rand.nextInt(length);
+		int  row = rand.nextInt(length);
 		
 		usersBoats.put(col + "+" + row, playerId);
 		return HTTPCode.SUCCESS;

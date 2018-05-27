@@ -25,7 +25,7 @@ public class PlayerLogic {
 	}
 	
 	public int getLength() {
-		return length;
+		return this.map.length;
 	}
 
 	public boolean isGameOver() {
@@ -76,5 +76,9 @@ public class PlayerLogic {
 	public void updateMap(String map) {
         GameDecoder.parseMap(this, map);
     }
+
+	public int[][] getMap() {
+		return map;
+	}
 
 }

@@ -17,7 +17,7 @@ public class Server {
     private ThreadPool threadPool;
     private ServerLogic game;
 
-    private static final int UPDATE_ALL_CLIENTS_TIME = 500;
+    private static final int UPDATE_ALL_CLIENTS_TIME = 3000;
 
     public Server(String port) {
         threadPool = new ThreadPool();

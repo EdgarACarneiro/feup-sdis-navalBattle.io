@@ -15,6 +15,7 @@ public class Player {
     private ServerListener listener;
     private ThreadPool threadPool;
     private PlayerLogic game;
+    private UI_API window;
 
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
@@ -22,7 +23,7 @@ public class Player {
         listener = new ServerListener(this);
         
         try {
-        	new UI_API(this);
+        	window = new UI_API(this);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -61,6 +62,7 @@ public class Player {
 
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);
+        window.printMap(game.getMap());
     }
 
 }
