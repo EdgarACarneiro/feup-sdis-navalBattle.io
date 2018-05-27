@@ -4,17 +4,16 @@ import Communication.REST.HTTPMethod;
 import Player.Player;
 import UI.UI_API;
 import Utils.Pair;
-import Utils.ThreadPool;
 
 import java.util.HashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class PlayerLogic {
-	
-	private int[][] map;
+
+	int[][] map;
+    private int[] attack = {-1, -1};
 	private boolean gameOver = false;
-	private int attackcol = -1;
-	private int attackrow = -1;
-	private UI.UI_API window;
+	private UI.UI_API ui;
 
 	private Player bottomLayer;
 
@@ -22,26 +21,18 @@ public class PlayerLogic {
 		this.bottomLayer = bottomLayer;
 		
         try {
-        	window = new UI_API(this);
+        	ui = new UI_API(this);
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Failed to create Player UI");
 		}
 	}
-	
+
 	public int getLength() {
 		return this.map.length;
 	}
 
 	public boolean isGameOver() {
 		return gameOver;
-	}
-	
-	public int getAttackCol() {
-		return attackcol;
-	}
-	
-	public int getAttackRow() {
-		return attackrow;
 	}
 	
 	public void setGameOver(boolean gameOver) {
@@ -56,35 +47,51 @@ public class PlayerLogic {
 		this.map = map;
 	}
 	
-	public boolean set(int col, int row) {
-		if (map[col][row] == 0) {
-			attackcol = col; 
-			attackrow = row;			
-			return true;
-		}
-		return false;
-	}
+	public boolean attack(int col, int row) {
+	    if (col < 0 || map.length <= col) {
+	        System.err.println("Unknown column selected");
+	        return false;
+        }
 
-	private void  createGame() {
-		bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
+        if (row < 0 || map[col].length <= row) {
+            System.err.println("Unknown row selected");
+            return false;
+        }
+
+		if (map[col][row] != GameCells.WATER) {
+			System.err.println("Unable to attack selected position");
+			return false;
+		}
+
+        if (attack == new int[] {-1, -1}) {
+            System.err.println("You already attacked this turn");
+            return false;
+        }
+
+        attack = new int[]{col, row};
+		attack();
+		return true;
 	}
 	
     public void initializeGame() {
-		// Wait 500ms before creating player, to give to initialize all the listener and communication
-		new ThreadPool(1).run(this::createGame, 0);
+        createGame();
     }
 
-	public void attack(int col, int row) {
+    private void createGame() {
+        bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
+    }
+
+	public void attack() {
 		HashMap<String, String> params = new HashMap<>();
-		params.put("col", Integer.toString(col));
-		params.put("row", Integer.toString(row));
+		params.put("col", Integer.toString(attack[0]));
+		params.put("row", Integer.toString(attack[1]));
 
 		bottomLayer.sendServer(params, new Pair<>("app/attack", HTTPMethod.POST));
 	}
 
 	public void updateMap(String map) {
         GameDecoder.parseMap(this, map);
-        window.printMap(this.map);
+        ui.printMap(this.map);
     }
 
 	public int[][] getMap() {

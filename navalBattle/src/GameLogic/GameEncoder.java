@@ -1,8 +1,6 @@
 package GameLogic;
 
 public class GameEncoder {
-    // TODO: Class to encode boards and boards information into a string to send to the players
-    // TODO: all methods should be static, acts as a filter
    
     public static String encodeForPlayer(ServerLogic server, int id) {
 		StringBuilder sb = new StringBuilder();
@@ -16,7 +14,8 @@ public class GameEncoder {
 		sb.deleteCharAt(sb.length()-1);
 		return sb.toString();
 	}
-    
+
+	// TODO: useless (?)
     public static String encodePlayer(PlayerLogic player) { //Or send move?
 		StringBuilder sb = new StringBuilder();
 		for(int i = 0; i < player.getLength(); i++) {
@@ -28,9 +27,5 @@ public class GameEncoder {
 		}
 		sb.deleteCharAt(sb.length()-1);
 		return sb.toString();
-	}
-    
-    public static String sendMove(PlayerLogic player) {
-		return player.getAttackCol() + "+" + player.getAttackRow();
 	}
 }
