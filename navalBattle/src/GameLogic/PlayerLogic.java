@@ -4,20 +4,27 @@ import Communication.REST.HTTPMethod;
 import Player.Player;
 import UI.UI_API;
 import Utils.Pair;
+import Utils.ThreadPool;
 
 import java.util.HashMap;
 
 public class PlayerLogic {
 
-	int[][] map;
+    // Player can only attack a position from 4 to 4 seconds
+    private static final int TURN_TIME = 4000;
+    private static final int MAX_POSSIBLE_CONCURRENT_THREADS = 3;
+
+    private ThreadPool threadPool;
+	private int[][] map;
     private int[] attack = {-1, -1};
 	private boolean gameOver = false;
-	private UI.UI_API ui;
 
+	private UI.UI_API ui;
 	private Player bottomLayer;
 
 	public PlayerLogic(Player bottomLayer) {
 		this.bottomLayer = bottomLayer;
+		threadPool = new ThreadPool(MAX_POSSIBLE_CONCURRENT_THREADS);
 		
         try {
         	ui = new UI_API(this);
@@ -38,18 +45,26 @@ public class PlayerLogic {
 		this.gameOver = gameOver;
 	}
 	
-	public int get(int col, int row) {
-		return map[col][row];
-	}
-	
 	public void setMap(int[][] map) {
 		this.map = map;
 	}
+
+	private void allowNewAttack() {
+        attack = new int[] {-1, -1};
+    }
 	
-	public boolean attack(int col, int row) {
-	    if (col < 0 || map.length <= col) {
-	        System.err.println("Unknown column selected");
-	        return false;
+    public void initializeGame() {
+        threadPool.run(this::createGame);
+    }
+
+    private void createGame() {
+        bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
+    }
+
+    public boolean attack(int col, int row) {
+        if (col < 0 || map.length <= col) {
+            System.err.println("Unknown column selected");
+            return false;
         }
 
         if (row < 0 || map[col].length <= row) {
@@ -57,30 +72,23 @@ public class PlayerLogic {
             return false;
         }
 
-		if (map[col][row] != GameCells.WATER) {
-			System.err.println("Unable to attack selected position");
-			return false;
-		}
+        if (map[col][row] != GameCells.WATER) {
+            System.err.println("Unable to attack selected position");
+            return false;
+        }
 
         if (attack == new int[] {-1, -1}) {
-            System.err.println("You already attacked this turn");
+            System.err.println("You have to wait 4 seconds before attacking again!");
             return false;
         }
 
         attack = new int[]{col, row};
-		attack();
-		return true;
-	}
-	
-    public void initializeGame() {
-        createGame();
+        threadPool.run((Runnable) this::attack);
+        threadPool.run(this::allowNewAttack, TURN_TIME);
+        return true;
     }
 
-    private void createGame() {
-        bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
-    }
-
-	public void attack() {
+	private void attack() {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("col", Integer.toString(attack[0]));
 		params.put("row", Integer.toString(attack[1]));

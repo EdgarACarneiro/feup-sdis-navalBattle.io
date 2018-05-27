@@ -21,7 +21,7 @@ public class Router {
 		try {
             routes.put(new Pair<>("create", HTTPMethod.POST), "newPlayer"); // New Player
             routes.put(new Pair<>("attack", HTTPMethod.POST), "attack"); //jogador ataca -> server calcula se acertou mas o alvo só é atualizado no turno seguinte
-            routes.put(new Pair<>("move", HTTPMethod.POST), "move"); //move o jogador
+            routes.put(new Pair<>("move", HTTPMethod.GET), "move"); //move o jogador
 		}
 		catch (Exception e) {
 		    System.err.println("Failed to add Routing method to Routing table");

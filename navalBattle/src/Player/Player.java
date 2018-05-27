@@ -1,7 +1,6 @@
 package Player;
 
 import Messages.UDPMessage;
-import UI.UI_API;
 import Utils.Pair;
 import Utils.ThreadPool;
 import GameLogic.PlayerLogic;
@@ -50,6 +49,7 @@ public class Player {
         reportToLogic(clientMessage.getContent());
     }
 
+    // No need for threadPool as the threadPool was already launched in UDP level
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);
     }

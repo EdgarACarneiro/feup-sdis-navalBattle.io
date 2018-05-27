@@ -2,6 +2,7 @@ package GameLogic;
 
 import Communication.REST.HTTPCode;
 import Utils.Pair;
+import Utils.ThreadPool;
 
 import java.util.HashMap;
 import java.util.Random;
@@ -11,7 +12,9 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class ServerLogic {
 
     public static final int MAP_DISPLAY_SIZE = 25;
+    public static final int SHOW_DESTROYED_BOAT_TIME = 8000;
 
+    private ThreadPool threadpool;
 	private int length;
 	private Router router;
 
@@ -25,14 +28,20 @@ public class ServerLogic {
      */
     private ConcurrentHashMap<Integer, String> playersMapsPos;
 
+    /**
+     * Concurrent Array displaying the destroyed boats
+     */
     private CopyOnWriteArrayList<String> destroyedBoats;
 
     public ServerLogic() {
         boats = new ConcurrentHashMap<>();
         playersMapsPos = new ConcurrentHashMap<>();
-        length = MAP_DISPLAY_SIZE;
-        router = new Router(this);
         destroyedBoats = new CopyOnWriteArrayList<>();
+
+        router = new Router(this);
+        threadpool = new ThreadPool();
+
+        length = MAP_DISPLAY_SIZE;
     }
 
 	public String[] getMapStartingPos(int player) {
@@ -63,9 +72,14 @@ public class ServerLogic {
             boats.remove(pos);
 
             destroyedBoats.add(pos);
+            threadpool.run(() -> cleanBot(pos), SHOW_DESTROYED_BOAT_TIME);
             return HTTPCode.SUCCESS;
         }
         return HTTPCode.UNSUCCESS;
+    }
+
+    private void cleanBot(String pos) {
+        destroyedBoats.remove(pos);
     }
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
