@@ -15,9 +15,6 @@ public class PlayersHandler implements Runnable, HigherLayer {
     // Class this class reports to
     Server superior;
 
-    // TODO: Fica mais a cima
-    private static final String CONTEXT = "/app";
-
     int port;
 
     //Mapeamento do socket a ser usado para cada jogador/cliente, sendo que estes têm um id e o respetivo cliente udp
@@ -33,7 +30,6 @@ public class PlayersHandler implements Runnable, HigherLayer {
 
     @Override
     public void receiveReport(Message message) {
-        System.out.println("tas a dar?'");
         if (!(message instanceof RESTMessage))
             System.err.println("Received unexpected type of message");
 
@@ -55,7 +51,7 @@ public class PlayersHandler implements Runnable, HigherLayer {
     @Override
     public void run() {
         // Starts listening to the respective channel
-        CommunicationAPI.channel(this, port, CONTEXT);
+        CommunicationAPI.channel(this, port);
     }
 
     // TODO function might be more complex than this

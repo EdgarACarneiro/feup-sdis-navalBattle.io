@@ -3,6 +3,7 @@ package GameLogic;
 import Communication.REST.HTTPMethod;
 import Player.Player;
 import Utils.Pair;
+import Utils.ThreadPool;
 
 import java.util.HashMap;
 
@@ -18,6 +19,9 @@ public class PlayerLogic {
 
 	public PlayerLogic(Player bottomLayer) {
 		this.bottomLayer = bottomLayer;
+
+		// Wait 500ms before creating player, to give to initialize all the listener and communication
+		new ThreadPool(1).run(this::createGame, 500);
 	}
 	
 	public int getLength() {
@@ -58,10 +62,10 @@ public class PlayerLogic {
 	}
 
 	private void  createGame() {
-		bottomLayer.sendServer(null, new Pair<>("app/create", HTTPMethod.POST));
+		bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
 	}
 
-	private void attack(int col, int row) {
+	public void attack(int col, int row) {
 		HashMap<String, String> params = new HashMap<>();
 		params.put("col", Integer.toString(col));
 		params.put("row", Integer.toString(row));

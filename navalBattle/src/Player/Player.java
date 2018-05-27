@@ -41,7 +41,7 @@ public class Player {
      */
 
     // Method to be called by logic to make requests to the Server
-    public boolean sendServer(HashMap<String, String> params, Pair<String, String> route) {
+    public int sendServer(HashMap<String, String> params, Pair<String, String> route) {
         // TODO posso fazer aqui a cena de repetir três vezes até mandar
         Future result = threadPool.run(() -> sender.sendRequest(route, params));
         try {
@@ -49,7 +49,7 @@ public class Player {
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
-        return true;
+        return 0;
     }
 
     public void reportToLogic() {

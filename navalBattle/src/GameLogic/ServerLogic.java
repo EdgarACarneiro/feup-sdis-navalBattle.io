@@ -59,7 +59,7 @@ public class ServerLogic {
 		return false;
 	}
 	
-	public int newPlayer(HashMap<String, String> params, int playerId) {
+	public int newPlayer(HashMap<String, String> params, Integer playerId) {
 		numPlayers++;
 
         Random rand = new Random(100);

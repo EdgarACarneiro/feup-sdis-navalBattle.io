@@ -40,7 +40,6 @@ public class Server {
      */
 
     public boolean sendClient(String content, int clientID) {
-        // Missing the get to get the value
         Future result = threadPool.run(() -> handler.sendClient(content, clientID));
 
         // TODO Faze cenas enquanto a outra thread corre

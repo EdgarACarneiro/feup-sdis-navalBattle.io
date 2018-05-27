@@ -19,9 +19,9 @@ public class Router {
 		logic = server;
 
 		try {
-            routes.put(new Pair<>("app/create", HTTPMethod.POST), "newPlayer"); // New Player
-            routes.put(new Pair<>("app/attack", HTTPMethod.POST), "attack"); //jogador ataca -> server calcula se acertou mas o alvo só é atualizado no turno seguinte
-            routes.put(new Pair<>("app/move", HTTPMethod.POST), "move"); //move o jogador
+            routes.put(new Pair<>("create", HTTPMethod.POST), "newPlayer"); // New Player
+            routes.put(new Pair<>("attack", HTTPMethod.POST), "attack"); //jogador ataca -> server calcula se acertou mas o alvo só é atualizado no turno seguinte
+            routes.put(new Pair<>("move", HTTPMethod.POST), "move"); //move o jogador
 		}
 		catch (Exception e) {
 		    System.err.println("Failed to add Routing method to Routing table");
@@ -30,9 +30,10 @@ public class Router {
 
 
 	public int callAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
+        String test = routes.get(route);
 
         try {
-            Method method = logic.getClass().getMethod(routes.get(route), HashMap.class, Integer.class);
+            Method method = ServerLogic.class.getMethod(routes.get(route), HashMap.class, Integer.class);
             return (Integer) method.invoke(logic, params, clientID);
 
         } catch (NoSuchMethodException e) {

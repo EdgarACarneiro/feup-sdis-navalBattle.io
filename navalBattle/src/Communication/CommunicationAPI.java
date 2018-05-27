@@ -9,9 +9,9 @@ import Player.ServerListener;
 
 public class CommunicationAPI {
 
-    public static void channel(PlayersHandler higherLayer, int port, String context) {
+    public static void channel(PlayersHandler higherLayer, int port) {
         SecurityAPI.generateCertificate();
-        new RestServer(port, context, new RestServerHandler(higherLayer)).run();
+        new RestServer(port, "/app", new RestServerHandler(higherLayer)).run();
     }
 
     public static void channel(ServerListener higherLayer, int port) {
