@@ -1,9 +1,6 @@
 package UI;
 
 import java.awt.image.BufferedImage;
-import java.util.HashMap;
-
-
 
 /**
  * The Class Assets.

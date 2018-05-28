@@ -1,8 +1,5 @@
 package GameLogic;
 
-import Player.Player;
-
-
 /**
  * The Class GameEncoder.
  */

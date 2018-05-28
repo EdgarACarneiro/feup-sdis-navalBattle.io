@@ -6,7 +6,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import java.awt.CardLayout;
-import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
@@ -51,6 +50,10 @@ public class UI_API {
     
     /** The panel. */
     public PrintMap panel;
+    private JPanel welcomePanel;
+    private JPanel mainPanel;
+    private JPanel aboutPanel;
+    private JPanel profilePanel;
 
 	/**
 	 * Create the application.
@@ -72,10 +75,11 @@ public class UI_API {
 		frmBattleshipio.setBounds(100, 100, 650, 780);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
-        JPanel welcomePanel = new JPanel();
-        JPanel mainPanel = new JPanel();
-        JPanel aboutPanel = new JPanel();
-        JPanel profilePanel = new JPanel();
+        
+        welcomePanel = new JPanel();
+        mainPanel = new JPanel();
+        aboutPanel = new JPanel();
+        profilePanel = new JPanel();
         JMenu jmHelp = new JMenu("Help");
         JMenu jmOptions = new JMenu("Options");
         JMenu jmFile = new JMenu("File");
@@ -381,5 +385,12 @@ public class UI_API {
         });
                
         frmBattleshipio.setVisible(true);
+	}
+	
+	public void gameOver() {
+		profilePanel.setVisible(true);
+        welcomePanel.setVisible(false);
+        mainPanel.setVisible(false);
+        aboutPanel.setVisible(false);
 	}
 }
