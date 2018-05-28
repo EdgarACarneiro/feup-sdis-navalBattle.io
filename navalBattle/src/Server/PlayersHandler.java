@@ -10,18 +10,32 @@ import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The Class PlayersHandler.
+ */
 public class PlayersHandler implements Runnable, HigherLayer {
 
-    // Class this class reports to
+    /** The class this class reports to. */
     Server superior;
+
+    /** Class responsible for checking disconnections. */
     ConnectionChecker checker;
+
+    /** The port. */
     int port;
 
-
-    //Mapeamento do socket a ser usado para cada jogador/cliente, sendo que estes têm um id e o respetivo cliente udp
+    /** Mapping of the socket and its respective plaeyr */
     private ConcurrentHashMap<InetAddress, Integer> players;
+    
+    /** Mapping of the player id to the player udp connection */
     private ConcurrentHashMap<Integer, UDPClient> playersUDP;
 
+    /**
+     * Instantiates a new players handler.
+     *
+     * @param server the server
+     * @param port the port
+     */
     public PlayersHandler(Server server, int port) {
         superior = server;
         this.port = port;
@@ -30,6 +44,9 @@ public class PlayersHandler implements Runnable, HigherLayer {
         playersUDP = new ConcurrentHashMap<>();
     }
 
+    /* 
+     * @see Utils.HigherLayer#receiveReport(Messages.Message)
+     */
     @Override
     public void receiveReport(Message message) {
         if (!(message instanceof RESTMessage))
@@ -51,6 +68,9 @@ public class PlayersHandler implements Runnable, HigherLayer {
         superior.receiveReport((RESTMessage) message, clientID);
     }
 
+    /* 
+     * @see java.lang.Runnable#run()
+     */
     @Override
     public void run() {
         // Starts listening to the respective channel
@@ -58,10 +78,21 @@ public class PlayersHandler implements Runnable, HigherLayer {
         checker.run();
     }
 
+    /**
+     * Gets the clients Id's.
+     *
+     * @return the clients id's
+     */
     public Enumeration<Integer> getClientsIDs() {
         return playersUDP.keys();
     }
 
+    /**
+     * Update client.
+     *
+     * @param update the update
+     * @param clientId the client id
+     */
     public void updateClient(String update, int clientId) {
         if (playersUDP.containsKey(clientId)) {
             playersUDP.get(clientId).sendUDP(update);
@@ -69,6 +100,11 @@ public class PlayersHandler implements Runnable, HigherLayer {
             System.err.println("Unable to send message to Client, unknown client ID received: " + clientId);
     }
 
+    /**
+     * Disconnect the player by removing him of the ip map and id map
+     *
+     * @param player the player to be disconnected
+     */
     public void disconnectPlayer(InetAddress player) {
         int id = players.get(player);
         players.remove(player);

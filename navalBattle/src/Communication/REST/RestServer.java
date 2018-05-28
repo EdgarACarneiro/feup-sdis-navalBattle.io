@@ -11,9 +11,16 @@ import com.sun.net.httpserver.HttpsServer;
 
 import Security.SecurityAPI;
 
+
+/**
+ * The Class RestServer.
+ */
 public class RestServer {
 
+	/** The https server. */
 	private HttpsServer httpsServer;
+	
+	/** The backlog. */
 	private static int BACKLOG = 0;
 
 	/**
@@ -36,6 +43,7 @@ public class RestServer {
 
 		} catch (Exception e) {
 			System.err.println("An unexpected occurred creating the https server, try again!!!");
+			System.exit(-1);
 		}
 	}
 

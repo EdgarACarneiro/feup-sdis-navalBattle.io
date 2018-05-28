@@ -18,14 +18,35 @@ import javax.net.ssl.SSLSocketFactory;
 
 import Security.SecurityAPI;
 
+
+/**
+ * The Class HTTPRequest.
+ */
 public class HTTPRequest {
+	
+	/** The Constant CHARSET. */
 	private static final String CHARSET = "UTF-8";
+	
+	/** The Constant MESSAGE_SIZE. */
 	private static final int MESSAGE_SIZE = 1024;
 
+	/** The host. */
 	private String host;
+	
+	/** The port. */
 	private int port;
+	
+	/** The ssl socket. */
 	private SSLSocket sslSocket;
 
+	/**
+	 * Instantiates a new HTTP request.
+	 *
+	 * @param host the host
+	 * @param port the port
+	 * @throws UnknownHostException the unknown host exception
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public HTTPRequest(String host, int port) throws UnknownHostException, IOException {
 		this.host = host;
 		this.port = port;
@@ -44,12 +65,26 @@ public class HTTPRequest {
 		sslSocket.setTcpNoDelay(true);
 	}
 
+	/**
+	 * Handshake.
+	 *
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private void handshake() throws IOException {
 		sslSocket.setEnabledCipherSuites(sslSocket.getSupportedCipherSuites());
 		sslSocket.startHandshake();
 	}
 
 	
+	/**
+	 * Make Http request.
+	 *
+	 * @param requestMethod the request method
+	 * @param path the path
+	 * @param params the params
+	 * @return the int
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public int makeRequest(String requestMethod,String path, Map<String, String> params) throws IOException {
 		this.handshake();
 
@@ -80,6 +115,13 @@ public class HTTPRequest {
         return this.handleResponse(inputStream);
 	}
 
+	/**
+	 * Converts map into a string.
+	 *
+	 * @param params the parameters
+	 * @return the string
+	 * @throws UnsupportedEncodingException the unsupported encoding exception
+	 */
 	private static String parameterStringBuilder(Map<String, String> params) throws UnsupportedEncodingException {
 		StringBuilder result = new StringBuilder();
 
@@ -94,6 +136,13 @@ public class HTTPRequest {
 		return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
 	}
 
+	/**
+	 * Handles the server response.
+	 *
+	 * @param inputStream the input stream
+	 * @return the int
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	private int handleResponse(InputStream inputStream) throws IOException {
 		
 		ByteArrayOutputStream result = new ByteArrayOutputStream();

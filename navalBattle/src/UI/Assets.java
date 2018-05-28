@@ -4,11 +4,17 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 
+
+/**
+ * The Class Assets.
+ */
 public class Assets {
-	public static BufferedImage water ,redShip , yellowShip , greenShip, blueShip, number0, number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15, number16, number17, number18, number19, number20, number21, number22, number23, number24;
+	
+	/** The number 24. */
+	public static BufferedImage water ,redShip , yellowShip , greenShip, blueShip, fail, flame, number0, number1, number2, number3, number4, number5, number6, number7, number8, number9, number10, number11, number12, number13, number14, number15, number16, number17, number18, number19, number20, number21, number22, number23, number24;
 
 	/**
-	 * Initializes Sprites attribution
+	 * Initializes Sprites attribution.
 	 */
 	public static void init(){
 		try {
@@ -17,6 +23,8 @@ public class Assets {
 			yellowShip = Loader.loadImage("../Images/yellow.png");
 			greenShip = Loader.loadImage("../Images/green.png");
 			blueShip = Loader.loadImage("../Images/blue.png");
+			fail = Loader.loadImage("../Images/fail.png");
+			flame = Loader.loadImage("../Images/flame.png");
 			number0 = Loader.loadImage("../Images/0.png");
 			number1 = Loader.loadImage("../Images/1.png");
 			number2 = Loader.loadImage("../Images/2.png");

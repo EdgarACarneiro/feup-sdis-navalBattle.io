@@ -28,18 +28,34 @@ import GameLogic.PlayerLogic;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
+
+/**
+ * The Class UI_API.
+ */
 public class UI_API {
 
+	/** The frm battleshipio. */
 	private JFrame frmBattleshipio;
+    
+    /** The y field. */
     private JTextField yField;
+    
+    /** The x field. */
     private JTextField xField;
+    
+    /** The username. */
     private JTextField username;
+    
+    /** The player. */
     private PlayerLogic player;
+    
+    /** The panel. */
     public PrintMap panel;
 
 	/**
 	 * Create the application.
-	 * @param playerLogic
+	 *
+	 * @param playerLogic the player logic
 	 */
 	public UI_API(PlayerLogic playerLogic) {
 		this.player = playerLogic;
@@ -76,7 +92,7 @@ public class UI_API {
         btnPlay.setFont(new Font("Dialog", Font.BOLD, 16));
         JButton btnProfile = new JButton("Edit Profile");
         btnProfile.setFont(new Font("Dialog", Font.BOLD, 16));
-        JButton sendButton = new JButton("Send");
+        JButton sendButton = new JButton("Attack");
         JButton btnSubmit = new JButton("Save");   
         JTextArea aboutText = new JTextArea();
 		JMenuBar jmb = new JMenuBar();
@@ -132,8 +148,8 @@ public class UI_API {
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addComponent(yField, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
         			.addGap(58)
-        			.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 131, GroupLayout.PREFERRED_SIZE)
-        			.addContainerGap(96, Short.MAX_VALUE))
+        			.addComponent(sendButton, GroupLayout.PREFERRED_SIZE, 206, GroupLayout.PREFERRED_SIZE)
+        			.addContainerGap(21, Short.MAX_VALUE))
         		.addComponent(panel, GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
         gl_mainPanel.setVerticalGroup(
@@ -143,9 +159,9 @@ public class UI_API {
         			.addComponent(panel, GroupLayout.PREFERRED_SIZE, 667, GroupLayout.PREFERRED_SIZE)
         			.addPreferredGap(ComponentPlacement.RELATED)
         			.addGroup(gl_mainPanel.createParallelGroup(Alignment.LEADING)
-        				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-        				.addComponent(xField, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE)
-        				.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, 71, Short.MAX_VALUE))
+        				.addComponent(sendButton, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        				.addComponent(yField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE)
+        				.addComponent(xField, GroupLayout.DEFAULT_SIZE, 25, Short.MAX_VALUE))
         			.addContainerGap())
         );
         GroupLayout gl_profilePanel = new GroupLayout(profilePanel);

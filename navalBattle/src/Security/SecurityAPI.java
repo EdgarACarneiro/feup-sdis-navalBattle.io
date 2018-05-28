@@ -11,19 +11,33 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+
+/**
+ * The Class SecurityAPI.
+ */
 public class SecurityAPI {
+	
+	/** The Constant KEYSTORE_FILE. */
 	public static final File KEYSTORE_FILE = new File("Keystore","navalBattle.jks");
 
+	/** The Constant KEYSTORE_PASSWORD. */
 	public static final String KEYSTORE_PASSWORD = "navalBattle_store";
 
+	/** The Constant KEY_PASSWORD. */
 	public static final String KEY_PASSWORD = "navalBattle_key";
 
+	/** The Constant INSTANCE_TYPE. */
 	public static final String INSTANCE_TYPE = "JKS";
 
+	/** The Constant FACTORIES_ALGORITHM. */
 	public static final String FACTORIES_ALGORITHM = "SunX509";
 
+	/** The Constant SSL_PROTOCOL. */
 	public static final String SSL_PROTOCOL = "TLS";
 
+	/**
+	 * Generates a self-signed certificate.
+	 */
 	public static void generateCertificate() {
 		if(KEYSTORE_FILE.exists())
 			return;
@@ -45,9 +59,16 @@ public class SecurityAPI {
             exec.waitFor();
         } catch (java.io.IOException | java.lang.InterruptedException e) {
             System.err.println("Failed to generate Certificate. Communication Proceeding without certification");
+            System.err.println("Id the error persists try to generate it yourself");
+            System.exit(-1);
         }
 	}
 
+	/**
+	 * Gets the SSL context.
+	 *
+	 * @return the SSL context
+	 */
 	public static SSLContext getSSLContext() {
 		try {
 			KeyStore ks = KeyStore.getInstance(INSTANCE_TYPE);
@@ -64,8 +85,9 @@ public class SecurityAPI {
 			return sslContext;
 		} catch (Exception e) {
 			System.err.println("There was a problem getting the SSLContext! Verify if the KeyStore file exists");
-			return null;
+			System.exit(-1);
 		}
+		return null;
 	}
 
 }

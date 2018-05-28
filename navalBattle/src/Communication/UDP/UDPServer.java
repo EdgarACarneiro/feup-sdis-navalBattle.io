@@ -9,10 +9,16 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
+
+/**
+ * The Class UDPServer.
+ */
 public class UDPServer extends Thread {
 
+    /** The Constant MESSAGE_SIZE. */
     private static final int MESSAGE_SIZE = 2048;
 
+    /** The socket. */
     private DatagramSocket socket;
 
     /**
@@ -21,10 +27,18 @@ public class UDPServer extends Thread {
      */
     private ThreadPool dispatcher;
 
+    /** The buf. */
     private byte[] buf = new byte[MESSAGE_SIZE];
 
+    /** The superior. */
     private HigherLayer superior;
  
+    /**
+     * Instantiates a new UDP server.
+     *
+     * @param higherLayer the higher layer
+     * @param port the port
+     */
     public UDPServer(HigherLayer higherLayer, int port) {
         superior = higherLayer;
         dispatcher = new ThreadPool();
@@ -33,9 +47,13 @@ public class UDPServer extends Thread {
             socket = new DatagramSocket(port);
         } catch (SocketException e) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
  
+    /* 
+     * @see java.lang.Thread#run()
+     */
     public void run() {
 
         while (true) {
@@ -51,6 +69,11 @@ public class UDPServer extends Thread {
         }
     }
 
+    /**
+     * Report to superior.
+     *
+     * @param packet the packet
+     */
     private void reportToSuperior(DatagramPacket packet) {
         superior.receiveReport(new UDPMessage(packet));
     }

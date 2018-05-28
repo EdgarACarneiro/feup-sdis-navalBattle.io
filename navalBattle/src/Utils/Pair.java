@@ -1,16 +1,35 @@
 package Utils;
 
 
+
+/**
+ * The Class Pair.
+ *
+ * @param <L> the generic type
+ * @param <R> the generic type
+ */
 public class Pair<L,R> {
 
+	/** The left. */
 	private  L left;
+	
+	/** The right. */
 	private  R right;
 
+	/**
+	 * Instantiates a new pair.
+	 *
+	 * @param left the left
+	 * @param right the right
+	 */
 	public Pair(L left, R right) {
 	    this.left = left;
 	    this.right = right;
 	 }
 
+	/* 
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -20,6 +39,9 @@ public class Pair<L,R> {
 		return result;
 	}
 
+	/* 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public boolean equals(Object obj) {
@@ -43,14 +65,29 @@ public class Pair<L,R> {
 		return true;
 	}
 
+	/**
+	 * Gets the value.
+	 *
+	 * @return the value
+	 */
 	public synchronized R getValue() {
 		return right;
 	}
 	
+	/**
+	 * Sets the value.
+	 *
+	 * @param right the new value
+	 */
 	public synchronized void setValue(R right) {
 		this.right=right;
 	}
 	
+	/**
+	 * Gets the key.
+	 *
+	 * @return the key
+	 */
 	public synchronized L getKey() {
 		return left;
 	}

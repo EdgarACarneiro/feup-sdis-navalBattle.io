@@ -3,15 +3,26 @@ package UI;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+
+/**
+ * The Class PrintMap.
+ */
 public class PrintMap extends JPanel {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant DIMENSION. */
 	private static final int DIMENSION = 25;
+	
+	/** The y dimension. */
 	private int xDimension, yDimension;
+	
+	/** The map. */
 	private int[][] map;
 	
 	/**
-	 * Create the panel
+	 * Create the panel.
 	 */
 	public PrintMap() {
 		super();
@@ -19,16 +30,21 @@ public class PrintMap extends JPanel {
 		yDimension = DIMENSION;
 		Assets.init();
 	}
+	
 	/**
-	 * Attributes game to panel
-	 * @param game
+	 * Attributes game to panel.
+	 *
+	 * @param map the new game
 	 */
 	public void setGame(int[][] map) {
 		this.map = map;
 		repaint();
 	}
+	
 	/**
-	 * Draws the map
+	 * Draws the map.
+	 *
+	 * @param g the g
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -88,12 +104,20 @@ public class PrintMap extends JPanel {
 			
 			for (int i = 1 ; i - 1 < map.length ; i++) {
 				for (int j = 1 ; j - 1 < map[i-1].length ; j++) {
-					if (map[i-1][j-1] == -1) 
-						g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
-					else if (map[i-1][j-1] == -2) 
-						g.drawImage(Assets.redShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
-					else 
-						g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+					switch (map[i-1][j-1]) {
+						case -1:
+							g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						case -2:
+							g.drawImage(Assets.flame, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						case -3:
+							g.drawImage(Assets.fail, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						default:
+							g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+					}
 				}
 			}
 		}

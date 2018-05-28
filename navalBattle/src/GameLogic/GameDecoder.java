@@ -1,7 +1,16 @@
 package GameLogic;
 
+/**
+ * The Class GameDecoder.
+ */
 public class GameDecoder {
     
+    /**
+     * Parses the map.
+     *
+     * @param player the player
+     * @param mapString the map string
+     */
     public static void parseMap(PlayerLogic player, String mapString) {
 		
 		String[] columns = mapString.split(";");

@@ -8,13 +8,25 @@ import Communication.REST.HTTPCode;
 import Communication.REST.HTTPMethod;
 import Utils.Pair;
 
+
+/**
+ * The Class Router.
+ */
 public class Router {
 
+	/** The logic. */
 	ServerLogic logic;
 
+	
 	// <Pair< context, method>, callable>
+	/** The routes. */
 	private static HashMap<Pair<String, String>, String> routes = new HashMap<>();
 
+	/**
+	 * Instantiates a new router.
+	 *
+	 * @param server the server
+	 */
 	public Router(ServerLogic server){
 		logic = server;
 
@@ -29,6 +41,14 @@ public class Router {
 	}
 
 
+	/**
+	 * Call an action corresponding to a route.
+	 *
+	 * @param route the route
+	 * @param params the params
+	 * @param clientID the client ID
+	 * @return the HTTPCode
+	 */
 	public int callAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
         try {
             Method method = ServerLogic.class.getMethod(routes.get(route), HashMap.class, Integer.class);
