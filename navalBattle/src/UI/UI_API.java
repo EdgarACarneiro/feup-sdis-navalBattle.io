@@ -35,6 +35,10 @@ public class UI_API {
     private JTextField xField;
     private JTextField username;
     private PlayerLogic player;
+    JPanel welcomePanel = new JPanel();
+    JPanel mainPanel = new JPanel();
+    JPanel aboutPanel = new JPanel();
+    JPanel profilePanel = new JPanel();
     public PrintMap panel;
 
 	/**
@@ -56,10 +60,7 @@ public class UI_API {
 		frmBattleshipio.setBounds(100, 100, 650, 780);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
-        JPanel welcomePanel = new JPanel();
-        JPanel mainPanel = new JPanel();
-        JPanel aboutPanel = new JPanel();
-        JPanel profilePanel = new JPanel();
+        
         JMenu jmHelp = new JMenu("Help");
         JMenu jmOptions = new JMenu("Options");
         JMenu jmFile = new JMenu("File");
@@ -365,5 +366,12 @@ public class UI_API {
         });
                
         frmBattleshipio.setVisible(true);
+	}
+	
+	public void gameOver() {
+		profilePanel.setVisible(true);
+        welcomePanel.setVisible(false);
+        mainPanel.setVisible(false);
+        aboutPanel.setVisible(false);
 	}
 }

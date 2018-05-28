@@ -98,6 +98,10 @@ public class PlayerLogic {
 	public void updateMap(String map) {
         GameDecoder.parseMap(this, map);
         ui.panel.setGame(this.map);
+        if (gameOver) {
+        	ui.gameOver();
+        	
+        }
     }
 
 	public int[][] getMap() {
