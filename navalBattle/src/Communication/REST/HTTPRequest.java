@@ -50,7 +50,7 @@ public class HTTPRequest {
 	}
 
 	
-	public String makeRequest(String requestMethod,String path, Map<String, String> params) throws IOException {
+	public int makeRequest(String requestMethod,String path, Map<String, String> params) throws IOException {
 		this.handshake();
 
 		String paramaters = parameterStringBuilder(params);
@@ -76,8 +76,8 @@ public class HTTPRequest {
 			wr.write(paramaters);
 		
 		wr.flush();
-		
-		return this.handleResponse(inputStream);
+
+        return this.handleResponse(inputStream);
 	}
 
 	private static String parameterStringBuilder(Map<String, String> params) throws UnsupportedEncodingException {
@@ -94,7 +94,7 @@ public class HTTPRequest {
 		return resultString.length() > 0 ? resultString.substring(0, resultString.length() - 1) : resultString;
 	}
 
-	private String handleResponse(InputStream inputStream) throws IOException {
+	private int handleResponse(InputStream inputStream) throws IOException {
 		
 		ByteArrayOutputStream result = new ByteArrayOutputStream();
 		byte[] buffer = new byte[MESSAGE_SIZE];
@@ -104,15 +104,9 @@ public class HTTPRequest {
 		}
 		sslSocket.close();
 		String temp[]=result.toString(CHARSET).split("\r\n\r\n");
-		String response = "";
-		if (temp.length > 1)
-			response =temp[1];
-		String statuscode = temp[0].split(" ")[1];
-		
-		if (Integer.parseInt(statuscode) != 200) {
-			System.out.println("Response code: " + statuscode);
-			return null;
-		}
-		return response;
+
+		// Content not needed in our application, but if it were, it would be in temp[1]
+		String statusCode = temp[0].split(" ")[1];
+		return Integer.parseInt(statusCode);
 	}
 }

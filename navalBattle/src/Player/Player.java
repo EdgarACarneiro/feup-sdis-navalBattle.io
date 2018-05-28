@@ -1,14 +1,18 @@
 package Player;
 
+import Communication.REST.HTTPCode;
 import Messages.UDPMessage;
 import Utils.Pair;
 import Utils.ThreadPool;
 import GameLogic.PlayerLogic;
 
 import java.util.HashMap;
+import java.util.Random;
 import java.util.concurrent.*;
 
 public class Player {
+
+    private static final int RETRY_TIME = 400;
 
     private ServerSender sender;
     private ServerListener listener;
@@ -33,15 +37,23 @@ public class Player {
      */
 
     // Method to be called by logic to make requests to the Server
-    public int sendServer(HashMap<String, String> params, Pair<String, String> route) {
-        // TODO posso fazer aqui a cena de repetir três vezes até mandar
-        Future result = threadPool.run(() -> sender.sendRequest(route, params));
+    // Tries until up to 3 times of receiving error messages
+    public void sendServer(HashMap<String, String> params, Pair<String, String> route) {
         try {
-            System.out.println(result.get());
+            int waitingTime = 0;
+            Random rand = new Random();
+
+            int result;
+            do {
+                Future future = threadPool.run(() -> sender.sendRequest(route, params), waitingTime);
+                waitingTime += rand.nextInt(RETRY_TIME);
+                result = (Integer) future.get();
+
+            } while (result != HTTPCode.SUCCESS && result != HTTPCode.UNSUCCESS);
+
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            System.err.println("Failed to obtain a positive response, after 3 tries!");
         }
-        return 0;
     }
 
     // Result of bubbling up functions

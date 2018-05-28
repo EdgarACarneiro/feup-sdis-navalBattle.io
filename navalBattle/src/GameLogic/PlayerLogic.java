@@ -61,31 +61,30 @@ public class PlayerLogic {
         bottomLayer.sendServer(new HashMap<>(), new Pair<>("app/create", HTTPMethod.POST));
     }
 
-    public boolean attack(int col, int row) {
+    public void attack(int col, int row) {
         if (col < 0 || map.length <= col) {
             System.err.println("Unknown column selected");
-            return false;
+            return;
         }
 
         if (row < 0 || map[col].length <= row) {
             System.err.println("Unknown row selected");
-            return false;
+            return;
         }
 
         if (map[col][row] != GameCells.WATER) {
             System.err.println("Unable to attack selected position");
-            return false;
+            return;
         }
 
         if (attack == new int[] {-1, -1}) {
             System.err.println("You have to wait 4 seconds before attacking again!");
-            return false;
+            return;
         }
 
         attack = new int[]{col, row};
         threadPool.run((Runnable) this::attack);
         threadPool.run(this::allowNewAttack, TURN_TIME);
-        return true;
     }
 
 	private void attack() {

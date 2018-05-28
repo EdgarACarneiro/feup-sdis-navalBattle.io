@@ -35,6 +35,10 @@ public class ThreadPool {
         return executor.submit(runObject);
     }
 
+    public Future run(Callable runObject, int delay) {
+        return executor.schedule(runObject, delay, TimeUnit.MILLISECONDS);
+    }
+
     public void run(Runnable runObject) {
         executor.submit(runObject);
     }
