@@ -2,6 +2,7 @@ package Server;
 
 import Utils.ThreadPool;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Class responsible for checking if there are inactive players
  */
-public class ConnectionChecker {
+public class ConnectionChecker implements Serializable {
 
     // 60 seconds of inactivity and the player is disconnected
     public static final int PLAYER_TIME_OUT = 60000;

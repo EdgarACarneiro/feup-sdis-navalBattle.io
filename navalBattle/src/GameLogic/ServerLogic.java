@@ -4,6 +4,7 @@ import Communication.REST.HTTPCode;
 import Utils.Pair;
 import Utils.ThreadPool;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -14,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * The Class ServerLogic.
  */
-public class ServerLogic {
+public class ServerLogic implements Serializable {
 
     /** The Constant MAP_DISPLAY_SIZE. */
     public static final int MAP_DISPLAY_SIZE = 25;
@@ -23,7 +24,7 @@ public class ServerLogic {
     public static final int SHOW_DESTROYED_BOAT_TIME = 10000;
 
     /** The threadpool. */
-    private ThreadPool threadpool;
+    private transient ThreadPool threadpool;
 	
 	/** The length. */
 	private int length;
@@ -68,6 +69,19 @@ public class ServerLogic {
         if (playersMapsPos.containsKey(player))
             return playersMapsPos.get(player).split("\\+");
         return new String[] {};
+    }
+
+    /**
+     * Function to start the time counters associated to the server logic
+     */
+    public void serializeActions() {
+        threadpool = new ThreadPool();
+
+        for (String boat : destroyedBoats)
+            threadpool.run(() -> cleanBoat(boat), 0 , SHOW_DESTROYED_BOAT_TIME);
+
+        for (String shot : failedShots)
+            threadpool.run(() -> cleanShot(shot), 0 , SHOW_DESTROYED_BOAT_TIME);
     }
 
     /**
@@ -117,7 +131,7 @@ public class ServerLogic {
             boats.remove(pos);
 
             destroyedBoats.add(pos);
-            threadpool.run(() -> cleanBot(pos), SHOW_DESTROYED_BOAT_TIME);
+            threadpool.run(() -> cleanBoat(pos), SHOW_DESTROYED_BOAT_TIME);
             return HTTPCode.SUCCESS;
         }
 
@@ -131,7 +145,7 @@ public class ServerLogic {
      *
      * @param pos the position
      */
-    private void cleanBot(String pos) {
+    private void cleanBoat(String pos) {
         destroyedBoats.remove(pos);
     }
 
@@ -185,11 +199,15 @@ public class ServerLogic {
         int colOffset = col - (MAP_DISPLAY_SIZE / 2);
         int rowOffset = row - (MAP_DISPLAY_SIZE / 2);
 
-        int s = findStart(colOffset);
-        int k = findStart(rowOffset);
         playersMapsPos.put(id, findStart(colOffset) + "+" + findStart(rowOffset));
     }
 
+    /**
+     * Find out where the map should starts, in this axis
+     *
+     * @param offset offset used to compute
+     * @return position where the map starts
+     */
     private int findStart(int offset) {
         if (offset > 0) {
             if (offset + MAP_DISPLAY_SIZE > length)

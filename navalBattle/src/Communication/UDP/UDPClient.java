@@ -1,5 +1,6 @@
 package Communication.UDP;
 
+import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -7,10 +8,10 @@ import java.net.InetAddress;
 /**
  * The Class UDPClient.
  */
-public class UDPClient {
+public class UDPClient implements Serializable {
     
     /** The socket. */
-    private DatagramSocket socket;
+    private transient DatagramSocket socket;
     
     /** The address. */
     private InetAddress address;

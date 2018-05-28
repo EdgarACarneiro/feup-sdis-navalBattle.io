@@ -6,16 +6,16 @@ import UI.UI_API;
 import Utils.Pair;
 import Utils.ThreadPool;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 
 /**
  * The Class PlayerLogic.
  */
-public class PlayerLogic {
+public class PlayerLogic  implements Serializable {
 
-    /** The Constant TURN_TIME. */
-    // Player can only attack a position from 4 to 4 seconds
+    /** The Constant TURN_TIME. Player can only attack a position from 4 to 4 seconds. */
     private static final int TURN_TIME = 4000;
     
     /** The Constant MAX_POSSIBLE_CONCURRENT_THREADS. */
@@ -95,7 +95,8 @@ public class PlayerLogic {
 	 * Allow new attack.
 	 */
 	private void allowNewAttack() {
-        attack = new int[] {-1, -1};
+        attack[0] = -1;
+        attack[1] = -1;
     }
 	
     /**
@@ -134,7 +135,7 @@ public class PlayerLogic {
             return;
         }
 
-        if (attack == new int[] {-1, -1}) {
+        if (attack[0] != -1 || attack[1] != -1) {
             System.err.println("You have to wait 4 seconds before attacking again!");
             return;
         }

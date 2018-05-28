@@ -4,6 +4,7 @@ import Messages.RESTMessage;
 import Utils.ThreadPool;
 import GameLogic.ServerLogic;
 
+import java.io.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
@@ -15,19 +16,27 @@ import Utils.Pair;
 /**
  * The Class Server.
  */
-public class Server {
+public class Server implements Serializable {
+
+    /** The Constant UPDATE_ALL_CLIENTS_TIME. */
+    private static final int UPDATE_ALL_CLIENTS_TIME = 500;
+
+    /** The Constant representing the name of the serializable file. */
+    private static final String SERIALIZABLE_FILE = "Server.ser";
+
+    /** The Constant representing the constant time out used to save to the serializable file - 4 seconds. */
+    private static final int SERIALIZABLE_LOOP_TIME = 4000;
 
     /** The handler. */
-    private PlayersHandler handler;
+    private transient PlayersHandler handler;
     
     /** The thread pool. */
-    private ThreadPool threadPool;
+    private transient ThreadPool threadPool;
     
     /** The game. */
     private ServerLogic game;
 
-    /** The Constant UPDATE_ALL_CLIENTS_TIME. */
-    private static final int UPDATE_ALL_CLIENTS_TIME = 500;
+    private int port;
 
     /**
      * Instantiates a new server.
@@ -35,12 +44,64 @@ public class Server {
      * @param port the port
      */
     public Server(String port) {
+        this.port = Integer.parseInt(port);
         threadPool = new ThreadPool();
-        handler = new PlayersHandler(this, Integer.parseInt(port));
+        handler = new PlayersHandler(this, this.port);
         game = new ServerLogic();
+
+        if (! (new File(SERIALIZABLE_FILE).exists())) {
+            try {
+                (new File(SERIALIZABLE_FILE)).createNewFile();
+            } catch (IOException e) {
+                System.err.println("Failed to create serialization file for Server");
+            }
+        }
 
         run();
     }
+
+    /**
+     * Initialize the server using either serializable files or the default constructors.
+     *
+     * @return The Server created by serialization or null, if no files were found
+     */
+    public static void initServer() {
+        File serverFile = new File(SERIALIZABLE_FILE);
+        Server server = null;
+
+        try {
+            if (serverFile.exists()) {
+                server = (Server) (new ObjectInputStream(new FileInputStream(serverFile))).readObject();
+                server.threadPool = new ThreadPool();
+                server.handler = new PlayersHandler(server, server.port);
+                server.game.serializeActions();
+            }
+
+        } catch (java.io.IOException | java.lang.ClassNotFoundException e) {
+            System.err.println("Failed to initialize database from files");
+        }
+
+        if (server != null)
+            server.run();
+        else
+            System.err.println("Failed to serialize Server");
+    }
+
+    /**
+     * Function responsible for launching a thread that saves the Server class every SERIALIZABLE_LOOP_TIME seconds
+     */
+    private void startSaverThread() {
+        threadPool.run(() -> {
+            try {
+                (new ObjectOutputStream(new FileOutputStream(new File(SERIALIZABLE_FILE)))).writeObject(this);
+
+            } catch (IOException e) {
+                System.err.println("Failed to save server for serialization");
+                e.printStackTrace();
+            }
+        }, SERIALIZABLE_LOOP_TIME, SERIALIZABLE_LOOP_TIME);
+    }
+
 
     /**
      * Runs the handler.
@@ -48,6 +109,7 @@ public class Server {
     private void run() {
         threadPool.run(handler);
         startGameUpdates();
+        startSaverThread();
     }
 
     /**

@@ -6,6 +6,7 @@ import Messages.Message;
 import Messages.RESTMessage;
 import Utils.HigherLayer;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.util.Enumeration;
 import java.util.concurrent.ConcurrentHashMap;

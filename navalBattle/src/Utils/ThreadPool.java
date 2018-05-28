@@ -1,5 +1,6 @@
 package Utils;
 
+import java.io.Serializable;
 import java.util.concurrent.*;
 
 
