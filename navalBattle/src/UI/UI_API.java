@@ -268,10 +268,12 @@ public class UI_API {
         	public void actionPerformed(ActionEvent arg0) {
         		player.initializeGame();
         		panel.setGame(player.getMap());
+        		panel.setVisible(true);
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
                 aboutPanel.setVisible(false);
+                frmBattleshipio.setTitle("BattleShip.io : Play " + user);
         	}
         });
         
@@ -289,6 +291,7 @@ public class UI_API {
         		profilePanel.setVisible(false);
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
+                panel.setVisible(true);
                 aboutPanel.setVisible(false);
                 frmBattleshipio.setTitle("BattleShip.io : Play " + user);  
         	}
@@ -395,6 +398,7 @@ public class UI_API {
 	public void gameOver() {
 		profilePanel.setVisible(false);
         welcomePanel.setVisible(true);
+        panel.setVisible(false);
         mainPanel.setVisible(false);
         aboutPanel.setVisible(false);
 	}
