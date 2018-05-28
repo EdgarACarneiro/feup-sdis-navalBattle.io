@@ -2,6 +2,12 @@
 
 Jogo de Batalha Naval multiplayer.
 
+## Build Tips (Eclipse/IntelliJ)
+
+During our development we used both Eclipse and IntelliJ for their easier use of run configurations, and other Full IDEs adavantages.
+
+To build on these IDEs it is just needed to create a project from the folder and then defining Main.java as our main class.
+
 ## Build Tips (Terminal)
 ```
 # Linux
@@ -18,9 +24,13 @@ $ javac @sources.txt
 To start a Server, use the following command as an example:
 ```
 $ java Main server 8080
+OR
+In and IDE add arguments: server 8080
 ```
 
 To start the Player, use the following command as an example:
 ```
 $ java Main player 192.168.1.78 8080
+OR
+In and IDE add arguments: player 192.168.1.78 8080
 ```
