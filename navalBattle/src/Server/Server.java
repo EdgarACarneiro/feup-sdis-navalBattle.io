@@ -11,14 +11,29 @@ import java.util.concurrent.Future;
 
 import Utils.Pair;
 
+
+/**
+ * The Class Server.
+ */
 public class Server {
 
+    /** The handler. */
     private PlayersHandler handler;
+    
+    /** The thread pool. */
     private ThreadPool threadPool;
+    
+    /** The game. */
     private ServerLogic game;
 
+    /** The Constant UPDATE_ALL_CLIENTS_TIME. */
     private static final int UPDATE_ALL_CLIENTS_TIME = 500;
 
+    /**
+     * Instantiates a new server.
+     *
+     * @param port the port
+     */
     public Server(String port) {
         threadPool = new ThreadPool();
         handler = new PlayersHandler(this, Integer.parseInt(port));
@@ -27,13 +42,20 @@ public class Server {
         run();
     }
 
+    /**
+     * Runs the handler.
+     */
     private void run() {
         threadPool.run(handler);
         startGameUpdates();
     }
 
     /**
-     * METHODS FOR INTERACTION WITH HIGHER LAYERS
+     * METHODS FOR INTERACTION WITH HIGHER LAYERS.
+     *
+     * @param content the content
+     * @param clientID the client ID
+     * @return true, if successful
      */
 
     public boolean sendClient(String content, int clientID) {
@@ -50,10 +72,20 @@ public class Server {
         // TODO Se pintar passar em result o rsultado? no estilo do map também?
     }
 
+    /**
+     * Reply client.
+     *
+     * @param clientMessage the client message
+     * @param statusCode the status code
+     * @param content the content
+     */
     private void replyClient(RESTMessage clientMessage, int statusCode, String content) {
         threadPool.run(() -> new RESTMessage(clientMessage, statusCode, content).sendAsReply());
     }
 
+    /**
+     * Start game updates.
+     */
     // Function that updates all the players board every 0.5 seconds
     private void startGameUpdates() {
 
@@ -67,11 +99,23 @@ public class Server {
         }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
+    /**
+     * Notice client.
+     *
+     * @param content the content
+     * @param id the id
+     */
     // TODO: to be called by logic when some1 shot my boat or smth - MBY IMPLEMENT
     public void noticeClient(String content, int id) {
         handler.updateClient(content, id);
     }
 
+    /**
+     * Receive report.
+     *
+     * @param clientMessage the client message
+     * @param clientID the client ID
+     */
     // Result of bubbling up functions
     public void receiveReport(RESTMessage clientMessage, int clientID) {
         Pair<String, String> valuableInfo =
@@ -84,10 +128,24 @@ public class Server {
         );
     }
 
+    /**
+     * Report to logic.
+     *
+     * @param info the info
+     * @param params the params
+     * @param clientID the client ID
+     * @return the response
+     */
     private int reportToLogic(Pair<String, String> info, HashMap<String, String> params, int clientID) {
         return game.triggerAction(info, params, clientID);
     }
 
+    /**
+     * Request map.
+     *
+     * @param clientID the client ID
+     * @return the map
+     */
     private String requestMap(int clientID) {
         return game.requestMap(clientID);
     }

@@ -11,9 +11,16 @@ import com.sun.net.httpserver.HttpsServer;
 
 import Security.SecurityAPI;
 
+
+/**
+ * The Class RestServer.
+ */
 public class RestServer {
 
+	/** The https server. */
 	private HttpsServer httpsServer;
+	
+	/** The backlog. */
 	private static int BACKLOG = 0;
 
 	/**

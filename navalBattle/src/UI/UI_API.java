@@ -28,18 +28,34 @@ import GameLogic.PlayerLogic;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
+
+/**
+ * The Class UI_API.
+ */
 public class UI_API {
 
+	/** The frm battleshipio. */
 	private JFrame frmBattleshipio;
+    
+    /** The y field. */
     private JTextField yField;
+    
+    /** The x field. */
     private JTextField xField;
+    
+    /** The username. */
     private JTextField username;
+    
+    /** The player. */
     private PlayerLogic player;
+    
+    /** The panel. */
     public PrintMap panel;
 
 	/**
 	 * Create the application.
-	 * @param playerLogic
+	 *
+	 * @param playerLogic the player logic
 	 */
 	public UI_API(PlayerLogic playerLogic) {
 		this.player = playerLogic;

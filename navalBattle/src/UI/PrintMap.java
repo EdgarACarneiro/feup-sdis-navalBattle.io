@@ -3,15 +3,26 @@ package UI;
 import java.awt.Graphics;
 import javax.swing.JPanel;
 
+
+/**
+ * The Class PrintMap.
+ */
 public class PrintMap extends JPanel {
 
+	/** The Constant serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** The Constant DIMENSION. */
 	private static final int DIMENSION = 25;
+	
+	/** The y dimension. */
 	private int xDimension, yDimension;
+	
+	/** The map. */
 	private int[][] map;
 	
 	/**
-	 * Create the panel
+	 * Create the panel.
 	 */
 	public PrintMap() {
 		super();
@@ -19,16 +30,21 @@ public class PrintMap extends JPanel {
 		yDimension = DIMENSION;
 		Assets.init();
 	}
+	
 	/**
-	 * Attributes game to panel
-	 * @param game
+	 * Attributes game to panel.
+	 *
+	 * @param map the new game
 	 */
 	public void setGame(int[][] map) {
 		this.map = map;
 		repaint();
 	}
+	
 	/**
-	 * Draws the map
+	 * Draws the map.
+	 *
+	 * @param g the g
 	 */
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);

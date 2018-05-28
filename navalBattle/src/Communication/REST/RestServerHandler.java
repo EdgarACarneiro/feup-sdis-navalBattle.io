@@ -9,6 +9,9 @@ import Utils.ThreadPool;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+/**
+ * The Class RestServerHandler.
+ */
 public class RestServerHandler implements HttpHandler {
 
     /**
@@ -17,17 +20,33 @@ public class RestServerHandler implements HttpHandler {
      */
     private ThreadPool dispatcher;
 
+	/** The superior. */
 	private HigherLayer superior;
 
+	/**
+	 * Instantiates a new rest server handler.
+	 *
+	 * @param higherlayer the higherlayer
+	 */
 	public RestServerHandler(HigherLayer higherlayer) {
         superior = higherlayer;
         dispatcher = new ThreadPool();
     }
 
+	/* 
+	 * @see com.sun.net.httpserver.HttpHandler#handle(com.sun.net.httpserver.HttpExchange)
+	 */
 	public void handle(HttpExchange exchange) {
 		dispatcher.run(() -> reportToSuperior(exchange));
 	}
 
+	/**
+	 * Send response.
+	 *
+	 * @param t the HttpExchange
+	 * @param statusCode the status code
+	 * @param response the response
+	 */
 	public static void sendResponse(HttpExchange t, int statusCode, String response) {
 		try {
 			t.sendResponseHeaders(statusCode, response.getBytes().length);
@@ -40,6 +59,11 @@ public class RestServerHandler implements HttpHandler {
 		}
 	}
 
+    /**
+     * Reports to superior.
+     *
+     * @param exchange the exchange
+     */
     private void reportToSuperior(HttpExchange exchange) {
 	    superior.receiveReport(new RESTMessage(exchange));
     }

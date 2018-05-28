@@ -11,19 +11,33 @@ import javax.net.ssl.KeyManagerFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
+
+/**
+ * The Class SecurityAPI.
+ */
 public class SecurityAPI {
+	
+	/** The Constant KEYSTORE_FILE. */
 	public static final File KEYSTORE_FILE = new File("Keystore","navalBattle.jks");
 
+	/** The Constant KEYSTORE_PASSWORD. */
 	public static final String KEYSTORE_PASSWORD = "navalBattle_store";
 
+	/** The Constant KEY_PASSWORD. */
 	public static final String KEY_PASSWORD = "navalBattle_key";
 
+	/** The Constant INSTANCE_TYPE. */
 	public static final String INSTANCE_TYPE = "JKS";
 
+	/** The Constant FACTORIES_ALGORITHM. */
 	public static final String FACTORIES_ALGORITHM = "SunX509";
 
+	/** The Constant SSL_PROTOCOL. */
 	public static final String SSL_PROTOCOL = "TLS";
 
+	/**
+	 * Generates a self-signed certificate.
+	 */
 	public static void generateCertificate() {
 		if(KEYSTORE_FILE.exists())
 			return;
@@ -48,6 +62,11 @@ public class SecurityAPI {
         }
 	}
 
+	/**
+	 * Gets the SSL context.
+	 *
+	 * @return the SSL context
+	 */
 	public static SSLContext getSSLContext() {
 		try {
 			KeyStore ks = KeyStore.getInstance(INSTANCE_TYPE);
