@@ -21,11 +21,15 @@ public class PrintMap extends JPanel {
 	/** The map. */
 	private int[][] map;
 	
+	/** The layer below. */
+	private UI_API ui;
+	
 	/**
 	 * Create the panel.
 	 */
-	public PrintMap() {
+	public PrintMap(UI_API ui) {
 		super();
+		this.ui = ui;
 		xDimension = DIMENSION;
 		yDimension = DIMENSION;
 		Assets.init();
@@ -115,7 +119,14 @@ public class PrintMap extends JPanel {
 							g.drawImage(Assets.fail, j*xDimension, i*yDimension, xDimension, yDimension, null);
 							break;
 						default:
-							g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							if (ui.getColor() == "Blue")
+								g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							else if (ui.getColor() == "Red")
+								g.drawImage(Assets.redShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							else if (ui.getColor() == "Yellow")
+								g.drawImage(Assets.yellowShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							else if (ui.getColor() == "Green")
+								g.drawImage(Assets.greenShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
 							break;
 					}
 				}

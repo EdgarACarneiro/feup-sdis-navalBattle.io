@@ -48,6 +48,10 @@ public class UI_API {
     /** The player. */
     private PlayerLogic player;
     
+    /** Player Stats */
+    private String color = "Red";
+    private String user = "username";
+    
     /** The panel. */
     public PrintMap panel;
     private JPanel welcomePanel;
@@ -83,7 +87,6 @@ public class UI_API {
         JMenu jmHelp = new JMenu("Help");
         JMenu jmOptions = new JMenu("Options");
         JMenu jmFile = new JMenu("File");
-        JMenu moreOptions = new JMenu("More Options");
         JMenuItem jmiConnect = new JMenuItem("Play");
         JMenuItem editProfile = new JMenuItem("Edit Profile");
         JMenuItem jmiExit = new JMenuItem("Exit");
@@ -125,10 +128,6 @@ public class UI_API {
         jmb.add(jmHelp);
 
         jmOptions.add(editProfile);
-        jmOptions.add(moreOptions);
-        
-        moreOptions.add(new JMenuItem("A"));
-        moreOptions.add(new JMenuItem("B"));
         
         jmFile.add(jmiConnect);
         jmFile.addSeparator();
@@ -142,7 +141,7 @@ public class UI_API {
         GroupLayout gl_welcomePanel = new GroupLayout(welcomePanel);
         GroupLayout gl_aboutPanel = new GroupLayout(aboutPanel);
         
-        panel = new PrintMap();
+        panel = new PrintMap(this);
         GroupLayout gl_mainPanel = new GroupLayout(mainPanel);
         gl_mainPanel.setHorizontalGroup(
         	gl_mainPanel.createParallelGroup(Alignment.LEADING)
@@ -188,7 +187,12 @@ public class UI_API {
         aboutText.setTabSize(0);
         aboutText.setEditable(false);
         aboutText.setColumns(3);
-        aboutText.setText("sda\ndasda\nda\nsd\nas\ndas\ndadas");
+        aboutText.setText("No âmbito da unidade curricular de Sistemas Distribuídos, foi proposta, pelo grupo, a implementação de um jogo de Batalha Naval, utilizando recursos lecionados nas aulas teóricas. Esta versão do jogo contém algumas funcionalidades diferentes da Batalha Naval original, criando assim uma versão aplicada aos dias de hoje. \n O projeto foi implementado como uma aplicação distribuída do tipo cliente-servidor com notificações, onde as comunicações são feitas com recurso ao serviço web REST.\r\n" + 
+        		"\r\n" + 
+        		"Um jogador, ao conectar-se ao servidor do jogo, é adicionado ao mapa, juntando-se aos outros jogadores. \r\n" + 
+        		"O objetivo é afundar o barco dos outros jogadores, indicando as coordenadas que deseja atacar. Caso o jogador acerte no barco de um outro jogador, o primeiro é recompensado com um barco, enquanto que o segundo perde o barco atacado. Ao contrário da versão original de Batalha Naval, esta não contém turnos entre jogadores, mas sim um intervalo de tempo no qual todos os jogadores deverão jogar, sendo este intervalo, neste caso, de quatro segundos cada.\r\n" + 
+        		"\r\n" + 
+        		"Tal como os, recentemente, famosos jogos .io, como, por exemplo, o agar.io, não existe um vencedor. Porém, existe, simplesmente, um jogador que pode ser considerado o jogador mais forte, visto ter um número superior de barcos, ou seja, acabando por possuir mais longevidade no jogo. ");
         gl_welcomePanel.setHorizontalGroup(
         	gl_welcomePanel.createParallelGroup(Alignment.TRAILING)
         		.addComponent(lblWelcome, GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
@@ -286,7 +290,7 @@ public class UI_API {
                 welcomePanel.setVisible(false);
                 mainPanel.setVisible(true);
                 aboutPanel.setVisible(false);
-                frmBattleshipio.setTitle("BattleShip.io : Play");  
+                frmBattleshipio.setTitle("BattleShip.io : Play " + user);  
         	}
         });
         
@@ -318,7 +322,8 @@ public class UI_API {
         
         btnSubmit.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
-        		//TODO - Send Changes
+        		color = comboBox.getSelectedItem().toString();
+        		user = username.getText();
         	}
         });  
         
@@ -376,7 +381,7 @@ public class UI_API {
         sendButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent arg0) {
         		try {
-        			player.attack(Integer.parseInt(xField.getText()), Integer.parseInt(yField.getText()));
+        			player.attack(Integer.parseInt(yField.getText()), Integer.parseInt(xField.getText()));
         		}
         		catch (NumberFormatException e) {
         			System.out.println("Failed to convert to Integer");
@@ -392,5 +397,9 @@ public class UI_API {
         welcomePanel.setVisible(false);
         mainPanel.setVisible(false);
         aboutPanel.setVisible(false);
+	}
+	
+	public String getColor() {
+		return color;
 	}
 }
