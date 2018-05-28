@@ -6,7 +6,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import java.awt.CardLayout;
-import javax.swing.JTextPane;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
