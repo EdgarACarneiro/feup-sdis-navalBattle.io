@@ -88,12 +88,20 @@ public class PrintMap extends JPanel {
 			
 			for (int i = 1 ; i - 1 < map.length ; i++) {
 				for (int j = 1 ; j - 1 < map[i-1].length ; j++) {
-					if (map[i-1][j-1] == -1) 
-						g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
-					else if (map[i-1][j-1] == -2) 
-						g.drawImage(Assets.redShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
-					else 
-						g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+					switch (map[i-1][j-1]) {
+						case -1:
+							g.drawImage(Assets.water, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						case -2:
+							g.drawImage(Assets.flame, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						case -3:
+							g.drawImage(Assets.fail, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+						default:
+							g.drawImage(Assets.blueShip, j*xDimension, i*yDimension, xDimension, yDimension, null);
+							break;
+					}
 				}
 			}
 		}
