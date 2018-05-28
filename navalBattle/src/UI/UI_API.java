@@ -393,8 +393,8 @@ public class UI_API {
 	}
 	
 	public void gameOver() {
-		profilePanel.setVisible(true);
-        welcomePanel.setVisible(false);
+		profilePanel.setVisible(false);
+        welcomePanel.setVisible(true);
         mainPanel.setVisible(false);
         aboutPanel.setVisible(false);
 	}
