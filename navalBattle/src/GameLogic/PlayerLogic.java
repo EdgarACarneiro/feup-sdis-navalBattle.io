@@ -58,7 +58,7 @@ public class PlayerLogic {
 	/**
 	 * Gets the length of the map.
 	 *
-	 * @return the length
+	 * @return the map length
 	 */
 	public int getLength() {
 		return this.map.length;

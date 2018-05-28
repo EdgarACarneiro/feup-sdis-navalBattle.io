@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.HashMap;
 
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Assets.
  */

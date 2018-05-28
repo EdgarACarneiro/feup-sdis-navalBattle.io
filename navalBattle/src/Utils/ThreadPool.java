@@ -24,7 +24,7 @@ public class ThreadPool {
     /**
      * Instantiates a new thread pool.
      *
-     * @param numThreads the num threads
+     * @param numThreads the number of threads
      */
     public ThreadPool(int numThreads) {
         executor = new ScheduledThreadPoolExecutor(numThreads);

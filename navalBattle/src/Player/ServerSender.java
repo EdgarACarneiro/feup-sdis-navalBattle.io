@@ -34,7 +34,7 @@ public class ServerSender {
      *
      * @param route the route
      * @param content the content
-     * @return the int
+     * @return the response
      */
     public int sendRequest(Pair<String, String> route, Map<String, String> content) {
         try {

@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.*;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class Player.
  */
@@ -93,7 +93,7 @@ public class Player {
     /**
      * Report to logic.
      *
-     * @param updatedMap the updated map
+     * @param updatedMap updated map
      */
     // No need for threadPool as the threadPool was already launched in UDP level
     public void reportToLogic(String updatedMap) {

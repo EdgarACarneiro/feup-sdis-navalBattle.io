@@ -10,7 +10,6 @@ import java.io.InputStreamReader;
 import java.net.InetSocketAddress;
 import java.util.HashMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class RESTMessage.
  */
@@ -52,7 +51,7 @@ public class RESTMessage implements Message {
     /**
      * Instantiates a new REST message.
      *
-     * @param exchange the exchange
+     * @param exchange the HttpExchange
      */
     public RESTMessage(HttpExchange exchange) {
 
@@ -142,9 +141,9 @@ public class RESTMessage implements Message {
     }
 
     /**
-     * Gets the params.
+     * Gets the parameters.
      *
-     * @return the params
+     * @return the parameters
      */
     public HashMap<String, String> getParams() {
         return params;

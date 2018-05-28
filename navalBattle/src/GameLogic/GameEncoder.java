@@ -13,7 +13,7 @@ public class GameEncoder {
      *
      * @param server the server
      * @param id the id
-     * @return the string
+     * @return the encoded map
      */
     public static String encodeForPlayer(ServerLogic server, int id) {
 		StringBuilder sb = new StringBuilder();

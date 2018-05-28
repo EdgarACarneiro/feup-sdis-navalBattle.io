@@ -37,7 +37,7 @@ public class ServerListener implements Runnable, HigherLayer {
             System.err.println("Received unexpected type of message");
     }
 
-    /* (non-Javadoc)
+    /* 
      * @see java.lang.Runnable#run()
      */
     @Override

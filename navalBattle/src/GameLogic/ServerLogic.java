@@ -141,7 +141,7 @@ public class ServerLogic {
 	 *
 	 * @param params the params
 	 * @param playerId the player id
-	 * @return the int
+	 * @return the HTTPcode
 	 */
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
 		length += 1;
@@ -197,7 +197,7 @@ public class ServerLogic {
 	 * @param route the route
 	 * @param params the params
 	 * @param clientID the client ID
-	 * @return the int
+	 * @return the response
 	 */
 	public int triggerAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
         return router.callAction(route, params, clientID);

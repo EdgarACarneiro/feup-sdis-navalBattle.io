@@ -3,7 +3,7 @@ package Messages;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
-// TODO: Auto-generated Javadoc
+
 /**
  * The Class UDPMessage.
  */
