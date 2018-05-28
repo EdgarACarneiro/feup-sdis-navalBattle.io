@@ -2,8 +2,19 @@ package GameLogic;
 
 import Player.Player;
 
+
+/**
+ * The Class GameEncoder.
+ */
 public class GameEncoder {
    
+    /**
+     * Encodes the map for a player.
+     *
+     * @param server the server
+     * @param id the id
+     * @return the encoded map
+     */
     public static String encodeForPlayer(ServerLogic server, int id) {
 		StringBuilder sb = new StringBuilder();
 		int size = ServerLogic.MAP_DISPLAY_SIZE;

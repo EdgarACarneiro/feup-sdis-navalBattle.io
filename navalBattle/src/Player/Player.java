@@ -10,15 +10,33 @@ import java.util.HashMap;
 import java.util.Random;
 import java.util.concurrent.*;
 
+
+/**
+ * The Class Player.
+ */
 public class Player {
 
+    /** The Constant RETRY_TIME. */
     private static final int RETRY_TIME = 400;
 
+    /** The sender. */
     private ServerSender sender;
+    
+    /** The listener. */
     private ServerListener listener;
+    
+    /** The thread pool. */
     private ThreadPool threadPool;
+    
+    /** The game. */
     private PlayerLogic game;
 
+    /**
+     * Instantiates a new player.
+     *
+     * @param serverIP the server IP
+     * @param serverPort the server port
+     */
     public Player(String serverIP, String serverPort) {
         threadPool = new ThreadPool();
         sender = new ServerSender(serverIP, serverPort);
@@ -28,12 +46,18 @@ public class Player {
         run();
     }
 
+    /**
+     * Runs the server listener.
+     */
     private void run() {
         threadPool.run(listener);
     }
 
     /**
-     * METHODS FOR INTERACTION WITH LAYERS
+     * METHODS FOR INTERACTION WITH LAYERS.
+     *
+     * @param params the params
+     * @param route the route
      */
 
     // Method to be called by logic to make requests to the Server
@@ -56,11 +80,21 @@ public class Player {
         }
     }
 
+    /**
+     * Receive report.
+     *
+     * @param clientMessage the client message
+     */
     // Result of bubbling up functions
     public void receiveReport(UDPMessage clientMessage) {
         reportToLogic(clientMessage.getContent());
     }
 
+    /**
+     * Report to logic.
+     *
+     * @param updatedMap updated map
+     */
     // No need for threadPool as the threadPool was already launched in UDP level
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);

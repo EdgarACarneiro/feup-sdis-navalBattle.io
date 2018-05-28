@@ -28,22 +28,38 @@ import GameLogic.PlayerLogic;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JComboBox;
 
+
+/**
+ * The Class UI_API.
+ */
 public class UI_API {
 
+	/** The frm battleshipio. */
 	private JFrame frmBattleshipio;
+    
+    /** The y field. */
     private JTextField yField;
+    
+    /** The x field. */
     private JTextField xField;
+    
+    /** The username. */
     private JTextField username;
+    
+    /** The player. */
     private PlayerLogic player;
-    JPanel welcomePanel = new JPanel();
-    JPanel mainPanel = new JPanel();
-    JPanel aboutPanel = new JPanel();
-    JPanel profilePanel = new JPanel();
+    
+    /** The panel. */
     public PrintMap panel;
+    private JPanel welcomePanel;
+    private JPanel mainPanel;
+    private JPanel aboutPanel;
+    private JPanel profilePanel;
 
 	/**
 	 * Create the application.
-	 * @param playerLogic
+	 *
+	 * @param playerLogic the player logic
 	 */
 	public UI_API(PlayerLogic playerLogic) {
 		this.player = playerLogic;
@@ -61,6 +77,10 @@ public class UI_API {
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frmBattleshipio.getContentPane().setLayout(new CardLayout(0, 0));
         
+        welcomePanel = new JPanel();
+        mainPanel = new JPanel();
+        aboutPanel = new JPanel();
+        profilePanel = new JPanel();
         JMenu jmHelp = new JMenu("Help");
         JMenu jmOptions = new JMenu("Options");
         JMenu jmFile = new JMenu("File");

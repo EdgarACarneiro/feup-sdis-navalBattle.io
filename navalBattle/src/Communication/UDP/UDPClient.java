@@ -5,13 +5,29 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 
+/**
+ * The Class UDPClient.
+ */
 public class UDPClient {
+    
+    /** The socket. */
     private DatagramSocket socket;
+    
+    /** The address. */
     private InetAddress address;
+    
+    /** The port. */
     private int port;
  
+    /** The buffer. */
     private byte[] buf;
  
+    /**
+     * Instantiates a new UDP client.
+     *
+     * @param address the address
+     * @param port the port
+     */
     public UDPClient(InetAddress address, int port) {
         try {
             socket = new DatagramSocket();
@@ -23,6 +39,12 @@ public class UDPClient {
         this.port = port;
     }
 
+    /**
+     * Send UDP packet.
+     *
+     * @param msg the msg
+     * @return the string
+     */
     // TODO to be called inside a thread
     public String sendUDP(String msg) {
         buf = msg.getBytes();
@@ -37,6 +59,9 @@ public class UDPClient {
         }
     }
  
+    /**
+     * Close.
+     */
     public void close() {
         socket.close();
     }
