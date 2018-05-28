@@ -33,22 +33,8 @@ public class Server {
     }
 
     /**
-     * METHODS FOR INTERACTION WITH HIGHER LAYERS
+     * METHODS FOR INTERACTION WITH LAYERS
      */
-
-    public boolean sendClient(String content, int clientID) {
-        Future result = threadPool.run(() -> handler.sendClient(content, clientID));
-
-        // TODO Faze cenas enquanto a outra thread corre
-        try {
-            return result.get() == null;
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-
-        return false;
-        // TODO Se pintar passar em result o rsultado? no estilo do map também?
-    }
 
     private void replyClient(RESTMessage clientMessage, int statusCode, String content) {
         threadPool.run(() -> new RESTMessage(clientMessage, statusCode, content).sendAsReply());
@@ -67,11 +53,6 @@ public class Server {
         }, 0, UPDATE_ALL_CLIENTS_TIME);
     }
 
-    // TODO: to be called by logic when some1 shot my boat or smth - MBY IMPLEMENT
-    public void noticeClient(String content, int id) {
-        handler.updateClient(content, id);
-    }
-
     // Result of bubbling up functions
     public void receiveReport(RESTMessage clientMessage, int clientID) {
         Pair<String, String> valuableInfo =
@@ -80,7 +61,7 @@ public class Server {
         replyClient(
                 clientMessage,
                 reportToLogic(valuableInfo, clientMessage.getParams(), clientID),
-                "Welcome Player " + clientID
+                "Message from Server"
         );
     }
 
