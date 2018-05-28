@@ -59,6 +59,8 @@ public class SecurityAPI {
             exec.waitFor();
         } catch (java.io.IOException | java.lang.InterruptedException e) {
             System.err.println("Failed to generate Certificate. Communication Proceeding without certification");
+            System.err.println("Id the error persists try to generate it yourself");
+            System.exit(-1);
         }
 	}
 
@@ -83,8 +85,9 @@ public class SecurityAPI {
 			return sslContext;
 		} catch (Exception e) {
 			System.err.println("There was a problem getting the SSLContext! Verify if the KeyStore file exists");
-			return null;
+			System.exit(-1);
 		}
+		return null;
 	}
 
 }

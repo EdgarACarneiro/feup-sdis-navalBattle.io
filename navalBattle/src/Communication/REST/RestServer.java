@@ -43,6 +43,7 @@ public class RestServer {
 
 		} catch (Exception e) {
 			System.err.println("An unexpected occurred creating the https server, try again!!!");
+			System.exit(-1);
 		}
 	}
 

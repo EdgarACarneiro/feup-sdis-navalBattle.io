@@ -47,6 +47,7 @@ public class UDPServer extends Thread {
             socket = new DatagramSocket(port);
         } catch (SocketException e) {
             e.printStackTrace();
+            System.exit(-1);
         }
     }
  
