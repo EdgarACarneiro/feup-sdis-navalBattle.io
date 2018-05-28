@@ -127,6 +127,7 @@ public class Server {
      * @return the map
      */
     private String requestMap(int clientID) {
-        return game.requestMap(clientID);
+        String test = game.requestMap(clientID);
+        return test;
     }
 }

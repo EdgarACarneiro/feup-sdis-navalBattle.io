@@ -20,7 +20,7 @@ public class ServerLogic {
     public static final int MAP_DISPLAY_SIZE = 25;
     
     /** The Constant SHOW_DESTROYED_BOAT_TIME. */
-    public static final int SHOW_DESTROYED_BOAT_TIME = 8000;
+    public static final int SHOW_DESTROYED_BOAT_TIME = 10000;
 
     /** The threadpool. */
     private ThreadPool threadpool;
@@ -103,7 +103,14 @@ public class ServerLogic {
 	 * @return the HTTPCode
 	 */
 	public int attack(HashMap<String, String> params, Integer playerId) {
-        String pos = params.get("COL") + "+" + params.get("ROW");
+        int col = Integer.parseInt(params.get("COL"));
+        int row = Integer.parseInt(params.get("ROW"));
+
+        String[] startPos = playersMapsPos.get(playerId).split("\\+");
+        int realCol = Integer.parseInt(startPos[0]) + col;
+        int realRow = Integer.parseInt(startPos[1]) + row;
+
+        String pos = realCol + "+" + realRow;
 
         if (boats.containsKey(pos)) {
             playersMapsPos.remove(boats.get(pos));
@@ -177,14 +184,19 @@ public class ServerLogic {
 	public void addStartingPos(int col, int row, int id) {
         int colOffset = col - (MAP_DISPLAY_SIZE / 2);
         int rowOffset = row - (MAP_DISPLAY_SIZE / 2);
-        int startCol = 0;
-        int startRow = 0;
 
-        if (colOffset > 0)
-            startCol = colOffset;
-        if (rowOffset > 0)
-            startRow = rowOffset;
-        playersMapsPos.put(id, startCol + "+" + startRow);
+        int s = findStart(colOffset);
+        int k = findStart(rowOffset);
+        playersMapsPos.put(id, findStart(colOffset) + "+" + findStart(rowOffset));
+    }
+
+    private int findStart(int offset) {
+        if (offset > 0) {
+            if (offset + MAP_DISPLAY_SIZE > length)
+                return length - MAP_DISPLAY_SIZE;
+            return offset;
+        }
+        return 0;
     }
 
 	/**

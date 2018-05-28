@@ -106,6 +106,7 @@ public class PlayersHandler implements Runnable, HigherLayer {
      * @param player the player to be disconnected
      */
     public void disconnectPlayer(InetAddress player) {
+        System.out.println("Disconnecting Player: " + player.toString());
         int id = players.get(player);
         players.remove(player);
 
