@@ -74,7 +74,7 @@ public class UI_API {
 	 */
 	private void initialize() {
 		frmBattleshipio = new JFrame();
-		frmBattleshipio.setIconImage(Toolkit.getDefaultToolkit().getImage(UI_API.class.getResource("/UI/bomb (1).png")));
+		frmBattleshipio.setIconImage(Toolkit.getDefaultToolkit().getImage(UI_API.class.getResource("/Images/bomb.png")));
 		frmBattleshipio.setTitle("BattleShip.io");
 		frmBattleshipio.setBounds(100, 100, 650, 780);
 		frmBattleshipio.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
