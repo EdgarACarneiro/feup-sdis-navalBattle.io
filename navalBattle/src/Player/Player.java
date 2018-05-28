@@ -49,7 +49,7 @@ public class Player {
                 waitingTime += rand.nextInt(RETRY_TIME);
                 result = (Integer) future.get();
 
-            } while (result != HTTPCode.SUCCESS && result != HTTPCode.UNSUCCESS);
+            } while (result != HTTPCode.SUCCESS && result != HTTPCode.INSUCCESS);
 
         } catch (InterruptedException | ExecutionException e) {
             System.err.println("Failed to obtain a positive response, after 3 tries!");

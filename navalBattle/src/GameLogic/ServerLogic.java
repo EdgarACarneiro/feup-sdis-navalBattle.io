@@ -74,7 +74,7 @@ public class ServerLogic {
     }
 
 	public int attack(HashMap<String, String> params, Integer playerId) {
-        String pos = params.get("col") + "+" + params.get("row");
+        String pos = params.get("COL") + "+" + params.get("ROW");
 
         if (boats.containsKey(pos)) {
             playersMapsPos.remove(boats.get(pos));
@@ -87,7 +87,7 @@ public class ServerLogic {
 
         failedShots.add(pos);
         threadpool.run(() -> cleanShot(pos), SHOW_DESTROYED_BOAT_TIME);
-        return HTTPCode.UNSUCCESS;
+        return HTTPCode.INSUCCESS;
     }
 
     private void cleanBot(String pos) {
@@ -99,6 +99,11 @@ public class ServerLogic {
     }
 	
 	public int newPlayer(HashMap<String, String> params, Integer playerId) {
+
+        // If player only disconnected
+        if (boats.containsValue(playerId))
+            return HTTPCode.SUCCESS;
+
 		length += 1;
 		
         Random rand = new Random();
