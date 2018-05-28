@@ -101,7 +101,7 @@ public class PlayersHandler implements Runnable, HigherLayer {
     }
 
     /**
-     * Disconnect the player by removing him of the ip map and id map
+     * Disconnect the player by sending a map without its bot, to trigger game over, and by removing him of the ip map and id map
      *
      * @param player the player to be disconnected
      */
@@ -109,6 +109,19 @@ public class PlayersHandler implements Runnable, HigherLayer {
         int id = players.get(player);
         players.remove(player);
 
-        playersUDP.remove(id);
+        shutDownClient(superior.requestGameOver(id), id);
     }
+
+    /**
+     * Send the player a game over map
+     *
+     * @param content game over map
+     * @param clientID the client that will lose
+     */
+    public void shutDownClient(String content, int clientID) {
+        UDPClient player = playersUDP.get(clientID);
+        player.sendUDP(content);
+        playersUDP.remove(clientID);
+    }
+
 }

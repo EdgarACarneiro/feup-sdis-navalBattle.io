@@ -5,6 +5,7 @@ import Utils.Pair;
 import Utils.ThreadPool;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -206,5 +207,19 @@ public class ServerLogic {
 	 */
 	public int triggerAction(Pair<String, String> route, HashMap<String, String> params, int clientID) {
         return router.callAction(route, params, clientID);
+    }
+
+    /**
+     * Remove the player from the logic structures it might be associated with
+     *
+     * @param playerId the player to be disconnected
+     */
+    public void removePlayer (int playerId) {
+        for (Map.Entry<String, Integer> entry : boats.entrySet()) {
+            if (entry.getValue() == playerId) {
+                boats.remove(entry.getKey());
+                playersMapsPos.remove(playerId);
+            }
+        }
     }
 }

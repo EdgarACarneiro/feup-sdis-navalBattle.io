@@ -43,6 +43,6 @@ public class ConnectionChecker {
     }
 
     public void confirmPlayer(InetAddress player) {
-        inactivityTable.put(player, true);
+        inactivityTable.put(player, false);
     }
 }

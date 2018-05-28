@@ -55,13 +55,15 @@ public class Player {
 
     /**
      * METHODS FOR INTERACTION WITH LAYERS.
+     */
+
+    /**
+     * Method to be called by logic to make requests to the Server
+     * Tries until up to 3 times of receiving error messages
      *
      * @param params the params
      * @param route the route
      */
-
-    // Method to be called by logic to make requests to the Server
-    // Tries until up to 3 times of receiving error messages
     public void sendServer(HashMap<String, String> params, Pair<String, String> route) {
         try {
             int waitingTime = 0;
@@ -82,20 +84,20 @@ public class Player {
 
     /**
      * Receive report.
+     * Result of bubbling up functions
      *
      * @param clientMessage the client message
      */
-    // Result of bubbling up functions
     public void receiveReport(UDPMessage clientMessage) {
         reportToLogic(clientMessage.getContent());
     }
 
     /**
      * Report to logic.
+     * No need for threadPool as the threadPool was already launched in UDP level
      *
      * @param updatedMap updated map
      */
-    // No need for threadPool as the threadPool was already launched in UDP level
     public void reportToLogic(String updatedMap) {
         game.updateMap(updatedMap);
     }

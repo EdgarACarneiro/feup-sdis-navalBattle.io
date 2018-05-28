@@ -111,6 +111,16 @@ public class Server {
     }
 
     /**
+     * Remove a player that was inactive for to long, from the game
+     *
+     * @param id the client id
+     */
+    public String requestGameOver(int id) {
+        game.removePlayer(id);
+        return requestMap(id);
+    }
+
+    /**
      * Request map.
      *
      * @param clientID the client ID
