@@ -1,6 +1,8 @@
-# SEGUNDO PROJECTO SDIS - 'Naval Battle'
+[![BCH compliance](https://bettercodehub.com/edge/badge/EdgarACarneiro/feup-sdis-navalBattle.io?branch=master&token=cc268dedf0e5bd6570ae8c2935ad72a14cdeff32)](https://bettercodehub.com/)
 
-Jogo de Batalha Naval multiplayer.
+# Second Project Distriuted Systems - 'NavalBattle.io'
+
+A naval battle game implemented with a client-server tipology that follows the idea of the modern .io games: the game has no beggining nor end, it is always running. To know more about the game clone the repository and see the [documentation](https://github.com/EdgarACarneiro/feup-sdis-navalBattle.io/blob/master/navalBattle/docs/report%20(1).pdf). 
 
 ## Build Tips (Eclipse/IntelliJ)
 
