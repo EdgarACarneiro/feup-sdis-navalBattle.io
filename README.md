@@ -25,14 +25,14 @@ $ javac @sources.txt
 
 To start a Server, use the following command as an example:
 ```
-$ java Main game 8080
+$ java Main <PORT>
 OR
-In and IDE add arguments: game 8080
+In and IDE add arguments: game <PORT>
 ```
 
 To start the Player, use the following command as an example:
 ```
-$ java Main player 192.168.1.78 8080
+$ java Main player <IP> <PORT>
 OR
-In and IDE add arguments: player 192.168.1.78 8080
+In and IDE add arguments: player <IP> <PORT>
 ```
