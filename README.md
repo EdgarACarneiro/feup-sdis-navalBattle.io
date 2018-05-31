@@ -23,9 +23,9 @@ $ javac @sources.txt
 
 To start a Server, use the following command as an example:
 ```
-$ java Main server 8080
+$ java Main game 8080
 OR
-In and IDE add arguments: server 8080
+In and IDE add arguments: game 8080
 ```
 
 To start the Player, use the following command as an example:
