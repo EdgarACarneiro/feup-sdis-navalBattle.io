@@ -2,4 +2,4 @@ component_depth: 5
 languages:
 - java
 exclude:
-- /navalBattle/src/UI/UI_API.java
+- /navalBattle/src/UI
